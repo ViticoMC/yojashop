@@ -1,0 +1,51 @@
+@import "tailwindcss";
+
+@theme {
+  /* Paleta Principal: Naranjas y Amarillos */
+  --color-primary: #ff7c5c;
+  --color-primary-dark: #e66a4d;
+  --color-secondary: #ffcc00;
+  --color-secondary-dark: #e6b800;
+
+  /* Colores de Estado */
+  --color-success: #4caf50;
+  --color-error: #ef4444;
+  --color-sale: #f43f5e;
+
+  /* Colores de Fondo y Texto (Semánticos) */
+  --color-app-bg: #ffffff;
+  --color-app-text: #1f2937;
+  --color-app-card: #f9fafb;
+}
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* Modo Oscuro - Sobrescribir variables */
+.dark {
+  --color-app-bg: #111827;
+  --color-app-text: #f9fafb;
+  --color-app-card: #1f2937;
+  
+  --color-primary: #ff8e73;
+  --color-secondary: #ffd633;
+}
+
+/* Base styles */
+@layer base {
+  body {
+    background-color: var(--color-app-bg);
+    color: var(--color-app-text);
+    transition: background-color 0.3s, color 0.3s;
+  }
+}
+
+/* Custom Swiper Styles */
+:root {
+  --swiper-theme-color: var(--color-primary);
+  --swiper-pagination-bullet-inactive-color: #999;
+  --swiper-pagination-bullet-inactive-opacity: 0.5;
+}
+
+.swiper-pagination-bullet-active {
+  background: var(--color-primary) !important;
+}
