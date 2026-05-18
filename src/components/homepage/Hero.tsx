@@ -1,9 +1,10 @@
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay, EffectFade, Pagination } from 'swiper/modules';
-import { HighlightText } from '../ui/HighlightText';
+import { HighlightText } from '@/components/ui/HighlightText';
 import 'swiper/css';
 import 'swiper/css/effect-fade';
 import 'swiper/css/pagination';
+import { SearchBar } from './SearchBar';
 
 interface PlusTipsProps {
   text: string;
@@ -26,8 +27,6 @@ const PLUSTIPS = [
 ]
 
 
-
-
 // Import Swiper styles
 const heroImages = [
   {
@@ -45,7 +44,10 @@ const heroImages = [
 ];
 export const Hero = () => {
   return (
-    <section className="flex flex-col lg:flex-row items-center justify-between py-16 px-4 lg:px-0 gap-8 max-w-300 mx-auto">
+    <section className="relative flex flex-col lg:flex-row items-center justify-between py-16 px-4 lg:px-0 gap-8 max-w-300 mx-auto overflow-visible">
+      {/* Fondo de puntos decorativo */}
+      <div className="absolute top-0 right-0 w-1/2 h-full bg-dots text-primary/5 -z-10 pointer-events-none" />
+      
       <div className="flex-1">
         <h1 className="text-5xl lg:text-6xl leading-[1.1] font-extrabold mb-6 text-app-text">
           Deja que tus <HighlightText variant="primary">compras</HighlightText> lleguen a ti
@@ -54,10 +56,7 @@ export const Hero = () => {
           Compra tus productos frescos en línea sin salir de casa para preparar comida deliciosa con los mejores ingredientes.
         </p>
 
-        <div className="flex bg-app-card rounded-full p-1.5 pl-5 mb-8 max-w-100 border border-gray-200 dark:border-gray-700">
-          <input type="text" placeholder="Buscar aquí" className="border-none bg-transparent flex-1 outline-none text-base text-app-text" />
-          <button className="bg-primary border-none w-11.25 h-11.25 rounded-full color-white cursor-pointer flex items-center justify-center text-white hover:bg-primary-dark transition-colors">🔍</button>
-        </div>
+        <SearchBar />
 
         <div className="grid grid-cols-2 gap-4">
           {

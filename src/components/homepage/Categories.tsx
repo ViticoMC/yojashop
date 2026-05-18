@@ -33,15 +33,24 @@ const categories = [
 
 export const Categories = () => {
   return (
-    <section className="py-16 max-w-[1200px] mx-auto">
+    <section className="py-24 max-w-300 mx-auto relative overflow-hidden">
+      {/* Fondo decorativo con puntos */}
+      <div className="absolute inset-0 bg-dots-sm text-secondary/10 -z-10" />
+      
+      <div className="text-center mb-16">
+        <h2 className="text-4xl font-black uppercase tracking-tighter italic">
+          Explora por <span className="text-primary underline decoration-4 underline-offset-4">Categorías</span>
+        </h2>
+      </div>
+
       <div className="grid grid-cols-[repeat(auto-fit,minmax(200px,1fr))] gap-8 px-4 lg:px-0">
         {categories.map(cat => (
-          <div key={cat.id} className="text-center p-4 group cursor-pointer">
-            <div className="text-5xl mb-6 h-20 flex items-center justify-center bg-app-card rounded-2xl transition-all group-hover:scale-105 border border-transparent hover:border-secondary/30 shadow-sm group-hover:shadow-md">
+          <div key={cat.id} className="text-center p-6 group cursor-pointer bg-app-bg border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] hover:-translate-y-2 hover:rotate-1 transition-all">
+            <div className="text-5xl mb-6 h-24 flex items-center justify-center bg-secondary/20 border-b-4 border-black -mx-6 -mt-6 group-hover:bg-secondary/40 transition-colors">
               {cat.icon}
             </div>
-            <h3 className="text-[1.1rem] font-bold mb-2 text-app-text">{cat.title}</h3>
-            <p className="text-[0.85rem] text-gray-500 dark:text-gray-400 leading-relaxed">{cat.description}</p>
+            <h3 className="text-xl font-black uppercase tracking-tighter mb-2 text-app-text">{cat.title}</h3>
+            <p className="text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wide leading-tight">{cat.description}</p>
           </div>
         ))}
       </div>

@@ -1,5 +1,17 @@
 @import "tailwindcss";
 
+/* Swiper Navigation Custom */
+.swiper-button-disabled {
+  opacity: 0.3;
+  cursor: not-allowed !important;
+  pointer-events: none;
+}
+
+.offers-swiper .swiper-button-next,
+.offers-swiper .swiper-button-prev {
+  display: none !important;
+}
+
 @theme {
   /* Paleta Principal: Naranjas y Amarillos */
   --color-primary: #ff7c5c;
@@ -16,6 +28,7 @@
   --color-app-bg: #ffffff;
   --color-app-text: #1f2937;
   --color-app-card: #f9fafb;
+  --color-nav-bg: #fdf6e3; /* Color beige/crema de la imagen */
 }
 
 @custom-variant dark (&:where(.dark, .dark *));
@@ -25,6 +38,7 @@
   --color-app-bg: #111827;
   --color-app-text: #f9fafb;
   --color-app-card: #1f2937;
+  --color-nav-bg: #2d2a2e; /* Color oscuro para el nav en dark mode */
   
   --color-primary: #ff8e73;
   --color-secondary: #ffd633;
@@ -36,7 +50,25 @@
     background-color: var(--color-app-bg);
     color: var(--color-app-text);
     transition: background-color 0.3s, color 0.3s;
+    background-image: radial-gradient(rgba(0,0,0,0.03) 1px, transparent 0);
+    background-size: 24px 24px;
+    background-attachment: fixed;
   }
+
+  .dark body {
+    background-image: radial-gradient(rgba(255,255,255,0.02) 1px, transparent 0);
+  }
+}
+
+/* Ben-Day Dots Pattern Utility */
+.bg-dots {
+  background-image: radial-gradient(currentColor 1.5px, transparent 0);
+  background-size: 12px 12px;
+}
+
+.bg-dots-sm {
+  background-image: radial-gradient(currentColor 1px, transparent 0);
+  background-size: 8px 8px;
 }
 
 /* Custom Swiper Styles */
@@ -48,4 +80,43 @@
 
 .swiper-pagination-bullet-active {
   background: var(--color-primary) !important;
+}
+
+/* Animaciones de Marquee para Ofertas */
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+@keyframes marqueeReverse {
+  0% { transform: translateX(-50%); }
+  100% { transform: translateX(0); }
+}
+
+.animate-marquee {
+  display: inline-flex;
+  animation: marquee 60s linear infinite;
+}
+
+.animate-marqueeReverse {
+  display: inline-flex;
+  animation: marqueeReverse 60s linear infinite;
+}
+
+.offers-swiper .swiper-button-next,
+.offers-swiper .swiper-button-prev {
+  color: black !important;
+  background: var(--color-secondary);
+  width: 40px;
+  height: 40px;
+  border: 3px border black;
+  border-radius: 0;
+  border: 3px solid black;
+  box-shadow: 4px 4px 0px 0px rgba(0,0,0,1);
+}
+
+.offers-swiper .swiper-button-next:after,
+.offers-swiper .swiper-button-prev:after {
+  font-size: 1.2rem !important;
+  font-weight: 900;
 }

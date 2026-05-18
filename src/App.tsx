@@ -1,16 +1,43 @@
+import { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { Navbar } from './components/Navbar';
-import { Home } from './pages/Home';
-import { Productos } from './pages/Productos';
-import { ProductDetails } from './pages/ProductDetails';
-import { Combos } from './pages/Combos';
-import { ComboDetails } from './pages/ComboDetails';
-import { Administracion } from './pages/Administracion';
+import { Navbar } from '@/components/Navbar';
+import { Home } from '@/pages/Home';
+import { Productos } from '@/pages/Productos';
+import { ProductDetails } from '@/pages/ProductDetails';
+import { Combos } from '@/pages/Combos';
+import { ComboDetails } from '@/pages/ComboDetails';
+import { Administracion } from '@/pages/Administracion';
+import CartDrawer from '@/components/cart/CartDrawer';
+import { useAppStore } from '@/store/useAppStore';
+import ProductModal from '@/components/ui/Modal/ProductModal';
+
+const GlobalModals = () => {
+  const { isProductModalOpen, closeProductModal, selectedProduct, addToCart } = useAppStore();
+
+  const handleConfirmAdd = (quantity: number) => {
+    if (selectedProduct) {
+      addToCart(selectedProduct, quantity);
+    }
+  };
+
+  return (
+    <ProductModal
+      isOpen={isProductModalOpen}
+      onClose={closeProductModal}
+      product={selectedProduct}
+      onConfirm={handleConfirmAdd}
+    />
+  );
+};
 
 function App() {
+  const [isCartOpen, setIsCartOpen] = useState(false);
+
   return (
     <Router>
-      <Navbar />
+      <Navbar onCartClick={() => setIsCartOpen(true)} />
+      <CartDrawer isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} />
+      <GlobalModals />
       <main>
         <Routes>
           <Route path="/" element={<Home />} />
