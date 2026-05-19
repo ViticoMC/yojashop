@@ -10,6 +10,7 @@ import { ProductDetails } from '@/pages/ProductDetails';
 import { Combos } from '@/pages/Combos';
 import { ComboDetails } from '@/pages/ComboDetails';
 import { Administracion } from '@/pages/Administracion';
+import { AdminGuard } from '@/components/auth/AdminGuard';
 import CartDrawer from '@/components/cart/CartDrawer';
 import { useAppStore } from '@/store/useAppStore';
 import ProductModal from '@/components/ui/Modal/ProductModal';
@@ -48,7 +49,14 @@ function App() {
           <Route path="/productos/:id" element={<ProductDetails />} />
           <Route path="/combos" element={<Combos />} />
           <Route path="/combos/:id" element={<ComboDetails />} />
-          <Route path="/administracion" element={<Administracion />} />
+          <Route 
+            path="/administracion" 
+            element={
+              <AdminGuard>
+                <Administracion />
+              </AdminGuard>
+            } 
+          />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/perfil" element={<ProfilePage />} />

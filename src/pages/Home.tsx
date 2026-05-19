@@ -10,12 +10,12 @@ export const Home = () => {
   return (
     <>
       <Hero />
+      <Categories />
       <DailyOffers />
       <ProductGrid />
       <HowItWorks />
       <ScheduleSection />
       <CoverageSection />
-      <Categories />
     </>
   );
 };

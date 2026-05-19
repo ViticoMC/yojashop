@@ -1,4 +1,4 @@
-import React from 'react';
+
 import { HighlightText } from '@/components/ui/HighlightText';
 
 const SCHEDULE_DATA = [
@@ -30,7 +30,7 @@ export const ScheduleSection = () => {
     <section className="py-24 bg-app-bg relative overflow-hidden">
       {/* Elementos decorativos de fondo (Ben-Day dots extra) */}
       <div className="absolute top-0 left-0 w-full h-20 bg-black -skew-y-2 origin-left z-0" />
-      
+
       <div className="max-w-[1200px] mx-auto px-4 relative z-10">
         <div className="text-center mb-16">
           <h2 className="text-5xl md:text-7xl font-black uppercase tracking-tighter text-app-text mb-4 italic">
@@ -48,11 +48,10 @@ export const ScheduleSection = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {SCHEDULE_DATA.map((item, index) => (
-            <div 
+            <div
               key={index}
-              className={`relative bg-app-card border-4 border-black p-8 shadow-[12px_12px_0px_0px_rgba(0,0,0,1)] group hover:-translate-y-2 transition-transform duration-300 ${
-                index % 2 === 0 ? 'rotate-1' : '-rotate-1'
-              }`}
+              className={`relative bg-app-card border-4 border-black p-8 shadow-[12px_12px_0px_0px_rgba(0,0,0,1)] group hover:-translate-y-2 transition-transform duration-300 ${index % 2 === 0 ? 'rotate-1' : '-rotate-1'
+                }`}
             >
               {/* Círculo de acento estilo "Explosión" */}
               <div className={`absolute -top-6 -right-6 w-16 h-16 ${item.accent} border-4 border-black rounded-full flex items-center justify-center text-3xl shadow-[4px_4px_0px_rgba(0,0,0,1)] group-hover:scale-110 transition-transform`}>
@@ -62,7 +61,7 @@ export const ScheduleSection = () => {
               <h3 className="text-2xl font-black uppercase tracking-tighter mb-2 border-b-4 border-black pb-2 inline-block">
                 {item.days}
               </h3>
-              
+
               <div className="my-6">
                 <span className={`text-4xl font-black italic uppercase ${item.days === 'Domingos' ? 'text-gray-500' : 'text-primary'}`}>
                   {item.hours}

@@ -1,4 +1,4 @@
-import React from 'react';
+
 import { HighlightText } from '@/components/ui/HighlightText';
 
 const ZONES = [

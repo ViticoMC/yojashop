@@ -1,4 +1,4 @@
-import React from 'react';
+
 
 interface HighlightTextProps {
   children: React.ReactNode;
@@ -6,10 +6,10 @@ interface HighlightTextProps {
   className?: string;
 }
 
-export const HighlightText: React.FC<HighlightTextProps> = ({ 
-  children, 
-  variant = 'primary', 
-  className = '' 
+export const HighlightText: React.FC<HighlightTextProps> = ({
+  children,
+  variant = 'primary',
+  className = ''
 }) => {
   const variantClasses = {
     primary: 'text-primary',

@@ -1,4 +1,4 @@
-import React from 'react';
+
 import { HighlightText } from '@/components/ui/HighlightText';
 import { useAppStore } from '@/store/useAppStore';
 
@@ -23,7 +23,7 @@ const CartDrawer: React.FC<CartDrawerProps> = ({ isOpen, onClose }) => {
 
       {/* Drawer */}
       <aside
-        className={`fixed top-0 right-0 h-full w-full max-w-md bg-app-bg border-l-8 border-black z-101 transform transition-transform duration-500 ease-in-out shadow-[-20px_0px_0px_0px_rgba(0,0,0,0.2)] ${isOpen ? 'translate-x-0' : 'translate-x-full'}`}
+        className={`fixed top-0 right-0 h-full w-full max-w-md bg-app-bg border-l-8 border-black z-101 transform transition-transform duration-500 ease-in-out  ${isOpen ? 'translate-x-0 shadow-[-20px_0px_0px_0px_rgba(0,0,0,0.2)]' : 'translate-x-full '}`}
       >
         {/* Header - Estilo bocadillo de comic */}
         <div className="relative p-6 bg-primary border-b-4 border-black flex items-center justify-between overflow-hidden">
