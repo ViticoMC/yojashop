@@ -45,3 +45,13 @@
 - **Textura Global:** La aplicación utiliza una trama de puntos (Ben-Day dots) definida en el `body` (`index.css`) para mantener la estética comic.
 - **Idioma:** Toda la interfaz de usuario debe estar en **Español**.
 - **Imágenes:** Usar Unsplash o placeholders de alta calidad que encajen con la estética vibrante.
+
+## Arquitectura y Lógica
+- **Separación de Concernimientos:** Extraer TODA la lógica de los componentes siempre que sea posible. Los componentes deben enfocarse principalmente en el renderizado (UI).
+- **Custom Hooks:** Utilizar Custom Hooks para manejar estados complejos, llamadas a API, validaciones y efectos.
+- **Validaciones:** Usar `react-hook-form` junto con `zod` para la gestión y validación de formularios.
+
+## Herramientas y Comandos
+- **Gestor de Paquetes:** Utilizar ÚNICAMENTE `pnpm` para la instalación de dependencias y ejecución de scripts. NO usar `npm` ni `yarn`.
+  - Ejemplo: `pnpm install <package>`, `pnpm run dev`.
+

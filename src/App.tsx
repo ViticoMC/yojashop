@@ -3,6 +3,9 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Navbar } from '@/components/Navbar';
 import { Home } from '@/pages/Home';
 import { Productos } from '@/pages/Productos';
+import { LoginPage } from '@/pages/auth/LoginPage';
+import { RegisterPage } from '@/pages/auth/RegisterPage';
+import { ProfilePage } from '@/pages/profile/ProfilePage';
 import { ProductDetails } from '@/pages/ProductDetails';
 import { Combos } from '@/pages/Combos';
 import { ComboDetails } from '@/pages/ComboDetails';
@@ -46,6 +49,9 @@ function App() {
           <Route path="/combos" element={<Combos />} />
           <Route path="/combos/:id" element={<ComboDetails />} />
           <Route path="/administracion" element={<Administracion />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/register" element={<RegisterPage />} />
+          <Route path="/perfil" element={<ProfilePage />} />
         </Routes>
       </main>
     </Router>
