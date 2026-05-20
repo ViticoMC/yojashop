@@ -8,6 +8,7 @@ pnpm-debug.log*
 lerna-debug.log*
 .agents
 
+
 node_modules
 dist
 dist-ssr
@@ -30,4 +31,4 @@ dist-ssr
 .env.development.local
 .env.test.local
 .env.production.local
-
+google-secret.json
