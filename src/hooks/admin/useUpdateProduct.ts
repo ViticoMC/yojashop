@@ -1,21 +1,18 @@
-import { useState } from "react";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { productSchema, type ProductFormData } from "@/schemas/product.schema";
 import { supabase } from "@/lib/supabase";
 
 export const useUpdateProduct = (productId: string | number, onSuccess?: () => void) => {
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-
+  const queryClient = useQueryClient();
+  
   const form = useForm<ProductFormData>({
     resolver: zodResolver(productSchema),
   });
 
-  const onSubmit = async (data: ProductFormData) => {
-    setLoading(true);
-    setError(null);
-    try {
+  const mutation = useMutation({
+    mutationFn: async (data: ProductFormData) => {
       const { error: updateError } = await supabase
         .from("producto")
         .update({
@@ -32,19 +29,17 @@ export const useUpdateProduct = (productId: string | number, onSuccess?: () => v
         .eq("id", productId);
 
       if (updateError) throw updateError;
-      
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['admin-products'] });
       if (onSuccess) onSuccess();
-    } catch (err: any) {
-      setError(err.message || "Error al actualizar el producto");
-    } finally {
-      setLoading(false);
-    }
-  };
+    },
+  });
 
   return {
     form,
-    onSubmit: form.handleSubmit(onSubmit),
-    loading,
-    error,
+    onSubmit: form.handleSubmit((data) => mutation.mutate(data)),
+    loading: mutation.isPending,
+    error: mutation.error ? (mutation.error as any).message : null,
   };
 };

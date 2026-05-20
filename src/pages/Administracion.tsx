@@ -1,18 +1,15 @@
-import { useState } from 'react';
-import { AdminStats } from '@/components/admin/AdminStats';
-import { AdminUsers } from '@/components/admin/AdminUsers';
-import { AdminProducts } from '@/components/admin/AdminProducts';
-import { LayoutDashboard, Users, ShoppingBag, ShieldCheck } from 'lucide-react';
-
-type AdminTab = 'stats' | 'users' | 'products';
+import { Link, Outlet, useLocation } from 'react-router-dom';
+import { LayoutDashboard, Users, ShoppingBag, ShieldCheck, Box, Trophy } from 'lucide-react';
 
 export const Administracion = () => {
-    const [activeTab, setActiveTab] = useState<AdminTab>('stats');
-
+    const location = useLocation();
+    
     const tabs = [
-        { id: 'stats', label: 'Dashboard', icon: <LayoutDashboard size={18} /> },
-        { id: 'users', label: 'Clientes', icon: <Users size={18} /> },
-        { id: 'products', label: 'Productos', icon: <ShoppingBag size={18} /> },
+        { id: 'stats', label: 'Dashboard', icon: <LayoutDashboard size={18} />, path: '/administracion' },
+        { id: 'users', label: 'Clientes', icon: <Users size={18} />, path: '/administracion/users' },
+        { id: 'products', label: 'Productos', icon: <ShoppingBag size={18} />, path: '/administracion/products' },
+        { id: 'combos', label: 'Combos', icon: <Box size={18} />, path: '/administracion/combos' },
+        { id: 'logros', label: 'Logros', icon: <Trophy size={18} />, path: '/administracion/logros' },
     ];
 
     return (
@@ -35,30 +32,32 @@ export const Administracion = () => {
 
                 {/* Tabs de Navegación */}
                 <div className="flex flex-wrap gap-4 border-b-4 border-black pb-4">
-                    {tabs.map((tab) => (
-                        <button
-                            key={tab.id}
-                            onClick={() => setActiveTab(tab.id as AdminTab)}
-                            className={`
-                px-6 py-3 font-black uppercase italic text-sm tracking-tighter transition-all flex items-center gap-2 border-4 border-black
-                ${activeTab === tab.id
-                                    ? 'bg-primary shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] -translate-y-1'
-                                    : 'bg-white hover:bg-gray-100 hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]'
-                                }
-              `}
-                        >
-                            <span>{tab.icon}</span>
-                            {tab.label}
-                        </button>
-                    ))}
+                    {tabs.map((tab) => {
+                        const isActive = location.pathname === tab.path;
+                        return (
+                            <Link
+                                key={tab.id}
+                                to={tab.path}
+                                className={`
+                    px-6 py-3 font-black uppercase italic text-sm tracking-tighter transition-all flex items-center gap-2 border-4 border-black
+                    ${isActive
+                                        ? 'bg-primary shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] -translate-y-1'
+                                        : 'bg-white hover:bg-gray-100 hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]'
+                                    }
+                  `}
+                            >
+                                <span>{tab.icon}</span>
+                                {tab.label}
+                            </Link>
+                        );
+                    })}
                 </div>
 
                 {/* Contenido Dinámico */}
                 <div className="py-6">
-                    {activeTab === 'stats' && <AdminStats />}
-                    {activeTab === 'users' && <AdminUsers />}
-                    {activeTab === 'products' && <AdminProducts />}
+                    <Outlet />
                 </div>
+
             </div>
         </div>
     );

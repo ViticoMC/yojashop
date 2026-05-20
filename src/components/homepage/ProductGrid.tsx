@@ -149,7 +149,8 @@ export const ProductGrid = () => {
                   <button
                     onClick={() => openProductModal({
                       ...product,
-                      image: product.img_url, // para compatibilidad con el modal actual
+                      image: product.img_url || '', // para compatibilidad con el modal actual
+                      description: product.oferta || '', // placeholder description
                     })}
                     className="bg-primary text-white font-black p-2 border-2 border-black hover:bg-secondary hover:text-black transition-colors shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] active:translate-x-1 active:translate-y-1 active:shadow-none"
                   >

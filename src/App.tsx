@@ -8,7 +8,7 @@ import { RegisterPage } from '@/pages/auth/RegisterPage';
 import { ProfilePage } from '@/pages/profile/ProfilePage';
 import { ProductDetails } from '@/pages/ProductDetails';
 import { Combos } from '@/pages/Combos';
-import { ComboDetails } from '@/pages/ComboDetails';
+import { ComboDetails } from '@/pages/shop/ComboDetails';
 import { Administracion } from '@/pages/Administracion';
 import { AdminGuard } from '@/components/auth/AdminGuard';
 import CartDrawer from '@/components/cart/CartDrawer';
@@ -20,7 +20,7 @@ const GlobalModals = () => {
 
   const handleConfirmAdd = (quantity: number) => {
     if (selectedProduct) {
-      addToCart(selectedProduct, quantity);
+      addToCart(selectedProduct, quantity, 'product');
     }
   };
 
@@ -33,6 +33,12 @@ const GlobalModals = () => {
     />
   );
 };
+
+import { AdminStats } from '@/components/admin/AdminStats';
+import { AdminUsers } from '@/components/admin/AdminUsers';
+import { AdminProducts } from '@/components/admin/AdminProducts';
+import { AdminCombos } from '@/components/admin/AdminCombos';
+import { AdminLogros } from '@/components/admin/AdminLogros';
 
 function App() {
   const [isCartOpen, setIsCartOpen] = useState(false);
@@ -49,6 +55,7 @@ function App() {
           <Route path="/productos/:id" element={<ProductDetails />} />
           <Route path="/combos" element={<Combos />} />
           <Route path="/combos/:id" element={<ComboDetails />} />
+          
           <Route 
             path="/administracion" 
             element={
@@ -56,7 +63,14 @@ function App() {
                 <Administracion />
               </AdminGuard>
             } 
-          />
+          >
+            <Route index element={<AdminStats />} />
+            <Route path="users" element={<AdminUsers />} />
+            <Route path="products" element={<AdminProducts />} />
+            <Route path="combos" element={<AdminCombos />} />
+            <Route path="logros" element={<AdminLogros />} />
+          </Route>
+
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/perfil" element={<ProfilePage />} />

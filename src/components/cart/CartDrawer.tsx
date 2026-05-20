@@ -1,4 +1,4 @@
-import { Trash2 } from 'lucide-react';
+import { Trash2, Plus, Minus } from 'lucide-react';
 import { HighlightText } from '@/components/ui/HighlightText';
 import { useAppStore } from '@/store/useAppStore';
 import { ConfirmationModal } from '@/components/ui/ConfirmationModal';
@@ -11,7 +11,7 @@ interface CartDrawerProps {
 }
 
 const CartDrawer: React.FC<CartDrawerProps> = ({ isOpen, onClose }) => {
-  const { cart, removeFromCart, clearCart, getCartTotal } = useAppStore();
+  const { cart, removeFromCart, updateQuantity, clearCart, getCartTotal } = useAppStore();
   const [isClearModalOpen, setIsClearModalOpen] = useState(false);
   const total = getCartTotal();
 
@@ -67,32 +67,99 @@ const CartDrawer: React.FC<CartDrawerProps> = ({ isOpen, onClose }) => {
 
 
         {/* Lista de productos */}
-        <div className="p-6 h-[calc(100vh-280px)] overflow-y-auto space-y-4 custom-scrollbar">
+        <div className="p-6 h-[calc(100vh-280px)] overflow-y-auto space-y-8 custom-scrollbar">
           {cart.length > 0 ? (
-            cart.map((item) => (
-              <div key={item.id} className="group relative bg-app-card border-4 border-black p-3 flex gap-4 transform transition-transform hover:-translate-y-1 hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)]">
-                <div className="w-20 h-20 border-2 border-black overflow-hidden shrink-0">
-                  <img src={optimizeCloudinaryUrl(item.image, 200)} alt={item.name} className="w-full h-full object-cover" />
+            <>
+              {/* Sección Combos */}
+              {cart.some(item => item.type === 'combo') && (
+                <div className="space-y-4">
+                  <h3 className="text-sm font-black uppercase italic tracking-widest bg-black text-white px-3 py-1 inline-block -rotate-1">
+                    🚀 Super Combos
+                  </h3>
+                  {cart.filter(item => item.type === 'combo').map((item) => (
+                    <div key={`${item.type}-${item.id}`} className="group relative bg-white border-4 border-black p-3 flex gap-4 transform transition-transform hover:-translate-y-1 hover:shadow-[6px_6px_0px_0px_rgba(239,68,68,1)]">
+                      <div className="w-20 h-20 border-2 border-black overflow-hidden shrink-0">
+                        <img src={optimizeCloudinaryUrl(item.image, 200)} alt={item.name} className="w-full h-full object-cover" />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <h4 className="font-black uppercase tracking-tighter text-app-text truncate text-lg">{item.name}</h4>
+                        <div className="flex items-center gap-3 mt-1">
+                          <div className="flex items-center border-2 border-black bg-gray-100">
+                            <button 
+                              onClick={() => updateQuantity(item.id, -1)}
+                              className="p-1 hover:bg-primary transition-colors border-r-2 border-black"
+                            >
+                              <Minus size={12} strokeWidth={4} />
+                            </button>
+                            <span className="px-3 font-black text-sm">{item.quantity}</span>
+                            <button 
+                              onClick={() => updateQuantity(item.id, 1)}
+                              className="p-1 hover:bg-primary transition-colors border-l-2 border-black"
+                            >
+                              <Plus size={12} strokeWidth={4} />
+                            </button>
+                          </div>
+                          <HighlightText variant="success" className="text-sm font-black italic">
+                            ${(item.price * item.quantity).toFixed(2)}
+                          </HighlightText>
+                        </div>
+                      </div>
+                      <button
+                        onClick={() => removeFromCart(item.id)}
+                        className="self-center text-error hover:scale-125 transition-transform p-1"
+                      >
+                        <Trash2 size={20} strokeWidth={3} />
+                      </button>
+                    </div>
+                  ))}
                 </div>
-                <div className="flex-1 min-w-0">
-                  <h4 className="font-black uppercase tracking-tighter text-app-text truncate text-lg">{item.name}</h4>
-                  <div className="flex items-center gap-2 mt-1">
-                    <span className="bg-yellow-400 text-black px-2 py-0.5 text-xs font-bold border border-black">CANT: {item.quantity}</span>
-                    <HighlightText variant="success" className="text-sm font-black italic">
-                      ${(item.price * item.quantity).toFixed(2)}
-                    </HighlightText>
-                  </div>
+              )}
+
+              {/* Sección Productos Individuales */}
+              {cart.some(item => item.type === 'product') && (
+                <div className="space-y-4 pt-4 border-t-4 border-black/5">
+                  <h3 className="text-sm font-black uppercase italic tracking-widest bg-secondary text-black px-3 py-1 inline-block rotate-1 border-2 border-black">
+                    🍎 Individuales
+                  </h3>
+                  {cart.filter(item => item.type === 'product').map((item) => (
+                    <div key={`${item.type}-${item.id}`} className="group relative bg-white border-4 border-black p-3 flex gap-4 transform transition-transform hover:-translate-y-1 hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)]">
+                      <div className="w-20 h-20 border-2 border-black overflow-hidden shrink-0">
+                        <img src={optimizeCloudinaryUrl(item.image, 200)} alt={item.name} className="w-full h-full object-cover" />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <h4 className="font-black uppercase tracking-tighter text-app-text truncate text-lg">{item.name}</h4>
+                        <div className="flex items-center gap-3 mt-1">
+                          <div className="flex items-center border-2 border-black bg-gray-100">
+                            <button 
+                              onClick={() => updateQuantity(item.id, -1)}
+                              className="p-1 hover:bg-secondary transition-colors border-r-2 border-black"
+                            >
+                              <Minus size={12} strokeWidth={4} />
+                            </button>
+                            <span className="px-3 font-black text-sm">{item.quantity}</span>
+                            <button 
+                              onClick={() => updateQuantity(item.id, 1)}
+                              className="p-1 hover:bg-secondary transition-colors border-l-2 border-black"
+                            >
+                              <Plus size={12} strokeWidth={4} />
+                            </button>
+                          </div>
+                          <HighlightText variant="success" className="text-sm font-black italic">
+                            ${(item.price * item.quantity).toFixed(2)}
+                          </HighlightText>
+                        </div>
+                      </div>
+                      <button
+                        onClick={() => removeFromCart(item.id)}
+                        className="self-center text-error hover:scale-125 transition-transform p-1"
+                      >
+                        <Trash2 size={20} strokeWidth={3} />
+                      </button>
+                    </div>
+                  ))}
                 </div>
-                <button
-                  onClick={() => removeFromCart(item.id)}
-                  className="self-center text-error hover:scale-125 transition-transform p-1"
-                >
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                  </svg>
-                </button>
-              </div>
-            ))
+              )}
+            </>
           ) : (
             <div className="h-full flex flex-col items-center justify-center text-center space-y-4">
               <div className="text-6xl grayscale opacity-30">🛒</div>

@@ -5,7 +5,11 @@ import { User, ChevronLeft, ChevronRight, MapPin, Shield } from 'lucide-react';
 
 export const AdminUsers = () => {
   const [page, setPage] = useState(1);
-  const { users, totalCount, loading, totalPages } = useAdminUsers(page);
+  const { data, isLoading: loading } = useAdminUsers(page);
+  
+  const users = data?.users || [];
+  const totalCount = data?.totalCount || 0;
+  const totalPages = data?.totalPages || 1;
 
   return (
     <div className="bg-white border-4 border-black shadow-[12px_12px_0px_0px_rgba(0,0,0,1)] p-6 overflow-hidden animate-in fade-in zoom-in-95 duration-300">

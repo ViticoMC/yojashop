@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/lib/supabase';
 
 export interface UserAdminData {
@@ -11,37 +11,26 @@ export interface UserAdminData {
 }
 
 export const useAdminUsers = (page: number = 1, pageSize: number = 10) => {
-  const [users, setUsers] = useState<UserAdminData[]>([]);
-  const [totalCount, setTotalCount] = useState(0);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  return useQuery({
+    queryKey: ['admin-users', page, pageSize],
+    queryFn: async () => {
+      const from = (page - 1) * pageSize;
+      const to = from + pageSize - 1;
 
-  useEffect(() => {
-    const fetchUsers = async () => {
-      setLoading(true);
-      try {
-        const from = (page - 1) * pageSize;
-        const to = from + pageSize - 1;
+      const { data, error, count } = await supabase
+        .from('usuario')
+        .select('*', { count: 'exact' })
+        .range(from, to)
+        .order('created_at', { ascending: false });
 
-        const { data, error, count } = await supabase
-          .from('usuario')
-          .select('*', { count: 'exact' })
-          .range(from, to)
-          .order('created_at', { ascending: false });
+      if (error) throw error;
 
-        if (error) throw error;
-
-        setUsers(data || []);
-        setTotalCount(count || 0);
-      } catch (err: any) {
-        setError(err.message);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchUsers();
-  }, [page, pageSize]);
-
-  return { users, totalCount, loading, error, totalPages: Math.ceil(totalCount / pageSize) };
+      return {
+        users: (data || []) as UserAdminData[],
+        totalCount: count || 0,
+        totalPages: Math.ceil((count || 0) / pageSize)
+      };
+    },
+    staleTime: 3 * 60 * 1000, // 3 minutos
+  });
 };

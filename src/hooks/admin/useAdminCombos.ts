@@ -1,39 +1,38 @@
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/lib/supabase';
 
-export interface AdminProduct {
+export interface AdminCombo {
   id: string | number;
-  name: string;
+  nombre: string;
+  cta: string;
+  descriptiom: string;
   price: number;
-  peso: string;
-  img_url: string;
-  img_id?: string;
-  is_active: boolean;
   discount: number;
-  category: string;
-  oferta?: string;
-  created_at?: string;
+  foto_url: string;
+  foto_id?: string;
+  created_at: string;
 }
 
-export const useAdminProducts = () => {
+
+export const useAdminCombos = () => {
   const query = useQuery({
-    queryKey: ['admin-products'],
+    queryKey: ['admin-combos'],
     queryFn: async () => {
       const { data, error } = await supabase
-        .from('producto')
+        .from('combo')
         .select('*')
-        .order('name');
+        .order('created_at', { ascending: false });
 
       if (error) throw error;
-      return data as AdminProduct[];
+      return data as AdminCombo[];
     },
     staleTime: 3 * 60 * 1000, // 3 minutos
   });
 
   return {
-    products: query.data || [],
+    combos: query.data || [],
     loading: query.isLoading,
-    refetch: query.refetch,
     error: query.error,
+    refetch: query.refetch,
   };
 };
