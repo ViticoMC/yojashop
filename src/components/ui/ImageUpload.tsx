@@ -18,6 +18,14 @@ export const ImageUpload: React.FC<ImageUploadProps> = ({
   const [preview, setPreview] = useState<string | null>(defaultValue || null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
+  React.useEffect(() => {
+    if (defaultValue) {
+      setPreview(defaultValue);
+    } else {
+      setPreview(null);
+    }
+  }, [defaultValue]);
+
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;

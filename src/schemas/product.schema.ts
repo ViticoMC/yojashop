@@ -8,8 +8,9 @@ export const productSchema = z.object({
   img_id: z.string().optional(),
   is_active: z.boolean().default(true),
   discount: z.coerce.number().min(0).max(100).default(0),
-  category_id: z.coerce.number().optional(),
+  category: z.string().min(1, "La categoría es obligatoria"),
   oferta: z.string().optional(),
 });
+
 
 export type ProductFormData = z.infer<typeof productSchema>;
