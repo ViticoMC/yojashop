@@ -33,7 +33,7 @@ interface AppState {
 }
 
 export const useCategory = create<AppState>((set, get) => ({
-  // Cart Logic
+  
   cart: [],
   addToCart: (product, quantity) => {
     const currentCart = get().cart;

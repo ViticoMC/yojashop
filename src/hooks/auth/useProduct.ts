@@ -51,5 +51,6 @@ export function useProducts(activeCategory: 'all' | string, search: string) {
       p.name.toLowerCase().includes(search.toLowerCase())
     );
   }, [products, activeCategory, search]);
+  
   return { products: filteredProducts, loading, errorMsg };
 }

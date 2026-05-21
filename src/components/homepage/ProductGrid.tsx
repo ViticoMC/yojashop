@@ -106,7 +106,15 @@ export const ProductGrid = () => {
                   </HighlightText>
 
                   <button
+<<<<<<< HEAD
                     onClick={() => openProductModal({ ...product, image: product.img_url })}
+=======
+                    onClick={() => openProductModal({
+                      ...product,
+                      image: product.img_url || '', // para compatibilidad con el modal actual
+                      description: product.oferta || '', // placeholder description
+                    })}
+>>>>>>> 2d53a45987389df418dd21fa41f8ede505710e4b
                     className="bg-primary text-white font-black p-2 border-2 border-black hover:bg-secondary hover:text-black transition-colors shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] active:translate-x-1 active:translate-y-1 active:shadow-none"
                   >
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
