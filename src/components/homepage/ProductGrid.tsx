@@ -1,68 +1,31 @@
 import React, { useEffect, useState } from 'react';
 import { SearchBar } from './SearchBar';
 import { HighlightText } from '@/components/ui/HighlightText';
-import { useAppStore } from '@/store/useAppStore';
-import { supabase } from '@/lib/supabase';
-
-type Product = {
-  id: number;
-  name: string;
-  price: number;
-  img_url: string | null;
-  is_active: boolean | null;
-  category: number | null;
-  discount: number | null;
-  oferta: string | null;
-  peso: string | null;
-};
+import { useProducts } from '@/hooks/auth/useProduct';
+import { useCategory } from '@/hooks/auth/useCategory';
 
 const CATEGORIES = [
   { id: 'all', name: 'Todos' },
-  { id: 1, name: 'Comestibles' },
-  { id: 2, name: 'Dulcería' },
-  { id: 3, name: 'Limpieza' },
-  { id: 4, name: 'Cuidado Personal' },
-  { id: 5, name: 'Bebidas' },
+  { id: 'frutas', name: 'Frutas' },
+  { id: 'lacteos', name: 'Lacteos' },
+  { id: 'panaderia', name: 'Panaderia' },
+  { id: 'carnes', name: 'Carnes' },
+  { id: 'despensa', name: 'Despensa' },
 ];
 
 export const ProductGrid = () => {
-  const [activeCategory, setActiveCategory] = useState<'all' | number>('all');
-  const [products, setProducts] = useState<Product[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [errorMsg, setErrorMsg] = useState<string | null>(null);
-  const openProductModal = useAppStore((state) => state.openProductModal);
+  const selectedCategory = useCategory((s) => s.selectedCategory);
+  const setSelectedCategory = useCategory((s) => s.setSelectedCategory);
+
+  const [activeCategory, setActiveCategory] = useState<'all' | string>('all');
   const [search, setSearch] = useState('');
+  const openProductModal = useCategory((state) => state.openProductModal);
 
   useEffect(() => {
-    const fetchProducts = async () => {
-      setLoading(true);
-      setErrorMsg(null);
+    setActiveCategory(selectedCategory);
+  }, [selectedCategory]);
 
-      const { data, error } = await supabase
-        .from('producto')
-        .select('id, name, price, img_url, is_active, category, discount, oferta, peso');
-
-      if (error) {
-        console.error('Error cargando productos:', error);
-        setErrorMsg(error.message);
-        setProducts([]);
-      } else {
-        setProducts(data ?? []);
-      }
-
-      setLoading(false);
-    };
-
-    fetchProducts();
-  }, []);
-
-  const filteredProducts = activeCategory === 'all'
-    ? products
-    : products.filter(p => p.category_id === activeCategory);
-  
-  const searchedProducts = filteredProducts.filter(
-    p => p.name.toLowerCase().includes(search.toLowerCase())
-  );
+  const { products, loading, errorMsg } = useProducts(activeCategory, search);
 
   if (loading) {
     return <div className="py-20 text-center font-black">Cargando productos...</div>;
@@ -79,8 +42,6 @@ export const ProductGrid = () => {
   return (
     <section className="py-20 bg-app-bg">
       <div className="max-w-[1200px] mx-auto px-4">
-
-        {/* Header de la sección */}
         <div className="flex flex-col md:flex-row justify-between items-end gap-8 mb-12">
           <div className="flex-1 w-full">
             <h2 className="text-4xl lg:text-5xl font-black uppercase tracking-tighter text-app-text mb-4">
@@ -99,12 +60,14 @@ export const ProductGrid = () => {
           </div>
         </div>
 
-        {/* Filtros de Categorías */}
-        <div className="flex flex-wrap gap-4 mb-12">
+        <div id="categorias" className="flex flex-wrap gap-4 mb-12">
           {CATEGORIES.map((cat) => (
             <button
               key={cat.id}
-              onClick={() => setActiveCategory(cat.id as 'all' | number)}
+              onClick={() => {
+                setActiveCategory(cat.id as 'all' | string);
+                setSelectedCategory(cat.id as 'all' | string);
+              }}
               className={`px-6 py-2 font-black uppercase tracking-widest text-sm border-4 border-black transition-all transform hover:-translate-y-1 active:translate-y-0 ${activeCategory === cat.id
                 ? 'bg-primary text-white shadow-none translate-y-1'
                 : 'bg-app-card text-app-text shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)]'
@@ -115,13 +78,9 @@ export const ProductGrid = () => {
           ))}
         </div>
 
-        {/* Grid de Productos */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 group/grid">
-          {searchedProducts.map((product) => (
-            <div
-              key={product.id}
-              className="group relative bg-app-card border-4 border-black p-4 flex flex-col transform transition-all duration-300 hover:scale-105 hover:-rotate-1 hover:z-10 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] group-hover/grid:opacity-50 hover:!opacity-100"
-            >
+          {products.map((product) => (
+            <div key={product.id} className="group relative bg-app-card border-4 border-black p-4 flex flex-col transform transition-all duration-300 hover:scale-105 hover:-rotate-1 hover:z-10 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] group-hover/grid:opacity-50 hover:!opacity-100">
               <div className="overflow-hidden bg-white border-2 border-black mb-4 h-48">
                 <img
                   src={product.img_url ?? '/assets/images/placeholder.png'}
@@ -147,10 +106,7 @@ export const ProductGrid = () => {
                   </HighlightText>
 
                   <button
-                    onClick={() => openProductModal({
-                      ...product,
-                      image: product.img_url, // para compatibilidad con el modal actual
-                    })}
+                    onClick={() => openProductModal({ ...product, image: product.img_url })}
                     className="bg-primary text-white font-black p-2 border-2 border-black hover:bg-secondary hover:text-black transition-colors shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] active:translate-x-1 active:translate-y-1 active:shadow-none"
                   >
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
