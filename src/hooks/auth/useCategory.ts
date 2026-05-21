@@ -14,7 +14,7 @@ interface CartItem extends Product {
 }
 
 interface AppState {
-  // Cart State
+
   cart: CartItem[];
   addToCart: (product: Product, quantity: number) => void;
   removeFromCart: (productId: number | string) => void;

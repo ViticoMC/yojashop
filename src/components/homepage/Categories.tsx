@@ -7,7 +7,7 @@ export const Categories = () => {
 
   return (
     <section className="py-24 max-w-300 mx-auto relative overflow-hidden">
-      {/* Fondo decorativo con puntos */}
+      
       <div className="absolute inset-0 bg-dots-sm text-secondary/10 -z-10" />
       
       <div className="text-center mb-16">

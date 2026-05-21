@@ -10,7 +10,7 @@ const CATEGORIES = [
   { id: 'lacteos', name: 'Lacteos' },
   { id: 'panaderia', name: 'Panaderia' },
   { id: 'carnes', name: 'Carnes' },
-  { id: 'despensa', name: 'Despensa' },
+  { id:'despensa', name: 'Despensa' },
 ];
 
 export const ProductGrid = () => {
