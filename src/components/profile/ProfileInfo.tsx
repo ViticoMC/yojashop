@@ -9,7 +9,10 @@ interface ProfileInfoProps {
   profile: UserProfile | null;
   isEditing: boolean;
   setIsEditing: (val: boolean) => void;
-  register: UseFormRegister<FieldValues>;
+  register: UseFormRegister<{
+    fullName: string;
+    defaultDirection: string;
+  }>;
   handleSubmit: () => void;
   errors: FieldErrors<FieldValues>;
   updating: boolean;

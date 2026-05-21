@@ -34,7 +34,7 @@ export const ProductGrid = () => {
         setErrorMsg(error.message);
         setProducts([]);
       } else {
-        setProducts(data ?? []);
+        setProducts(data as Product[] ?? []);
       }
 
       setLoading(false);
@@ -76,7 +76,7 @@ export const ProductGrid = () => {
 
   return (
     <section className="py-20 bg-app-bg">
-      <div className="max-w-[1200px] mx-auto px-4">
+      <div className="max-w-300 mx-auto px-4">
         {/* Header de la sección */}
         <div className="flex flex-col md:flex-row justify-between items-end gap-8 mb-12">
           <div className="flex-1 w-full">
@@ -86,9 +86,9 @@ export const ProductGrid = () => {
             <div className="w-24 h-2 bg-primary border-2 border-black -skew-x-12"></div>
           </div>
 
-          <div className="w-full md:w-auto min-w-[350px]">
+          <div className="w-full md:w-auto min-w-87.5">
             <SearchBar
-              className="max-w-none w-full !mb-0"
+              className="max-w-none w-full mb-0!"
               placeholder="¿Qué estás buscando hoy?"
               value={search}
               onChange={(val) => setSearch(val)}
@@ -102,11 +102,10 @@ export const ProductGrid = () => {
             <button
               key={cat.id}
               onClick={() => setActiveCategory(cat.id as "all" | number)}
-              className={`px-6 py-2 font-black uppercase tracking-widest text-sm border-4 border-black transition-all transform hover:-translate-y-1 active:translate-y-0 ${
-                activeCategory === cat.id
-                  ? "bg-primary text-white shadow-none translate-y-1"
-                  : "bg-app-card text-app-text shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)]"
-              }`}
+              className={`px-6 py-2 font-black uppercase tracking-widest text-sm border-4 border-black transition-all transform hover:-translate-y-1 active:translate-y-0 ${activeCategory === cat.id
+                ? "bg-primary text-white shadow-none translate-y-1"
+                : "bg-app-card text-app-text shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)]"
+                }`}
             >
               {cat.name}
             </button>
@@ -118,7 +117,7 @@ export const ProductGrid = () => {
           {displayProducts.map((product) => (
             <div
               key={product.id}
-              className="group relative bg-app-card border-4 border-black p-4 flex flex-col transform transition-all duration-300 hover:scale-105 hover:-rotate-1 hover:z-10 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] group-hover/grid:opacity-50 hover:!opacity-100"
+              className="group relative bg-app-card border-4 border-black p-4 flex flex-col transform transition-all duration-300 hover:scale-105 hover:-rotate-1 hover:z-10 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] group-hover/grid:opacity-50 hover:opacity-100!"
             >
               <div className="overflow-hidden bg-white border-2 border-black mb-4 h-48">
                 <img

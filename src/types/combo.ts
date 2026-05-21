@@ -2,11 +2,11 @@ import type { Product } from "./product";
 import { type AchievementDifficulty } from "@/lib/achievement-icons";
 
 export interface ComboProduct extends Partial<Product> {
-  id: string | number;
+  id: number;
   name: string;
   img_url: string;
   cantidad: number;
-  category?: string | number | null;
+  category?: string;
 }
 
 export interface Combo {
