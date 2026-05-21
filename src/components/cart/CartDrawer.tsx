@@ -13,7 +13,7 @@ interface CartDrawerProps {
 }
 
 const CartDrawer: React.FC<CartDrawerProps> = ({ isOpen, onClose }) => {
-  const { cart, removeFromCart, updateQuantity, clearCart, getCartTotal } = useAppStore();
+  const { cart, removeFromCart, clearCart, getCartTotal } = useAppStore();
   const [isClearModalOpen, setIsClearModalOpen] = useState(false);
   const [isAddressModalOpen, setIsAddressModalOpen] = useState(false);
   const [orderSuccess, setOrderSuccess] = useState(false);
@@ -115,7 +115,7 @@ const CartDrawer: React.FC<CartDrawerProps> = ({ isOpen, onClose }) => {
                         <h4 className="font-black uppercase tracking-tighter text-app-text truncate text-lg">{item.name}</h4>
                         <div className="flex items-center gap-3 mt-1">
                           <div className="flex items-center border-2 border-black bg-gray-100">
-                            <button 
+                            <button
                               onClick={() => updateQuantity(item.id, item.type, -1)}
                               className="p-1 hover:bg-primary transition-colors border-r-2 border-black"
                               disabled={loading}
@@ -123,7 +123,7 @@ const CartDrawer: React.FC<CartDrawerProps> = ({ isOpen, onClose }) => {
                               <Minus size={12} strokeWidth={4} />
                             </button>
                             <span className="px-3 font-black text-sm">{item.quantity}</span>
-                            <button 
+                            <button
                               onClick={() => updateQuantity(item.id, item.type, 1)}
                               className="p-1 hover:bg-primary transition-colors border-l-2 border-black"
                               disabled={loading}
@@ -148,60 +148,14 @@ const CartDrawer: React.FC<CartDrawerProps> = ({ isOpen, onClose }) => {
                 </div>
               )}
 
-              {/* Sección Productos Individuales */}
-              {cart.some(item => item.type === 'product') && (
-                <div className="space-y-4 pt-4 border-t-4 border-black/5">
-                  <h3 className="text-sm font-black uppercase italic tracking-widest bg-secondary text-black px-3 py-1 inline-block rotate-1 border-2 border-black">
-                    🍎 Individuales
-                  </h3>
-                  {cart.filter(item => item.type === 'product').map((item) => (
-                    <div key={`${item.type}-${item.id}`} className="group relative bg-white border-4 border-black p-3 flex gap-4 transform transition-transform hover:-translate-y-1 hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)]">
-                      <div className="w-20 h-20 border-2 border-black overflow-hidden shrink-0">
-                        <img src={optimizeCloudinaryUrl(item.image, 200)} alt={item.name} className="w-full h-full object-cover" />
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <h4 className="font-black uppercase tracking-tighter text-app-text truncate text-lg">{item.name}</h4>
-                        <div className="flex items-center gap-3 mt-1">
-                          <div className="flex items-center border-2 border-black bg-gray-100">
-                            <button 
-                              onClick={() => updateQuantity(item.id, item.type, -1)}
-                              className="p-1 hover:bg-secondary transition-colors border-r-2 border-black"
-                              disabled={loading}
-                            >
-                              <Minus size={12} strokeWidth={4} />
-                            </button>
-                            <span className="px-3 font-black text-sm">{item.quantity}</span>
-                            <button 
-                              onClick={() => updateQuantity(item.id, item.type, 1)}
-                              className="p-1 hover:bg-secondary transition-colors border-l-2 border-black"
-                              disabled={loading}
-                            >
-                              <Plus size={12} strokeWidth={4} />
-                            </button>
-                          </div>
-                          <HighlightText variant="success" className="text-sm font-black italic">
-                            ${(item.price * item.quantity).toFixed(2)}
-                          </HighlightText>
-                        </div>
-                      </div>
-                      <button
-                        onClick={() => removeFromCart(item.id, item.type)}
-                        className="self-center text-error hover:scale-125 transition-transform p-1"
-                        disabled={loading}
-                      >
-                        <Trash2 size={20} strokeWidth={3} />
-                      </button>
-                    </div>
-                  ))}
-                </div>
-              )}
             </>
-          ) : (
-            <div className="h-full flex flex-col items-center justify-center text-center space-y-4">
-              <div className="text-6xl grayscale opacity-30">🛒</div>
-              <p className="font-black uppercase tracking-widest text-gray-400 italic">¡Tu carrito está vacío!</p>
-            </div>
-          )}
+          )
+            : (
+              <div className="h-full flex flex-col items-center justify-center text-center space-y-4">
+                <div className="text-6xl grayscale opacity-30">🛒</div>
+                <p className="font-black uppercase tracking-widest text-gray-400 italic">¡Tu carrito está vacío!</p>
+              </div>
+            )}
         </div>
 
         {/* Footer - Checkout */}
@@ -213,7 +167,7 @@ const CartDrawer: React.FC<CartDrawerProps> = ({ isOpen, onClose }) => {
                 {error}
               </div>
             )}
-            
+
             <div className="flex justify-between items-end">
               <span className="text-xl font-black uppercase tracking-tighter text-app-text italic">Total a pagar:</span>
               <span className="text-4xl font-black text-success italic drop-shadow-[2px_2px_0px_rgba(0,0,0,1)]">
@@ -221,7 +175,7 @@ const CartDrawer: React.FC<CartDrawerProps> = ({ isOpen, onClose }) => {
               </span>
             </div>
 
-            <button 
+            <button
               onClick={() => setIsAddressModalOpen(true)}
               disabled={loading || cart.length === 0}
               className="w-full bg-secondary text-black font-black py-4 border-4 border-black uppercase tracking-[0.2em] text-xl transform transition-all hover:scale-105 hover:-rotate-1 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] active:translate-x-1 active:translate-y-1 active:shadow-none overflow-hidden relative group disabled:opacity-50 disabled:grayscale disabled:scale-100 disabled:rotate-0 disabled:shadow-none"

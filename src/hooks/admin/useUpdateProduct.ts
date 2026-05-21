@@ -8,13 +8,13 @@ import { zodResolver } from "@hookform/resolvers/zod";
 export const useUpdateProduct = (
   productId: string | number,
   onSuccess?: () => void,
-  initialData?: ProductFormData
+  initialData?: ProductFormData,
 ) => {
   const queryClient = useQueryClient();
 
   const form = useForm<ProductFormData>({
     resolver: zodResolver(productSchema),
-    values: initialData
+    values: initialData,
   });
 
   const mutation = useMutation({

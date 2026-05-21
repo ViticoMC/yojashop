@@ -9,31 +9,40 @@ import { RegisterPage } from '@/pages/auth/RegisterPage';
 import { ProfilePage } from '@/pages/profile/ProfilePage';
 import { ProductDetails } from '@/pages/ProductDetails';
 import { Combos } from '@/pages/Combos';
-import { ComboDetails } from '@/pages/shop/ComboDetails';
+import { ComboDetails } from '@/pages/ComboDetails';
 import { Administracion } from '@/pages/Administracion';
 import { AdminGuard } from '@/components/auth/AdminGuard';
-import CartDrawer from '@/components/cart/CartDrawer';
+import { CartDrawer } from '@/components/cart/CartDrawer';
 import { useAppStore } from '@/store/useAppStore';
 import ProductModal from '@/components/ui/Modal/ProductModal';
 import ComboModal from '@/components/ui/Modal/ComboModal';
 import { NotificationModal } from '@/components/ui/NotificationModal';
 import { useNotifications } from '@/hooks/ui/useNotifications';
 import { Toaster } from 'sonner';
+import { AdminStats } from '@/components/admin/AdminStats';
+import { AdminUsers } from '@/components/admin/AdminUsers';
+import { AdminProducts } from '@/components/admin/AdminProducts';
+import { AdminCombos } from '@/components/admin/AdminCombos';
+import { AdminLogros } from '@/components/admin/AdminLogros';
+import { AdminOrders } from '@/components/admin/AdminOrders';
+
+import { About } from '@/pages/About';
+import { Contact } from '@/pages/Contact';
 
 const GlobalModals = () => {
-  const { 
-    isProductModalOpen, 
-    closeProductModal, 
-    selectedProduct, 
+  const {
+    isProductModalOpen,
+    closeProductModal,
+    selectedProduct,
     isComboModalOpen,
     closeComboModal,
     selectedCombo,
-    addToCart 
+    addToCart
   } = useAppStore();
 
   const handleProductConfirm = (quantity: number) => {
     if (selectedProduct) {
-      addToCart(selectedProduct, quantity, 'product');
+      addToCart(selectedProduct, quantity);
     }
   };
 
@@ -61,15 +70,7 @@ const GlobalModals = () => {
   );
 };
 
-import { AdminStats } from '@/components/admin/AdminStats';
-import { AdminUsers } from '@/components/admin/AdminUsers';
-import { AdminProducts } from '@/components/admin/AdminProducts';
-import { AdminCombos } from '@/components/admin/AdminCombos';
-import { AdminLogros } from '@/components/admin/AdminLogros';
-import { AdminOrders } from '@/components/admin/AdminOrders';
 
-import { About } from '@/pages/About';
-import { Contact } from '@/pages/Contact';
 
 function App() {
   const [isCartOpen, setIsCartOpen] = useState(false);
@@ -81,9 +82,9 @@ function App() {
       <Navbar onCartClick={() => setIsCartOpen(true)} />
       <CartDrawer isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} />
       <GlobalModals />
-      <NotificationModal 
-        notification={activeNotification} 
-        onClose={closeNotification} 
+      <NotificationModal
+        notification={activeNotification}
+        onClose={closeNotification}
       />
       <main>
         <Routes>
@@ -92,14 +93,13 @@ function App() {
           <Route path="/productos/:id" element={<ProductDetails />} />
           <Route path="/combos" element={<Combos />} />
           <Route path="/combos/:id" element={<ComboDetails />} />
-          
-          <Route 
-            path="/administracion" 
+          <Route
+            path="/administracion"
             element={
               <AdminGuard>
                 <Administracion />
               </AdminGuard>
-            } 
+            }
           >
             <Route index element={<AdminStats />} />
             <Route path="users" element={<AdminUsers />} />

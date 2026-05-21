@@ -1,61 +1,42 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { SearchBar } from './SearchBar';
 import { HighlightText } from '@/components/ui/HighlightText';
+
 import { Button } from '@/components/ui/Button';
 import { useAppStore } from '@/store/useAppStore';
-import { supabase } from '@/lib/supabase';
 import { ShoppingBag } from 'lucide-react';
 
-import type { Product } from '@/types/product';
 
-const CATEGORIES = [
-  { id: 'all', name: 'Todos' },
-  { id: 1, name: 'Comestibles' },
-  { id: 2, name: 'Dulcería' },
-  { id: 3, name: 'Limpieza' },
-  { id: 4, name: 'Cuidado Personal' },
-  { id: 5, name: 'Bebidas' },
-];
+import { useProducts } from '@/hooks/auth/useProduct';
+import { useCategory } from '@/hooks/auth/useCategory';
+import { PRODUCT_CATEGORIES } from '@/constants/categories';
 
 export const ProductGrid = () => {
+
   const navigate = useNavigate();
   const [activeCategory, setActiveCategory] = useState<'all' | number>('all');
-  const [products, setProducts] = useState<Product[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const openProductModal = useAppStore((state) => state.openProductModal);
+  const selectedCategory = useCategory((s) => s.selectedCategory);
+  const setSelectedCategory = useCategory((s) => s.setSelectedCategory);
+
   const [search, setSearch] = useState('');
+  const { products, loading, errorMsg } = useProducts(activeCategory, search);
 
   useEffect(() => {
-    const fetchProducts = async () => {
-      setLoading(true);
-      setErrorMsg(null);
+    setActiveCategory(selectedCategory);
+  }, [selectedCategory]);
 
-      const { data, error } = await supabase
-        .from('producto')
-        .select('id, name, price, img_url, is_active, category, discount, oferta, peso');
 
-      if (error) {
-        console.error('Error cargando productos:', error);
-        setErrorMsg(error.message);
-        setProducts([]);
-      } else {
-        setProducts(data ?? []);
-      }
 
-      setLoading(false);
-    };
 
-    fetchProducts();
-  }, []);
 
-  const filteredProducts = activeCategory === 'all'
+  const filteredProducts = activeCategory === "all"
     ? products
-    : products.filter(p => p.category === activeCategory);
-  
+    : products.filter((p) => p.category === activeCategory);
+
   const searchedProducts = filteredProducts.filter(
-    p => p.name.toLowerCase().includes(search.toLowerCase())
+    (p) => p.name.toLowerCase().includes(search.toLowerCase())
   );
 
   // Limitamos a 8 productos para la home
@@ -81,8 +62,6 @@ export const ProductGrid = () => {
   return (
     <section className="py-20 bg-app-bg">
       <div className="max-w-[1200px] mx-auto px-4">
-
-        {/* Header de la sección */}
         <div className="flex flex-col md:flex-row justify-between items-end gap-8 mb-12">
           <div className="flex-1 w-full">
             <h2 className="text-4xl lg:text-5xl font-black uppercase tracking-tighter text-app-text mb-4">
@@ -101,12 +80,14 @@ export const ProductGrid = () => {
           </div>
         </div>
 
-        {/* Filtros de Categorías */}
-        <div className="flex flex-wrap gap-4 mb-12">
-          {CATEGORIES.map((cat) => (
+        <div id="categorias" className="flex flex-wrap gap-4 mb-12">
+          {PRODUCT_CATEGORIES.map((cat) => (
             <button
               key={cat.id}
-              onClick={() => setActiveCategory(cat.id as 'all' | number)}
+              onClick={() => {
+                setActiveCategory(cat.id);
+                setSelectedCategory(cat.id as 'all' | string);
+              }}
               className={`px-6 py-2 font-black uppercase tracking-widest text-sm border-4 border-black transition-all transform hover:-translate-y-1 active:translate-y-0 ${activeCategory === cat.id
                 ? 'bg-primary text-white shadow-none translate-y-1'
                 : 'bg-app-card text-app-text shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)]'
@@ -151,8 +132,6 @@ export const ProductGrid = () => {
                   <button
                     onClick={() => openProductModal({
                       ...product,
-                      image: product.img_url || '', // para compatibilidad con el modal actual
-                      description: product.oferta || '', // placeholder description
                     })}
                     className="bg-primary text-white font-black p-2 border-2 border-black hover:bg-secondary hover:text-black transition-colors shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] active:translate-x-1 active:translate-y-1 active:shadow-none"
                   >
@@ -174,9 +153,9 @@ export const ProductGrid = () => {
 
         {/* Botón Ver Más */}
         <div className="flex justify-center">
-          <Button 
-            variant="outline" 
-            size="lg" 
+          <Button
+            variant="outline"
+            size="lg"
             className="group px-12 h-16 text-xl border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-x-1 hover:translate-y-1 transition-all"
             onClick={() => navigate('/productos')}
           >

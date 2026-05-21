@@ -50,11 +50,6 @@
 - **Separación de Concernimientos:** Extraer TODA la lógica de los componentes siempre que sea posible. Los componentes deben enfocarse principalmente en el renderizado (UI).
 - **Custom Hooks:** Utilizar Custom Hooks para manejar estados complejos, llamadas a API, validaciones y efectos.
 - **Validaciones:** Usar `react-hook-form` junto con `zod` para la gestión y validación de formularios.
-- **TanStack Query (React Query):**
-    - Utilizar para TODAS las peticiones de datos asíncronas (GET, POST, etc.).
-    - **Caché:** Configurar un `staleTime` de **3 minutos** (`3 * 60 * 1000`) para consultas administrativas o datos que no cambian constantemente.
-    - **Revalidación:** Usar `invalidateQueries` dentro de la función `onSuccess` de las mutaciones para refrescar los datos automáticamente después de crear, modificar o eliminar.
-    - **Mutaciones:** Centralizar la lógica de escritura en hooks que utilicen `useMutation`.
 
 ## Herramientas y Comandos
 - **Gestor de Paquetes:** Utilizar ÚNICAMENTE `pnpm` para la instalación de dependencias y ejecución de scripts. NO usar `npm` ni `yarn`.

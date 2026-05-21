@@ -9,8 +9,8 @@ export const Navbar = ({ onCartClick }: { onCartClick: () => void }) => {
 
   const navLinks = [
     { name: 'Inicio', path: '/' },
-    { name: 'Productos', path: '/productos' },
-    { name: 'Combos', path: '/combos' },
+    { name: 'Categorías', path: '/categories' },
+    { name: 'Ofertas', path: '/sales' },
     { name: 'Nosotros', path: '/about' },
     { name: 'Contacto', path: '/contact' },
   ];

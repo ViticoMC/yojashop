@@ -1,17 +1,24 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useState } from "react";
 import { supabase } from "@/lib/supabase";
 
 export const useDeleteProduct = (onSuccess?: () => void) => {
-  const queryClient = useQueryClient();
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-  const mutation = useMutation({
-    mutationFn: async ({ productId, imgId }: { productId: string | number, imgId?: string }) => {
+  const deleteProduct = async (productId: string | number, imgId?: string) => {
+    setLoading(true);
+    setError(null);
+
+    try {
       // 1. Si tiene img_id, intentamos borrar de Cloudinary vía Edge Function
       if (imgId) {
-        const { error: funcError } = await supabase.functions.invoke('delete_image', {
-          body: { public_id: imgId },
-        });
-        
+        const { error: funcError } = await supabase.functions.invoke(
+          "delete_image",
+          {
+            body: { public_id: imgId },
+          },
+        );
+
         if (funcError) {
           console.error("Error al borrar imagen de Cloudinary:", funcError);
         }
@@ -24,20 +31,14 @@ export const useDeleteProduct = (onSuccess?: () => void) => {
         .eq("id", productId);
 
       if (dbError) throw dbError;
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['admin-products'] });
+
       if (onSuccess) onSuccess();
-    },
-  });
-
-  const deleteProduct = (productId: string | number, imgId?: string) => {
-    mutation.mutate({ productId, imgId });
+    } catch (err: any) {
+      setError(err.message || "Error al eliminar el producto");
+    } finally {
+      setLoading(false);
+    }
   };
 
-  return { 
-    deleteProduct, 
-    loading: mutation.isPending, 
-    error: mutation.error instanceof Error ? mutation.error.message : null 
-  };
+  return { deleteProduct, loading, error };
 };

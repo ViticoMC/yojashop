@@ -1,4 +1,4 @@
-import { create } from "zustand";
+import { create } from 'zustand';
 
 interface Product {
   id: number | string;
@@ -14,7 +14,7 @@ interface CartItem extends Product {
 }
 
 interface AppState {
-  // Cart State
+
   cart: CartItem[];
   addToCart: (product: Product, quantity: number) => void;
   removeFromCart: (productId: number | string) => void;
@@ -26,10 +26,14 @@ interface AppState {
   selectedProduct: Product | null;
   openProductModal: (product: Product) => void;
   closeProductModal: () => void;
+
+ 
+  selectedCategory: 'all' | string;
+  setSelectedCategory: (cat: 'all' | string) => void;
 }
 
-export const useAppStore = create<AppState>((set, get) => ({
-  // Cart Logic
+export const useCategory = create<AppState>((set, get) => ({
+  
   cart: [],
   addToCart: (product, quantity) => {
     const currentCart = get().cart;
@@ -40,7 +44,7 @@ export const useAppStore = create<AppState>((set, get) => ({
         cart: currentCart.map((item) =>
           item.id === product.id
             ? { ...item, quantity: item.quantity + quantity }
-            : item,
+            : item
         ),
       });
     } else {
@@ -52,22 +56,16 @@ export const useAppStore = create<AppState>((set, get) => ({
   },
   clearCart: () => set({ cart: [] }),
   getCartTotal: () => {
-    return get().cart.reduce(
-      (total, item) => total + item.price * item.quantity,
-      0,
-    );
+    return get().cart.reduce((total, item) => total + item.price * item.quantity, 0);
   },
 
   // Modal Logic
   isProductModalOpen: false,
   selectedProduct: null,
-  openProductModal: (product) =>
-    set({ selectedProduct: product, isProductModalOpen: true }),
-  closeProductModal: () =>
-    set({ isProductModalOpen: false, selectedProduct: null }),
-  isComboModalOpen: false,
-  selectedCombo: null,
-  openComboModal: (combo) =>
-    set({ selectedCombo: combo, isComboModalOpen: true }),
-  closeComboModal: () => set({ isComboModalOpen: false, selectedCombo: null }),
+  openProductModal: (product) => set({ selectedProduct: product, isProductModalOpen: true }),
+  closeProductModal: () => set({ isProductModalOpen: false, selectedProduct: null }),
+
+  // ✅ Category filter state
+  selectedCategory: 'all',
+  setSelectedCategory: (cat) => set({ selectedCategory: cat }),
 }));
