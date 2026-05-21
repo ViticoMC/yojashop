@@ -1,5 +1,4 @@
 
-import { Link, Outlet, useLocation } from 'react-router-dom';
 import { LayoutDashboard, Users, ShoppingBag, ShieldCheck, Box, Trophy, Package } from 'lucide-react';
 import { useState } from 'react';
 import { AdminStats } from '@/components/admin/AdminStats';

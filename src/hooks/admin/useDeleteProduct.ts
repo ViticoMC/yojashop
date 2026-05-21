@@ -40,5 +40,9 @@ export const useDeleteProduct = (onSuccess?: () => void) => {
     }
   };
 
-  return { deleteProduct, loading, error };
+  return {
+    deleteProduct,
+    loading: mutation.isPending,
+    error: mutation.error instanceof Error ? mutation.error.message : null,
+  };
 };
