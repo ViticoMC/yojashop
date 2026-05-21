@@ -8,7 +8,7 @@ import { HighlightText } from '@/components/ui/HighlightText';
 import type { OrderStatus } from '@/types/order';
 
 export const AdminOrders = () => {
-  const { data: orders, isLoading, refetch } = useAdminOrders();
+  const { data: orders, isLoading, refetch, isFetching } = useAdminOrders();
   const { updateStatus, loading: updating, error: updateError } = useUpdateOrderStatus();
   const [expandedOrders, setExpandedOrders] = useState<number[]>([]);
 
@@ -49,10 +49,11 @@ export const AdminOrders = () => {
         <div className="flex items-center gap-3">
           <button 
             onClick={() => refetch()}
-            className="bg-secondary text-black p-2 border-2 border-black hover:bg-white transition-all shadow-[2px_2px_0px_white] active:shadow-none active:translate-x-0.5 active:translate-y-0.5"
+            className={`bg-secondary text-black p-2 border-2 border-black hover:bg-white transition-all shadow-[2px_2px_0px_white] active:shadow-none active:translate-x-0.5 active:translate-y-0.5 ${isFetching ? 'opacity-50' : ''}`}
             title="Refrescar datos"
+            disabled={isFetching}
           >
-            <Clock size={16} />
+            <Clock size={16} className={isFetching ? 'animate-spin' : ''} />
           </button>
           <div className="bg-white text-black px-3 py-1 font-black italic text-xs border-2 border-black rotate-2 shadow-[2px_2px_0px_white]">
             {orders?.length || 0} TOTAL

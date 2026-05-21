@@ -43,6 +43,8 @@ export const ImageUpload: React.FC<ImageUploadProps> = ({
     setPreview(null);
     onUploadSuccess("", "");
     if (fileInputRef.current) fileInputRef.current.value = "";
+    // Re-abrir selector de archivos inmediatamente
+    fileInputRef.current?.click();
   };
 
   return (

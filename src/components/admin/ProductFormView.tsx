@@ -24,43 +24,29 @@ export const ProductFormView: React.FC<ProductFormViewProps> = ({
   const isEditing = !!productToEdit;
 
   const createHook = useCreateProduct(onSuccess);
-  const updateHook = useUpdateProduct(productToEdit?.id || '', onSuccess);
+  const updateHook = useUpdateProduct(
+    productToEdit?.id || '', 
+    onSuccess,
+    productToEdit ? {
+      name: productToEdit.name,
+      price: productToEdit.price,
+      peso: productToEdit.peso,
+      img_url: productToEdit.img_url,
+      img_id: productToEdit.img_id,
+      is_active: productToEdit.is_active,
+      discount: productToEdit.discount,
+      category: productToEdit.category || "",
+      oferta: productToEdit.oferta || "",
+    } : undefined
+  );
 
   const { form, onSubmit, loading, error } = isEditing ? updateHook : createHook;
-  const { register, formState: { errors, isDirty }, setValue, reset } = form;
+  const { register, formState: { errors, isDirty }, setValue } = form;
 
   const handleImageUpload = (url: string, id: string) => {
     setValue('img_url', url, { shouldDirty: true });
     setValue('img_id', id, { shouldDirty: true });
   };
-
-  useEffect(() => {
-    if (isEditing && productToEdit) {
-      reset({
-        name: productToEdit.name,
-        price: productToEdit.price,
-        peso: productToEdit.peso,
-        img_url: productToEdit.img_url,
-        img_id: productToEdit.img_id,
-        is_active: productToEdit.is_active,
-        discount: productToEdit.discount,
-        category: productToEdit.category || "",
-        oferta: productToEdit.oferta,
-      });
-    } else {
-      reset({
-        name: "",
-        price: 0,
-        peso: "",
-        img_url: "",
-        img_id: "",
-        is_active: true,
-        discount: 0,
-        category: "",
-        oferta: "",
-      });
-    }
-  }, [isEditing, productToEdit, reset]);
 
   const handleBackAttempt = () => {
     if (isDirty) {

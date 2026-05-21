@@ -18,6 +18,7 @@ import ProductModal from '@/components/ui/Modal/ProductModal';
 import ComboModal from '@/components/ui/Modal/ComboModal';
 import { NotificationModal } from '@/components/ui/NotificationModal';
 import { useNotifications } from '@/hooks/ui/useNotifications';
+import { Toaster } from 'sonner';
 
 const GlobalModals = () => {
   const { 
@@ -76,6 +77,7 @@ function App() {
 
   return (
     <Router>
+      <Toaster position="top-right" richColors closeButton theme="light" />
       <Navbar onCartClick={() => setIsCartOpen(true)} />
       <CartDrawer isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} />
       <GlobalModals />

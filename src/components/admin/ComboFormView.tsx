@@ -39,7 +39,15 @@ export const ComboFormView: React.FC<ComboFormViewProps> = ({ onBack, onSuccess,
     formState: { errors },
   } = useForm<ComboFormData>({
     resolver: zodResolver(comboSchema),
-    defaultValues: {
+    values: editData ? {
+      nombre: editData.nombre,
+      cta: editData.cta,
+      descriptiom: editData.descriptiom,
+      price: editData.price,
+      discount: editData.discount,
+      foto_url: editData.foto_url,
+      foto_id: editData.foto_id,
+    } : {
       nombre: "",
       cta: "¡LO QUIERO!",
       descriptiom: "",
@@ -49,19 +57,9 @@ export const ComboFormView: React.FC<ComboFormViewProps> = ({ onBack, onSuccess,
     }
   });
 
-  // Cargar datos de edición y relaciones
+  // Cargar relaciones de productos
   useEffect(() => {
     if (editData) {
-      reset({
-        nombre: editData.nombre,
-        cta: editData.cta,
-        descriptiom: editData.descriptiom,
-        price: editData.price,
-        discount: editData.discount,
-        foto_url: editData.foto_url,
-        foto_id: editData.foto_id,
-      });
-
       // Cargar productos relacionados
       const fetchRelations = async () => {
         const { data, error } = await supabase
@@ -77,11 +75,7 @@ export const ComboFormView: React.FC<ComboFormViewProps> = ({ onBack, onSuccess,
           .eq('combo_id', editData.id);
 
         if (!error && data) {
-          const relations = data.map((rel: {
-            product_id: string | number;
-            cantidad: number;
-            producto: { name: string; img_url: string; };
-          }) => ({
+          const relations = data.map((rel: any) => ({
             product_id: rel.product_id,
             cantidad: rel.cantidad,
             name: rel.producto.name,
@@ -93,7 +87,7 @@ export const ComboFormView: React.FC<ComboFormViewProps> = ({ onBack, onSuccess,
 
       fetchRelations();
     }
-  }, [editData, reset]);
+  }, [editData]);
 
 
   const handleAddProduct = (product: { id: string | number; name: string; img_url: string; }) => {
@@ -207,6 +201,7 @@ export const ComboFormView: React.FC<ComboFormViewProps> = ({ onBack, onSuccess,
               <ImageUpload
                 onUploadSuccess={handleImageUpload}
                 label="Imagen Publicitaria del Combo"
+                defaultValue={editData?.foto_url}
               />
             </div>
           </div>
@@ -284,7 +279,7 @@ export const ComboFormView: React.FC<ComboFormViewProps> = ({ onBack, onSuccess,
                 className="w-full rotate-1 text-lg"
                 disabled={loading}
               >
-                {loading ? 'PROCESANDO...' : 'GUARDAR COMBO  '}
+                {loading ? 'PROCESANDO...' : isEditing ? 'GUARDAR CAMBIOS' : 'GUARDAR COMBO'}
               </Button>
             </div>
           </div>

@@ -1,6 +1,6 @@
 import type { UserProfile } from "./user";
 
-export type OrderStatus = "pendient" | "accepted" | "rejected" | "completed";
+export type OrderStatus = "pendient" | "accepted" | "rejected" | "completed" | "canceled";
 
 export interface Order {
   id: number;

@@ -1,6 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/lib/supabase";
 import type { OrderStatus } from "@/types/order";
+import { toast } from "sonner";
 
 export const useUpdateOrderStatus = () => {
   const queryClient = useQueryClient();
@@ -19,14 +20,27 @@ export const useUpdateOrderStatus = () => {
       }
 
       // 2. Actualizar el estado
-      const { error: updateError } = await supabase
+      console.log('Intentando actualizar pedido:', { orderId, status });
+      
+      const { error: updateError, data: updateData } = await supabase
         .from('pedido')
         .update({ status })
-        .eq('id', orderId);
+        .eq('id', orderId)
+        .select();
+
+      console.log('Resultado de actualización Supabase:', { updateError, updateData });
 
       if (updateError) {
-        console.error('Error al actualizar estado del pedido:', updateError);
+        toast.error('Error al actualizar el pedido');
         throw updateError;
+      }
+
+      if (updateData && updateData.length === 0) {
+        const msg = 'El pedido no se actualizó. Verifica los permisos RLS en Supabase.';
+        toast.warning(msg);
+        console.warn(msg);
+      } else {
+        toast.success(`Pedido ${orderId} actualizado a ${status}`);
       }
 
       // 3. Crear notificación para el usuario si es un cambio relevante
@@ -61,8 +75,12 @@ export const useUpdateOrderStatus = () => {
         }
       }
     },
-    onSuccess: () => {
+    onSuccess: (data, variables) => {
+      console.log('Mutación exitosa. Invalidando queries para pedido:', variables.orderId);
       queryClient.invalidateQueries({ queryKey: ['admin-orders'] });
+    },
+    onError: (error) => {
+      console.error('Error en la mutación useUpdateOrderStatus:', error);
     }
   });
 

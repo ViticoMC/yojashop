@@ -1,8 +1,33 @@
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useEffect } from "react";
 import { supabase } from "@/lib/supabase";
 import type { Order, OrderElement } from "@/types/order";
 
 export const useAdminOrders = () => {
+  const queryClient = useQueryClient();
+
+  useEffect(() => {
+    const channel = supabase
+      .channel('admin-orders-realtime')
+      .on(
+        'postgres_changes',
+        {
+          event: '*', // Listen to INSERT, UPDATE, DELETE
+          schema: 'public',
+          table: 'pedido'
+        },
+        () => {
+          console.log('Cambio detectado en pedidos, invalidando caché...');
+          queryClient.invalidateQueries({ queryKey: ['admin-orders'] });
+        }
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
+  }, [queryClient]);
+
   return useQuery({
     queryKey: ['admin-orders'],
     queryFn: async () => {
