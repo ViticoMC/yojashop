@@ -26,8 +26,8 @@ export const useAdminUsers = (page: number = 1, pageSize: number = 10) => {
 
         setUsers(data || []);
         setTotalCount(count || 0);
-      } catch (err: any) {
-        setError(err.message);
+      } catch (err) {
+        setError(err instanceof Error ? err.message : 'Unknown error');
       } finally {
         setLoading(false);
       }

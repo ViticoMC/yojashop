@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+;
 import { useCreateProduct } from '@/hooks/admin/useCreateProduct';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
@@ -25,7 +25,7 @@ export const ProductFormView: React.FC<ProductFormViewProps> = ({
 
   const createHook = useCreateProduct(onSuccess);
   const updateHook = useUpdateProduct(
-    productToEdit?.id || '', 
+    productToEdit?.id || '',
     onSuccess,
     productToEdit ? {
       name: productToEdit.name,

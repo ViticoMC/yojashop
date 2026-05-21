@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { comboSchema, type ComboFormData, type ComboProductRelation } from '@/schemas/combo.schema';
@@ -35,7 +35,6 @@ export const ComboFormView: React.FC<ComboFormViewProps> = ({ onBack, onSuccess,
     register,
     handleSubmit,
     setValue,
-    reset,
     formState: { errors },
   } = useForm<ComboFormData>({
     resolver: zodResolver(comboSchema),
@@ -46,15 +45,17 @@ export const ComboFormView: React.FC<ComboFormViewProps> = ({ onBack, onSuccess,
       price: editData.price,
       discount: editData.discount,
       foto_url: editData.foto_url,
-      foto_id: editData.foto_id,
+      foto_id: editData.foto_id || "",
     } : {
       nombre: "",
-      cta: "¡LO QUIERO!",
+      cta: "",
       descriptiom: "",
       price: 0,
       discount: 0,
       foto_url: "",
-    }
+      foto_id: "",
+    },
+
   });
 
   // Cargar relaciones de productos
@@ -75,7 +76,11 @@ export const ComboFormView: React.FC<ComboFormViewProps> = ({ onBack, onSuccess,
           .eq('combo_id', editData.id);
 
         if (!error && data) {
-          const relations = data.map((rel: any) => ({
+          const relations: ComboProductRelation[] = (data as unknown as {
+            product_id: string | number;
+            cantidad: number;
+            producto: { name: string; img_url: string };
+          }[]).map((rel) => ({
             product_id: rel.product_id,
             cantidad: rel.cantidad,
             name: rel.producto.name,
@@ -121,7 +126,7 @@ export const ComboFormView: React.FC<ComboFormViewProps> = ({ onBack, onSuccess,
       alert("DEBES AÑADIR AL MENOS UN PRODUCTO AL COMBO");
       return;
     }
-    
+
     if (isEditing) {
       updateCombo(editData.id, data, selectedProducts);
     } else {

@@ -1,4 +1,4 @@
-import React from 'react';
+;
 import { optimizeCloudinaryUrl } from '@/lib/cloudinary';
 import type { Product } from '@/types/product';
 import { Pencil, ShoppingCart, Tag, Trash2 } from 'lucide-react';

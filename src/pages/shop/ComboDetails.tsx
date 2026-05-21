@@ -1,4 +1,4 @@
-import React from 'react';
+;
 import { useParams, useNavigate } from 'react-router-dom';
 import { useCombo } from '@/hooks/shop/useCombo';
 import { Button } from '@/components/ui/Button';
@@ -36,11 +36,11 @@ export const ComboDetails: React.FC = () => {
   return (
     <div className="min-h-screen bg-white pb-20 overflow-x-hidden">
       {/* Background Dots */}
-      <div className="fixed inset-0 opacity-10 pointer-events-none" 
-           style={{ backgroundImage: 'radial-gradient(circle, #000 1.5px, transparent 1.5px)', backgroundSize: '20px 20px' }}></div>
+      <div className="fixed inset-0 opacity-10 pointer-events-none"
+        style={{ backgroundImage: 'radial-gradient(circle, #000 1.5px, transparent 1.5px)', backgroundSize: '20px 20px' }}></div>
 
       <div className="max-w-7xl mx-auto px-4 pt-8 relative z-10">
-        <button 
+        <button
           onClick={() => navigate(-1)}
           className="mb-8 flex items-center gap-2 font-black uppercase italic text-sm hover:text-primary transition-colors group"
         >
@@ -54,8 +54,8 @@ export const ComboDetails: React.FC = () => {
             <div className="relative group">
               <div className="absolute -inset-2 bg-black rounded-lg transform rotate-1 group-hover:rotate-0 transition-transform"></div>
               <div className="relative border-4 border-black bg-white overflow-hidden shadow-[12px_12px_0px_0px_rgba(0,0,0,1)]">
-                <img 
-                  src={optimizeCloudinaryUrl(combo.foto_url, 800)} 
+                <img
+                  src={optimizeCloudinaryUrl(combo.foto_url, 800)}
                   alt={combo.nombre}
                   className="w-full h-auto object-cover transform transition-transform duration-500 group-hover:scale-105"
                 />
@@ -78,7 +78,7 @@ export const ComboDetails: React.FC = () => {
               <h1 className="text-5xl font-black uppercase italic tracking-tighter leading-none mb-4">
                 {combo.nombre}
               </h1>
-              
+
               <div className="border-t-4 border-black pt-6 mb-6">
                 <p className="font-bold text-gray-700 leading-relaxed text-lg uppercase">
                   {combo.descriptiom}
@@ -96,9 +96,9 @@ export const ComboDetails: React.FC = () => {
                 )}
               </div>
 
-              <Button 
-                variant="black" 
-                size="full" 
+              <Button
+                variant="black"
+                size="full"
                 className="h-16 text-2xl group"
                 onClick={() => openComboModal(combo)}
               >
@@ -140,21 +140,21 @@ export const ComboDetails: React.FC = () => {
             </h2>
             <div className="flex items-center gap-2 bg-black text-white px-4 py-1 font-black text-sm transform skew-x-12">
               <Package size={16} />
-              {combo.products.length} PRODUCTOS
+              {(combo.products || []).length} PRODUCTOS
             </div>
           </div>
 
           <div className="relative overflow-hidden py-4 group/carousel">
             <div className="flex gap-8 animate-scroll hover:[animation-play-state:paused] whitespace-nowrap">
               {/* Duplicate products for infinite scroll effect */}
-              {[...combo.products, ...combo.products].map((product, idx) => (
-                <div 
+              {[...(combo.products || []), ...(combo.products || [])].map((product, idx) => (
+                <div
                   key={`${product.id}-${idx}`}
                   className="inline-block w-[280px] bg-white border-4 border-black p-4 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] transform hover:-translate-y-2 transition-transform duration-300 group group-hover/carousel:grayscale group-hover/carousel:opacity-50 hover:!grayscale-0 hover:!opacity-100"
                 >
                   <div className="aspect-square border-2 border-black overflow-hidden mb-4 relative">
-                    <img 
-                      src={optimizeCloudinaryUrl(product.img_url, 300)} 
+                    <img
+                      src={optimizeCloudinaryUrl(product.img_url, 300)}
                       alt={product.name}
                       className="w-full h-full object-cover transition-all"
                     />
@@ -174,7 +174,7 @@ export const ComboDetails: React.FC = () => {
       <style>{`
         @keyframes scroll {
           0% { transform: translateX(0); }
-          100% { transform: translateX(calc(-280px * ${combo.products.length} - 2rem * ${combo.products.length})); }
+          100% { transform: translateX(calc(-280px * ${(combo.products || []).length} - 2rem * ${(combo.products || []).length})); }
         }
         .animate-scroll {
           animation: scroll 30s linear infinite;

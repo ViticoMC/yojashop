@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay, Navigation } from 'swiper/modules';
 import { HighlightText } from '@/components/ui/HighlightText';
@@ -47,7 +47,7 @@ export const DailyOffers = () => {
         </div>
       </div>
 
-      <div className="max-w-[1200px] mx-auto px-12 relative group/nav">
+      <div className="max-w-300 mx-auto px-12 relative group/nav">
         <Swiper
           modules={[Autoplay, Navigation]}
           spaceBetween={30}
@@ -66,7 +66,7 @@ export const DailyOffers = () => {
             1024: { slidesPerView: 3 },
             1280: { slidesPerView: 4 },
           }}
-          className="offers-swiper !pb-12 group/container"
+          className="offers-swiper pb-12! group/container"
         >
           {offers.map((product) => {
             const hasDiscount = product.discount && product.discount > 0;
@@ -74,7 +74,7 @@ export const DailyOffers = () => {
 
             return (
               <SwiperSlide key={product.id} className="py-8">
-                <div className="group relative bg-app-card border-4 border-black p-4 rounded-none transform transition-all duration-300 hover:scale-110 hover:-rotate-2 hover:z-20 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] group-hover/container:opacity-50 hover:!opacity-100">
+                <div className="group relative bg-app-card border-4 border-black p-4 rounded-none transform transition-all duration-300 hover:scale-110 hover:-rotate-2 hover:z-20 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] group-hover/container:opacity-50 hover:opacity-100!">
                   {/* Etiqueta de oferta/descuento caricaturesca */}
                   {product.oferta ? (
                     <div className="absolute -top-4 -right-4 bg-primary text-white font-black p-2 border-2 border-black rotate-12 z-10 text-[10px] shadow-md uppercase">
@@ -112,8 +112,6 @@ export const DailyOffers = () => {
                     <button
                       onClick={() => openProductModal({
                         ...product,
-                        image: product.img_url || '',
-                        description: product.oferta || '',
                       })}
                       className="w-full mt-4 bg-primary text-white font-black py-2 border-2 border-black uppercase tracking-widest text-xs hover:bg-secondary hover:text-black transition-colors shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] active:translate-x-1 active:translate-y-1 active:shadow-none"
                     >

@@ -9,7 +9,7 @@ export const useUserOrders = () => {
 
   // Realtime subscription for user's own orders
   useEffect(() => {
-    let channel: any;
+    let channel: ReturnType<typeof supabase.channel> | null = null;
 
     const setupSubscription = async () => {
       const {
@@ -115,8 +115,8 @@ export const useUserOrders = () => {
       toast.success("Pedido cancelado correctamente");
       queryClient.invalidateQueries({ queryKey: ["user-orders"] });
     },
-    onError: (error: any) => {
-      toast.error("No se pudo cancelar el pedido: " + error.message);
+    onError: (error) => {
+      toast.error("No se pudo cancelar el pedido: " + (error instanceof Error ? error.message : 'Error desconocido'));
     },
   });
 

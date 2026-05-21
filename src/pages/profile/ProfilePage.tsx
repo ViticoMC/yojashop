@@ -1,9 +1,9 @@
-import { useEffect, useState, useCallback } from 'react';
+import { useState, useEffect } from 'react';
 import { supabase } from '@/lib/supabase';
 import { useNavigate } from 'react-router-dom';
 import { useUpdateProfile } from '@/hooks/auth/useUpdateProfile';
 import { useScrollTop } from '@/hooks/ui/useScrollTop';
-import type { UserProfile } from '@/types/user';
+import { useProfile } from '@/hooks/auth/useProfile';
 import { Loader2 } from 'lucide-react';
 import { ProfileInfo } from '@/components/profile/ProfileInfo';
 import { ProfileOrders } from '@/components/profile/ProfileOrders';
@@ -11,36 +11,15 @@ import { ProfileLogros } from '@/components/profile/ProfileLogros';
 
 export const ProfilePage = () => {
   useScrollTop();
-  const [profile, setProfile] = useState<UserProfile | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [isEditing, setIsEditing] = useState(false);
   const navigate = useNavigate();
-
-  const fetchProfile = useCallback(async () => {
-    const { data: { user } } = await supabase.auth.getUser();
-
-    if (!user) {
-      navigate('/login');
-      return;
-    }
-
-    const { data, error } = await supabase
-      .from('usuario')
-      .select('*')
-      .eq('id', user.id)
-      .single();
-
-    if (error) {
-      console.error('Error fetching profile:', error);
-    } else {
-      setProfile(data);
-    }
-    setLoading(false);
-  }, [navigate]);
+  const { profile, loading, refetch } = useProfile();
+  const [isEditing, setIsEditing] = useState(false);
 
   useEffect(() => {
-    fetchProfile();
-  }, [fetchProfile]);
+    if (!loading && !profile) {
+      navigate('/login');
+    }
+  }, [loading, profile, navigate]);
 
   const {
     register,
@@ -62,12 +41,12 @@ export const ProfilePage = () => {
 
   useEffect(() => {
     if (updateSuccess) {
-      fetchProfile().then(() => {
+      refetch().then(() => {
         setIsEditing(false);
         setSuccess(false);
       });
     }
-  }, [updateSuccess, fetchProfile, setSuccess]);
+  }, [updateSuccess, refetch, setSuccess]);
 
   if (loading) return (
     <div className="fixed inset-0 bg-app-bg z-50 flex flex-col items-center justify-center space-y-4">

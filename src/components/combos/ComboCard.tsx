@@ -1,4 +1,4 @@
-import React from 'react';
+;
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/Button';
 import { HighlightText } from '@/components/ui/HighlightText';
@@ -70,7 +70,7 @@ export const ComboCard: React.FC<ComboCardProps> = ({ combo }) => {
               <ShoppingCart size={14} className="group-hover/btn:translate-x-1 transition-transform" />
             </span>
           </Button>
-          
+
           <Button
             variant="outline"
             size="sm"

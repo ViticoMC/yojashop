@@ -1,17 +1,12 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import Modal from './Modal';
 import { HighlightText } from '@/components/ui/HighlightText';
+import type { Product } from '@/types/product';
 
 interface ProductModalProps {
   isOpen: boolean;
   onClose: () => void;
-  product: {
-    name: string;
-    price: number;
-    image: string;
-    description: string;
-    oldPrice?: number;
-  } | null;
+  product: Product | null;
   onConfirm: (quantity: number) => void;
 }
 
@@ -36,7 +31,7 @@ const ProductModal: React.FC<ProductModalProps> = ({ isOpen, onClose, product, o
         {/* Imagen con borde comic */}
         <div className="w-full md:w-1/2">
           <div className="border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] bg-white overflow-hidden transform -rotate-1">
-            <img src={product.image} alt={product.name} className="w-full h-auto object-cover" />
+            <img src={product.img_url} alt={product.name} className="w-full h-auto object-cover" />
           </div>
         </div>
 
@@ -48,17 +43,15 @@ const ProductModal: React.FC<ProductModalProps> = ({ isOpen, onClose, product, o
               <HighlightText variant="success" className="text-3xl font-black italic">
                 ${product.price.toFixed(2)}
               </HighlightText>
-              {product.oldPrice && (
+              {product.price && (
                 <span className="text-lg text-error line-through font-bold italic opacity-70">
-                  ${product.oldPrice.toFixed(2)}
+                  ${product.price.toFixed(2)}
                 </span>
               )}
             </div>
           </div>
 
-          <p className="text-sm font-bold text-gray-600 dark:text-gray-400 leading-relaxed border-l-4 border-primary pl-4 italic">
-            {product.description}
-          </p>
+
 
           <div className="pt-6 space-y-4">
             <label className="block text-xs font-black uppercase tracking-[0.2em] text-app-text">

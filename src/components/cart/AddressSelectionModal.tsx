@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useProfile } from '@/hooks/auth/useProfile';
 import { Button } from '@/components/ui/Button';
 import { MapPin, Home, Send, Loader2 } from 'lucide-react';
@@ -31,12 +31,12 @@ export const AddressSelectionModal: React.FC<AddressSelectionModalProps> = ({
 
   const handleConfirm = () => {
     const finalAddress = useDefault ? profile?.default_direction : manualAddress;
-    
+
     if (!finalAddress || finalAddress.trim().length < 5) {
       setError('POR FAVOR, PROPORCIONA UNA DIRECCIÓN VÁLIDA (MÍN. 5 CARACTERES)');
       return;
     }
-    
+
     setError(null);
     onConfirm(finalAddress);
   };
@@ -46,7 +46,7 @@ export const AddressSelectionModal: React.FC<AddressSelectionModalProps> = ({
       <div className="relative w-full max-w-lg bg-app-bg border-4 border-black shadow-[12px_12px_0px_0px_rgba(0,0,0,1)] p-8 overflow-hidden">
         {/* Background Ben-Day dots */}
         <div className="absolute inset-0 opacity-10 pointer-events-none" style={{ backgroundImage: 'radial-gradient(black 1px, transparent 0)', backgroundSize: '6px 6px' }} />
-        
+
         <div className="relative z-10">
           <div className="mb-6">
             <h2 className="text-4xl font-black uppercase tracking-tighter text-black italic leading-none drop-shadow-[2px_2px_0px_rgba(255,255,255,1)]">
@@ -67,11 +67,10 @@ export const AddressSelectionModal: React.FC<AddressSelectionModalProps> = ({
                 {profile?.default_direction && (
                   <button
                     onClick={() => setUseDefault(true)}
-                    className={`w-full p-4 border-4 border-black text-left transition-all transform flex items-start gap-4 ${
-                      useDefault 
-                        ? 'bg-secondary shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] -translate-y-1' 
+                    className={`w-full p-4 border-4 border-black text-left transition-all transform flex items-start gap-4 ${useDefault
+                        ? 'bg-secondary shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] -translate-y-1'
                         : 'bg-white hover:bg-gray-50'
-                    }`}
+                      }`}
                   >
                     <div className={`p-2 border-2 border-black ${useDefault ? 'bg-white' : 'bg-gray-100'}`}>
                       <Home size={24} className="text-black" />
@@ -90,11 +89,10 @@ export const AddressSelectionModal: React.FC<AddressSelectionModalProps> = ({
                 <div className="space-y-3">
                   <button
                     onClick={() => setUseDefault(false)}
-                    className={`w-full p-4 border-4 border-black text-left transition-all transform flex items-start gap-4 ${
-                      !useDefault 
-                        ? 'bg-primary shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] -translate-y-1' 
+                    className={`w-full p-4 border-4 border-black text-left transition-all transform flex items-start gap-4 ${!useDefault
+                        ? 'bg-primary shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] -translate-y-1'
                         : 'bg-white hover:bg-gray-50'
-                    }`}
+                      }`}
                   >
                     <div className={`p-2 border-2 border-black ${!useDefault ? 'bg-white' : 'bg-gray-100'}`}>
                       <MapPin size={24} className="text-black" />
@@ -132,24 +130,26 @@ export const AddressSelectionModal: React.FC<AddressSelectionModalProps> = ({
           <div className="flex gap-4 mt-8">
             <Button
               variant="outline"
-              fullWidth
+              size="full"
               onClick={onClose}
               disabled={loading}
-              className="border-4"
+              className="flex-1"
             >
               CANCELAR
             </Button>
             <Button
               variant="secondary"
-              fullWidth
+              size="full"
               onClick={handleConfirm}
               disabled={loading || profileLoading}
-              className="border-4 rotate-1 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]"
+              className="flex-[2] border-4 rotate-1 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-x-1 hover:translate-y-1 transition-all"
             >
               {loading ? (
-                <Loader2 className="animate-spin" />
+                <Loader2 className="animate-spin mx-auto" />
               ) : (
-                <span className="flex items-center gap-2">CONFIRMAR PEDIDO <Send size={18} /></span>
+                <span className="flex items-center justify-center gap-2">
+                  CONFIRMAR PEDIDO <Send size={18} />
+                </span>
               )}
             </Button>
           </div>

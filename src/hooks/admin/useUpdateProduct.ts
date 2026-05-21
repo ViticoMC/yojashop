@@ -12,7 +12,7 @@ export const useUpdateProduct = (
 ) => {
   const queryClient = useQueryClient();
 
-  const form = useForm<ProductFormData>({
+  const form = useForm({
     resolver: zodResolver(productSchema),
     values: initialData,
   });

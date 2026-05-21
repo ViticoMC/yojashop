@@ -52,9 +52,9 @@ export const useRegister = () => {
 
       if (authData.user) {
         setRegisteredEmail(data.email);
-        
-        // El perfil se inserta si el usuario fue creado. 
-        // Si hay un error 429 posterior en el modal o navegación, 
+
+        // El perfil se inserta si el usuario fue creado.
+        // Si hay un error 429 posterior en el modal o navegación,
         // los datos ya estarán en Supabase.
         const { error: profileError } = await supabase.from("usuario").insert([
           {
@@ -68,10 +68,10 @@ export const useRegister = () => {
 
         if (profileError) {
           console.error("Error inserting profile:", profileError);
-          // No lanzamos el error aquí para permitir que el modal se muestre 
+          // No lanzamos el error aquí para permitir que el modal se muestre
           // si el auth fue exitoso, pero lo registramos.
         }
-        
+
         setShowVerificationModal(true);
       }
     } catch (error) {

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 
 interface ModalProps {
   isOpen: boolean;
@@ -23,24 +23,24 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, title, children }) => {
   return (
     <div className="fixed inset-0 z-[200] flex items-center justify-center p-4">
       {/* Overlay con trama de puntos comic */}
-      <div 
+      <div
         className="absolute inset-0 bg-black/60 backdrop-blur-sm transition-opacity"
         onClick={onClose}
         style={{ backgroundImage: 'radial-gradient(rgba(0,0,0,0.2) 1px, transparent 0)', backgroundSize: '6px 6px' }}
       />
-      
+
       {/* Contenedor del Modal */}
       <div className="relative w-full max-w-2xl bg-app-bg border-[6px] border-black transform transition-all shadow-[12px_12px_0px_0px_rgba(0,0,0,1)] flex flex-col max-h-[90vh]">
-        
+
         {/* Header Estilo "Onomatopeya" */}
         <div className="relative bg-primary p-4 border-b-4 border-black flex items-center justify-between">
           <div className="absolute top-0 left-0 w-full h-full opacity-10 pointer-events-none" style={{ backgroundImage: 'radial-gradient(white 1.5px, transparent 0)', backgroundSize: '12px 12px' }} />
-          
+
           <h2 className="relative text-2xl font-black text-white uppercase tracking-tighter italic drop-shadow-[2px_2px_0px_rgba(0,0,0,1)]">
             {title || '¡ATENCIÓN!'}
           </h2>
-          
-          <button 
+
+          <button
             onClick={onClose}
             className="relative bg-secondary text-black p-1 border-4 border-black hover:bg-error hover:text-white transition-colors transform hover:rotate-12 active:scale-90 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]"
           >

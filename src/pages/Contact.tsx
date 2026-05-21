@@ -1,4 +1,4 @@
-import React from 'react';
+;
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 import { HighlightText } from '@/components/ui/HighlightText';
@@ -12,9 +12,9 @@ export const Contact = () => {
 
       {/* Header Section */}
       <section className="bg-primary border-b-8 border-black py-20 mb-16 relative overflow-hidden">
-        <div className="absolute inset-0 opacity-10 pointer-events-none" 
-             style={{ backgroundImage: 'radial-gradient(white 3px, transparent 3px)', backgroundSize: '30px 30px' }}></div>
-        
+        <div className="absolute inset-0 opacity-10 pointer-events-none"
+          style={{ backgroundImage: 'radial-gradient(white 3px, transparent 3px)', backgroundSize: '30px 30px' }}></div>
+
         <div className="max-w-7xl mx-auto px-4 relative z-10">
           <div className="inline-block bg-black text-white px-4 py-1 font-black uppercase italic tracking-[0.2em] mb-4 transform -rotate-1 shadow-[4px_4px_0px_rgba(255,255,255,1)]">
             ¡HABLEMOS!
@@ -30,11 +30,11 @@ export const Contact = () => {
 
       <div className="max-w-7xl mx-auto px-4">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
-          
+
           {/* Formulario Estilo Comic */}
           <div className="bg-white border-4 border-black p-8 shadow-[16px_16px_0px_rgba(0,0,0,1)] relative overflow-hidden group">
             <div className="absolute -top-10 -right-10 w-40 h-40 bg-secondary/20 rounded-full group-hover:scale-150 transition-transform duration-1000" />
-            
+
             <h2 className="text-4xl font-black uppercase italic tracking-tighter mb-8 flex items-center gap-3">
               <Send className="text-primary transform -rotate-12" />
               ENVÍA TU MENSAJE
@@ -48,12 +48,12 @@ export const Contact = () => {
               <Input label="ASUNTO" placeholder="¿DE QUÉ SE TRATA?" />
               <div className="space-y-2">
                 <label className="text-xs font-black uppercase tracking-widest text-black">MENSAJE DETALLADO</label>
-                <textarea 
+                <textarea
                   className="w-full bg-white border-4 border-black p-4 font-bold text-sm min-h-[150px] shadow-[4px_4px_0px_rgba(0,0,0,1)] focus:shadow-none focus:translate-x-1 focus:translate-y-1 transition-all outline-none"
                   placeholder="ESCRIBE AQUÍ TU CONSULTA..."
                 ></textarea>
               </div>
-              
+
               <Button variant="primary" size="full" className="h-16 text-xl group">
                 <span className="flex items-center justify-center gap-3">
                   LANZAR MENSAJE

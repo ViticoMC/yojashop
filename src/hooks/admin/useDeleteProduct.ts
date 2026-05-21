@@ -33,8 +33,8 @@ export const useDeleteProduct = (onSuccess?: () => void) => {
       if (dbError) throw dbError;
 
       if (onSuccess) onSuccess();
-    } catch (err: any) {
-      setError(err.message || "Error al eliminar el producto");
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Error al eliminar el producto");
     } finally {
       setLoading(false);
     }
@@ -42,7 +42,7 @@ export const useDeleteProduct = (onSuccess?: () => void) => {
 
   return {
     deleteProduct,
-    loading: mutation.isPending,
-    error: mutation.error instanceof Error ? mutation.error.message : null,
+    loading,
+    error,
   };
 };

@@ -1,4 +1,4 @@
-import React from 'react';
+;
 import { Button } from '@/components/ui/Button';
 import { AlertTriangle, X } from 'lucide-react';
 
@@ -36,7 +36,7 @@ export const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/70 backdrop-blur-md animate-in fade-in duration-200">
       <div className="relative w-full max-w-sm bg-white border-4 border-black shadow-[12px_12px_0px_0px_rgba(0,0,0,1)] p-6 rotate-1">
-        
+
         {/* Header con icono */}
         <div className="flex items-center gap-4 mb-4 border-b-4 border-black pb-4">
           <div className={`p-2 border-2 border-black shadow-[2px_2px_0px_rgba(0,0,0,1)] ${variantStyles[variant]}`}>
@@ -52,18 +52,18 @@ export const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
         </p>
 
         <div className="flex gap-4">
-          <Button 
-            variant="outline" 
-            size="full" 
+          <Button
+            variant="outline"
+            size="full"
             onClick={onClose}
             disabled={loading}
             className="-rotate-1"
           >
             {cancelText}
           </Button>
-          <Button 
-            variant={variant === 'danger' ? 'black' : 'primary'} 
-            size="full" 
+          <Button
+            variant={variant === 'danger' ? 'black' : 'primary'}
+            size="full"
             onClick={onConfirm}
             disabled={loading}
             className="rotate-1"
@@ -72,7 +72,7 @@ export const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
           </Button>
         </div>
 
-        <button 
+        <button
           onClick={onClose}
           className="absolute -top-4 -right-4 bg-black text-white p-1 border-2 border-white shadow-[2px_2px_0px_rgba(0,0,0,1)] hover:scale-110 transition-transform"
         >

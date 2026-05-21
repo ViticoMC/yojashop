@@ -1,5 +1,13 @@
 import type { Product } from "./product";
-import { AchievementDifficulty } from "@/lib/achievement-icons";
+import { type AchievementDifficulty } from "@/lib/achievement-icons";
+
+export interface ComboProduct extends Partial<Product> {
+  id: string | number;
+  name: string;
+  img_url: string;
+  cantidad: number;
+  category?: string | number | null;
+}
 
 export interface Combo {
   id: string | number;
@@ -11,7 +19,7 @@ export interface Combo {
   foto_url: string;
   foto_id?: string;
   created_at: string;
-  products?: Product[]; // Para los detalles del combo
+  products?: ComboProduct[]; // Para los detalles del combo
 }
 
 export type AdminCombo = Combo;

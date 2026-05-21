@@ -8,7 +8,7 @@ import { SearchBar } from './SearchBar';
 
 interface PlusTipsProps {
   text: string;
-  key: number;
+  key: string;
 }
 
 function PlusTips({ text, key }: PlusTipsProps) {
@@ -47,7 +47,7 @@ export const Hero = () => {
     <section className="relative flex flex-col lg:flex-row items-center justify-between py-16 px-4 lg:px-0 gap-8 max-w-300 mx-auto overflow-visible">
       {/* Fondo de puntos decorativo */}
       <div className="absolute top-0 right-0 w-1/2 h-full bg-dots text-primary/5 -z-10 pointer-events-none" />
-      
+
       <div className="flex-1">
         <h1 className="text-5xl lg:text-6xl leading-[1.1] font-extrabold mb-6 text-app-text">
           Deja que tus <HighlightText variant="primary">compras</HighlightText> lleguen a ti
@@ -56,11 +56,11 @@ export const Hero = () => {
           Compra tus productos frescos en línea sin salir de casa para preparar comida deliciosa con los mejores ingredientes.
         </p>
 
-        <SearchBar />
+        <SearchBar value="" onChange={() => {}} />
 
         <div className="grid grid-cols-2 gap-4">
           {
-            PLUSTIPS.map((text, index) => (<PlusTips key={index} text={text} />))
+            PLUSTIPS.map((text) => (<PlusTips key={text} text={text} />))
           }
         </div>
       </div>

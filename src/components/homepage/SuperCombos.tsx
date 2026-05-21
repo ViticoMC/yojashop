@@ -1,4 +1,4 @@
-import React from 'react';
+;
 import { useNavigate } from 'react-router-dom';
 import { useAdminCombos } from '@/hooks/admin/useAdminCombos';
 import { ComboCard } from '@/components/combos/ComboCard';
@@ -34,7 +34,7 @@ export const SuperCombos = () => {
             </h2>
             <div className="w-32 h-2 bg-black border-2 border-black -skew-x-12"></div>
           </div>
-          
+
           <p className="max-w-md font-bold uppercase italic text-gray-600 text-sm md:text-right">
             Seleccionamos los mejores productos para que ahorres en grande. ¡Calidad y precio en un solo paquete!
           </p>
@@ -47,9 +47,9 @@ export const SuperCombos = () => {
         </div>
 
         <div className="flex justify-center">
-          <Button 
-            variant="black" 
-            size="lg" 
+          <Button
+            variant="black"
+            size="lg"
             className="group relative overflow-hidden px-12 h-16 text-xl shadow-[8px_8px_0px_0px_rgba(239,68,68,1)] hover:shadow-none hover:translate-x-1 hover:translate-y-1 transition-all"
             onClick={() => navigate('/combos')}
           >

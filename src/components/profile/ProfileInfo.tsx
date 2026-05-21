@@ -3,15 +3,15 @@ import { Input } from '@/components/ui/Input';
 import { ShieldAlert } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import type { UserProfile } from '@/types/user';
-import { type UseFormRegister, type FieldErrors } from 'react-hook-form';
+import { type UseFormRegister, type FieldErrors, type FieldValues } from 'react-hook-form';
 
 interface ProfileInfoProps {
   profile: UserProfile | null;
   isEditing: boolean;
   setIsEditing: (val: boolean) => void;
-  register: UseFormRegister<any>;
+  register: UseFormRegister<FieldValues>;
   handleSubmit: () => void;
-  errors: FieldErrors<any>;
+  errors: FieldErrors<FieldValues>;
   updating: boolean;
   updateError: string | null;
   handleLogout: () => void;

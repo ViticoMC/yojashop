@@ -1,4 +1,4 @@
-import React from 'react';
+;
 import { Button } from './Button';
 import { Bell, ShieldAlert, PackageCheck } from 'lucide-react';
 import type { Notification } from '@/types/notification';
@@ -16,7 +16,7 @@ export const NotificationModal: React.FC<NotificationModalProps> = ({ notificati
   return (
     <div className="fixed inset-0 z-[300] flex items-center justify-center p-4 bg-black/70 backdrop-blur-md animate-in fade-in duration-300">
       <div className="relative w-full max-w-lg bg-white border-8 border-black shadow-[16px_16px_0px_0px_rgba(0,0,0,1)] p-8 transform rotate-1 animate-in zoom-in slide-in-from-bottom-10 duration-500">
-        
+
         {/* Comic "POW!" effect background */}
         <div className="absolute -top-10 -left-10 w-32 h-32 bg-secondary border-4 border-black rotate-12 flex items-center justify-center z-10 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
           <span className="font-black text-3xl italic uppercase -rotate-12">POW!</span>
@@ -49,7 +49,7 @@ export const NotificationModal: React.FC<NotificationModalProps> = ({ notificati
             <Button
               variant={isPedido ? "primary" : "secondary"}
               onClick={onClose}
-              fullWidth
+              size="full"
               className="text-2xl py-6 border-4 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-x-1 hover:translate-y-1 transition-all"
             >
               ¡VISTO! 👍

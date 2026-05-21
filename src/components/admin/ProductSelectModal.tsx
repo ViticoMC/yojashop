@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useAdminProducts } from '@/hooks/admin/useAdminProducts';
 import type { Product } from '@/types/product';
 import { Search, Plus, Check } from 'lucide-react';
+import { optimizeCloudinaryUrl } from '@/lib/cloudinary';
 
 interface ProductSelectModalProps {
   isOpen: boolean;
@@ -22,21 +23,21 @@ export const ProductSelectModal: React.FC<ProductSelectModalProps> = ({
 
   if (!isOpen) return null;
 
-  const filteredProducts = products.filter(p => 
+  const filteredProducts = products.filter(p =>
     p.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   return (
     <div className="fixed inset-0 z-[110] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
       <div className="relative w-full max-w-2xl bg-white border-4 border-black shadow-[12px_12px_0px_0px_rgba(0,0,0,1)] flex flex-col max-h-[90vh] animate-in fade-in zoom-in duration-200">
-        
+
         {/* Header */}
         <div className="p-6 border-b-4 border-black bg-secondary/10 flex justify-between items-center">
           <div>
             <h2 className="text-2xl font-black uppercase italic tracking-tighter leading-none">SELECCIONAR <span className="text-primary">PRODUCTOS</span></h2>
             <p className="text-[10px] font-bold uppercase mt-1">Busca y añade suministros al combo</p>
           </div>
-          <button 
+          <button
             onClick={onClose}
             className="bg-black text-white w-8 h-8 flex items-center justify-center font-black border-2 border-black hover:bg-error transition-all"
           >
@@ -68,7 +69,7 @@ export const ProductSelectModal: React.FC<ProductSelectModalProps> = ({
             filteredProducts.map((product) => {
               const isSelected = selectedIds.includes(product.id);
               return (
-                <div 
+                <div
                   key={product.id}
                   className={`
                     flex items-center gap-4 p-3 border-4 border-black transition-all

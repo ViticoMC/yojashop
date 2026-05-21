@@ -12,7 +12,6 @@ import { Combos } from '@/pages/Combos';
 import { ComboDetails } from '@/pages/ComboDetails';
 import { Administracion } from '@/pages/Administracion';
 import { AdminGuard } from '@/components/auth/AdminGuard';
-import { CartDrawer } from '@/components/cart/CartDrawer';
 import { useAppStore } from '@/store/useAppStore';
 import ProductModal from '@/components/ui/Modal/ProductModal';
 import ComboModal from '@/components/ui/Modal/ComboModal';
@@ -28,6 +27,7 @@ import { AdminOrders } from '@/components/admin/AdminOrders';
 
 import { About } from '@/pages/About';
 import { Contact } from '@/pages/Contact';
+import CartDrawer from './components/cart/CartDrawer';
 
 const GlobalModals = () => {
   const {
@@ -42,7 +42,7 @@ const GlobalModals = () => {
 
   const handleProductConfirm = (quantity: number) => {
     if (selectedProduct) {
-      addToCart(selectedProduct, quantity);
+      addToCart(selectedProduct, quantity, 'product');
     }
   };
 

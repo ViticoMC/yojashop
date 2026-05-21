@@ -4,20 +4,18 @@ import { productSchema, type ProductFormData } from "@/schemas/product.schema";
 import { supabase } from "@/lib/supabase";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useState } from "react";
 
 export const useCreateProduct = (onSuccess?: () => void) => {
   const queryClient = useQueryClient();
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
 
-  const form = useForm<ProductFormData>({
+  const form = useForm({
     resolver: zodResolver(productSchema),
     defaultValues: {
       name: "",
       price: 0,
       peso: "",
       img_url: "",
+      img_id: "",
       is_active: true,
       discount: 0,
       category: "",
@@ -47,12 +45,6 @@ export const useCreateProduct = (onSuccess?: () => void) => {
       queryClient.invalidateQueries({ queryKey: ["admin-products"] });
       form.reset();
       if (onSuccess) onSuccess();
-    },
-    onError: (err: any) => {
-      setError(err.message || "Error al crear el producto");
-    },
-    onSettled: () => {
-      setLoading(false);
     },
   });
 

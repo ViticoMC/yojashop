@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useAdminUsers } from '@/hooks/admin/useAdminUsers';
 import { Button } from '@/components/ui/Button';
 import { User, ChevronLeft, ChevronRight } from 'lucide-react';
@@ -67,9 +67,9 @@ export const AdminUsers = () => {
 
       {/* Paginación Estilo Comic */}
       <div className="mt-8 flex justify-center items-center gap-4">
-        <Button 
-          variant="outline" 
-          size="sm" 
+        <Button
+          variant="outline"
+          size="sm"
           onClick={() => setPage(p => Math.max(1, p - 1))}
           disabled={page === 1 || loading}
           className="-rotate-2 flex items-center gap-1"
@@ -80,9 +80,9 @@ export const AdminUsers = () => {
         <div className="bg-black text-white px-4 py-1 font-black skew-x-12">
           PÁGINA {page} DE {totalPages || 1}
         </div>
-        <Button 
-          variant="outline" 
-          size="sm" 
+        <Button
+          variant="outline"
+          size="sm"
           onClick={() => setPage(p => Math.min(totalPages, p + 1))}
           disabled={page === totalPages || loading}
           className="rotate-2 flex items-center gap-1"

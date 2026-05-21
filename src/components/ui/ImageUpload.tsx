@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import { useCloudinary } from '@/hooks/useCloudinary';
 import { Upload, X, Image as ImageIcon, Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
@@ -9,10 +9,10 @@ interface ImageUploadProps {
   label?: string;
 }
 
-export const ImageUpload: React.FC<ImageUploadProps> = ({ 
-  onUploadSuccess, 
-  defaultValue, 
-  label = "Imagen del Producto" 
+export const ImageUpload: React.FC<ImageUploadProps> = ({
+  onUploadSuccess,
+  defaultValue,
+  label = "Imagen del Producto"
 }) => {
   const { uploadImage, uploading, error } = useCloudinary();
   const [preview, setPreview] = useState<string | null>(defaultValue || null);
@@ -52,9 +52,9 @@ export const ImageUpload: React.FC<ImageUploadProps> = ({
       <label className="text-xs font-black uppercase tracking-widest text-black">
         {label}
       </label>
-      
+
       <div className="relative group">
-        <div 
+        <div
           className={`
             relative w-full h-48 border-4 border-black border-dashed flex flex-col items-center justify-center transition-all overflow-hidden
             ${preview ? 'border-solid' : 'bg-gray-50 hover:bg-primary/5'}
@@ -64,10 +64,10 @@ export const ImageUpload: React.FC<ImageUploadProps> = ({
             <>
               <img src={preview} alt="Preview" className="w-full h-full object-cover" />
               <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                <Button 
-                  type="button" 
-                  variant="black" 
-                  size="sm" 
+                <Button
+                  type="button"
+                  variant="black"
+                  size="sm"
                   onClick={handleRemove}
                   className="scale-90"
                 >
@@ -102,8 +102,8 @@ export const ImageUpload: React.FC<ImageUploadProps> = ({
           )}
         </div>
 
-        <input 
-          type="file" 
+        <input
+          type="file"
           ref={fileInputRef}
           onChange={handleFileChange}
           accept="image/*"

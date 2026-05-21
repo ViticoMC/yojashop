@@ -4,11 +4,11 @@ export interface Product {
   price: number;
   img_url: string;
   img_id: string;
-  is_active: boolean | null;
-  category: number | null;
+  is_active: boolean;
+  category: string;
   discount: number;
   oferta: string | null;
-  peso: string | null;
+  peso: string;
 }
 
 export interface AdminProduct extends Product {

@@ -1,4 +1,4 @@
-import React from 'react';
+;
 import { Banknote, Users, Package, Star, TrendingUp, Map } from 'lucide-react';
 
 export const AdminStats = () => {
@@ -15,8 +15,8 @@ export const AdminStats = () => {
       {/* Grid de Stats */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {stats.map((stat, i) => (
-          <div 
-            key={i} 
+          <div
+            key={i}
             className={`${stat.color} border-4 border-black p-4 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] -rotate-1 hover:rotate-0 transition-transform flex flex-col`}
           >
             <div className="flex justify-between items-start mb-4">
@@ -41,15 +41,15 @@ export const AdminStats = () => {
           <div className="h-48 flex items-end gap-2 px-2">
             {[40, 70, 45, 90, 65, 80, 95].map((h, i) => (
               <div key={i} className="flex-1 flex flex-col items-center gap-2 group">
-                <div 
-                  className="w-full bg-primary border-2 border-black group-hover:bg-secondary transition-colors relative shadow-[2px_2px_0px_rgba(0,0,0,1)]" 
+                <div
+                  className="w-full bg-primary border-2 border-black group-hover:bg-secondary transition-colors relative shadow-[2px_2px_0px_rgba(0,0,0,1)]"
                   style={{ height: `${h}%` }}
                 >
-                   <div className="absolute -top-6 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 bg-black text-white text-[10px] px-1 font-bold z-10">
+                  <div className="absolute -top-6 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 bg-black text-white text-[10px] px-1 font-bold z-10">
                     {h}k
-                   </div>
+                  </div>
                 </div>
-                <span className="text-[10px] font-black uppercase">D{i+1}</span>
+                <span className="text-[10px] font-black uppercase">D{i + 1}</span>
               </div>
             ))}
           </div>

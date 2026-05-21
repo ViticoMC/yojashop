@@ -1,4 +1,4 @@
-import React from 'react';
+;
 import { HighlightText } from '@/components/ui/HighlightText';
 import { ShoppingBag, Truck, ShieldCheck, Clock } from 'lucide-react';
 
@@ -10,9 +10,9 @@ export const About = () => {
 
       {/* Hero Section */}
       <section className="bg-secondary border-b-8 border-black py-20 mb-16 relative overflow-hidden">
-        <div className="absolute inset-0 opacity-20" 
-             style={{ backgroundImage: 'radial-gradient(circle, #000 2px, transparent 2px)', backgroundSize: '24px 24px' }}></div>
-        
+        <div className="absolute inset-0 opacity-20"
+          style={{ backgroundImage: 'radial-gradient(circle, #000 2px, transparent 2px)', backgroundSize: '24px 24px' }}></div>
+
         <div className="max-w-7xl mx-auto px-4 relative z-10 text-center">
           <div className="inline-block bg-black text-white px-6 py-2 font-black uppercase italic tracking-widest mb-6 transform -rotate-2 shadow-[4px_4px_0px_rgba(255,255,255,1)]">
             CONOCE NUESTRA HISTORIA
@@ -27,14 +27,14 @@ export const About = () => {
       </section>
 
       <div className="max-w-7xl mx-auto px-4 space-y-24">
-        
+
         {/* Nuestra Misión */}
         <div className="flex flex-col lg:flex-row items-center gap-12">
           <div className="lg:w-1/2 relative">
             <div className="absolute inset-0 bg-primary transform -rotate-3 rounded-xl shadow-[8px_8px_0px_rgba(0,0,0,1)]"></div>
-            <img 
-              src="https://img.freepik.com/free-photo/courier-holding-paper-bag-with-food-vegetables-home_23-2148505545.jpg" 
-              alt="Misión YojaShop" 
+            <img
+              src="https://img.freepik.com/free-photo/courier-holding-paper-bag-with-food-vegetables-home_23-2148505545.jpg"
+              alt="Misión YojaShop"
               className="relative z-10 w-full h-auto border-4 border-black rounded-xl grayscale hover:grayscale-0 transition-all duration-700"
             />
           </div>
@@ -44,7 +44,7 @@ export const About = () => {
             </h2>
             <div className="bg-white border-4 border-black p-8 shadow-[12px_12px_0px_rgba(0,0,0,1)] -rotate-1">
               <p className="text-lg font-bold uppercase italic leading-relaxed text-gray-800">
-                NACIMOS EN EL CORAZÓN DE <HighlightText variant="secondary">MALDONADO</HighlightText> CON UN OBJETIVO CLARO: REVOLUCIONAR LA FORMA EN QUE COMPRAS TUS VÍVERES. 
+                NACIMOS EN EL CORAZÓN DE <HighlightText variant="secondary">MALDONADO</HighlightText> CON UN OBJETIVO CLARO: REVOLUCIONAR LA FORMA EN QUE COMPRAS TUS VÍVERES.
                 <br /><br />
                 SABEMOS QUE TU TIEMPO VALE ORO. POR ESO, NOS ESPECIALIZAMOS EN LLEVARTE LA MEJOR CALIDAD JUSTO CUANDO TERMINAS TU JORNADA LABORAL. ¡PORQUE MERECES LLEGAR A CASA Y TENER TODO LISTO PARA DISFRUTAR!
               </p>

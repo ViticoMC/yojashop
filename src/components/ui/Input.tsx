@@ -1,4 +1,4 @@
-import React, { forwardRef } from 'react';
+import { forwardRef } from 'react';
 
 interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   label?: string;
@@ -6,12 +6,12 @@ interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   icon?: string;
 }
 
-export const Input = forwardRef<HTMLInputElement, InputProps>(({ 
-  label, 
-  error, 
-  icon, 
-  className = '', 
-  ...props 
+export const Input = forwardRef<HTMLInputElement, InputProps>(({
+  label,
+  error,
+  icon,
+  className = '',
+  ...props
 }, ref) => {
   return (
     <div className="w-full mb-4">

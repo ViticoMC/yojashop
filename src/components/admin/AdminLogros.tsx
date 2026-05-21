@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useAdminLogros } from '@/hooks/admin/useAdminLogros';
 import { ACHIEVEMENT_ICONS, DIFFICULTY_COLORS, getAchievementIcon, type AchievementDifficulty } from '@/lib/achievement-icons';
 import { Button } from '@/components/ui/Button';
@@ -89,8 +89,8 @@ export const AdminLogros = () => {
                     type="button"
                     onClick={() => setFormData({ ...formData, icon: iconName })}
                     className={`p-2 border-2 flex items-center justify-center transition-all ${formData.icon === iconName
-                        ? 'bg-primary border-black scale-110 shadow-[2px_2px_0px_black]'
-                        : 'bg-white border-gray-200 hover:border-black'
+                      ? 'bg-primary border-black scale-110 shadow-[2px_2px_0px_black]'
+                      : 'bg-white border-gray-200 hover:border-black'
                       }`}
                     title={iconName}
                   >
@@ -136,8 +136,8 @@ export const AdminLogros = () => {
                     type="button"
                     onClick={() => setFormData({ ...formData, dificultad: diff })}
                     className={`flex-1 py-2 font-black uppercase italic text-xs border-4 border-black transition-all ${formData.dificultad === diff
-                        ? `${DIFFICULTY_COLORS[diff].bg} shadow-[2px_2px_0px_black]`
-                        : 'bg-white hover:bg-gray-50'
+                      ? `${DIFFICULTY_COLORS[diff].bg} shadow-[2px_2px_0px_black]`
+                      : 'bg-white hover:bg-gray-50'
                       }`}
                   >
                     {diff}
