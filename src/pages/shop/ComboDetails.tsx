@@ -2,12 +2,14 @@ import React from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useCombo } from '@/hooks/shop/useCombo';
 import { Button } from '@/components/ui/Button';
+import { useAppStore } from '@/store/useAppStore';
 import { optimizeCloudinaryUrl } from '@/lib/cloudinary';
 import { ArrowLeft, ShoppingCart, Package, Info, Tag } from 'lucide-react';
 
 export const ComboDetails: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
+  const openComboModal = useAppStore((state) => state.openComboModal);
   const { data: combo, isLoading, error } = useCombo(id);
 
   if (isLoading) {
@@ -94,7 +96,12 @@ export const ComboDetails: React.FC = () => {
                 )}
               </div>
 
-              <Button variant="black" size="full" className="h-16 text-2xl group">
+              <Button 
+                variant="black" 
+                size="full" 
+                className="h-16 text-2xl group"
+                onClick={() => openComboModal(combo)}
+              >
                 <span className="flex items-center justify-center gap-3">
                   {combo.cta}
                   <ShoppingCart className="group-hover:translate-x-1 transition-transform" />

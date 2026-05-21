@@ -1,5 +1,5 @@
 import { Link, Outlet, useLocation } from 'react-router-dom';
-import { LayoutDashboard, Users, ShoppingBag, ShieldCheck, Box, Trophy } from 'lucide-react';
+import { LayoutDashboard, Users, ShoppingBag, ShieldCheck, Box, Trophy, Package } from 'lucide-react';
 
 export const Administracion = () => {
     const location = useLocation();
@@ -7,8 +7,9 @@ export const Administracion = () => {
     const tabs = [
         { id: 'stats', label: 'Dashboard', icon: <LayoutDashboard size={18} />, path: '/administracion' },
         { id: 'users', label: 'Clientes', icon: <Users size={18} />, path: '/administracion/users' },
-        { id: 'products', label: 'Productos', icon: <ShoppingBag size={18} />, path: '/administracion/products' },
+        { id: 'products', label: 'Productos', icon: <Package size={18} />, path: '/administracion/products' },
         { id: 'combos', label: 'Combos', icon: <Box size={18} />, path: '/administracion/combos' },
+        { id: 'pedidos', label: 'Pedidos', icon: <ShoppingBag size={18} />, path: '/administracion/pedidos' },
         { id: 'logros', label: 'Logros', icon: <Trophy size={18} />, path: '/administracion/logros' },
     ];
 

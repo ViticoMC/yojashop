@@ -1,30 +1,6 @@
 import { PRODUCT_CATEGORIES } from '@/constants/categories';
-import {
-  Package,
-  Carrot,
-  Beef,
-  Milk,
-  Coffee,
-  Sparkles,
-  Baby,
-  Dog,
-  Apple,
-  Waves,
-  type LucideIcon
-} from 'lucide-react';
 
-const ICON_MAP: Record<string, LucideIcon> = {
-  Package,
-  Carrot,
-  Beef,
-  Milk,
-  Coffee,
-  Sparkles,
-  Baby,
-  Dog,
-  Apple,
-  Waves
-};
+
 
 export const Categories = () => {
   return (
@@ -40,7 +16,7 @@ export const Categories = () => {
 
       <div className="grid grid-cols-[repeat(auto-fit,minmax(200px,1fr))] gap-8 px-4 lg:px-0">
         {PRODUCT_CATEGORIES.map(cat => {
-          const Icon = ICON_MAP[cat.icon];
+          const Icon = cat.icon;
           return (
             <div key={cat.id} className="text-center p-6 group cursor-pointer bg-app-bg border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] hover:-translate-y-2 hover:rotate-1 transition-all">
               <div className="text-5xl mb-6 h-24 flex items-center justify-center bg-secondary/20 border-b-4 border-black -mx-6 -mt-6 group-hover:bg-secondary/40 transition-colors">

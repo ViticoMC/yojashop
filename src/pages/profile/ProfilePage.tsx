@@ -5,18 +5,20 @@ import { Input } from '@/components/ui/Input';
 import { useNavigate, Link } from 'react-router-dom';
 import { useUpdateProfile } from '@/hooks/auth/useUpdateProfile';
 import { useUserAchievements } from '@/hooks/shop/useUserAchievements';
+import { useScrollTop } from '@/hooks/ui/useScrollTop';
 import type { AchievementWithProgress } from '@/types/combo';
 import type { UserProfile } from '@/types/user';
 import { DIFFICULTY_COLORS, getAchievementIcon } from '@/lib/achievement-icons';
-import { ShieldAlert, Trophy, Gift, Zap, CheckCircle2, Lock } from 'lucide-react';
+import { ShieldAlert, Trophy, Gift, Zap, CheckCircle2, Lock, Loader2 } from 'lucide-react';
 
 export const ProfilePage = () => {
+  useScrollTop();
   const [profile, setProfile] = useState<UserProfile | null>(null);
   const [loading, setLoading] = useState(true);
   const [isEditing, setIsEditing] = useState(false);
   const navigate = useNavigate();
 
-  const { data: achievements } = useUserAchievements();
+  const { data: achievements, isLoading: achievementsLoading } = useUserAchievements();
 
   const sections = useMemo(() => {
     if (!achievements) return { completed: [], inProgress: [], locked: [] };
@@ -27,6 +29,8 @@ export const ProfilePage = () => {
       locked: achievements.filter(a => a.user_progress === 0 && !a.is_completed)
     };
   }, [achievements]);
+
+  const isDataLoading = loading || achievementsLoading;
 
   const fetchProfile = useCallback(async () => {
     const { data: { user } } = await supabase.auth.getUser();
@@ -52,7 +56,8 @@ export const ProfilePage = () => {
 
   useEffect(() => {
     fetchProfile();
-  }, [fetchProfile]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const {
     register,
@@ -79,11 +84,23 @@ export const ProfilePage = () => {
         setSuccess(false);
       });
     }
-  }, [updateSuccess, fetchProfile, setSuccess]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [updateSuccess]);
 
-  if (loading) return (
-    <div className="min-h-screen bg-app-bg flex items-center justify-center">
-      <div className="text-2xl font-black uppercase italic animate-pulse">Cargando expediente...</div>
+  if (isDataLoading) return (
+    <div className="fixed inset-0 bg-app-bg z-50 flex flex-col items-center justify-center space-y-4">
+      <div className="relative">
+        <div className="absolute inset-0 bg-primary blur-2xl opacity-20 animate-pulse" />
+        <Loader2 size={64} className="text-black animate-spin relative z-10" strokeWidth={3} />
+      </div>
+      <div className="text-center">
+        <h2 className="text-3xl font-black uppercase italic tracking-tighter animate-bounce">
+          Accediendo a la base de datos...
+        </h2>
+        <div className="h-2 w-48 bg-black/10 mx-auto mt-2 overflow-hidden border-2 border-black">
+          <div className="h-full bg-primary animate-[loading_2s_ease-in-out_infinite]" style={{ width: '40%' }} />
+        </div>
+      </div>
     </div>
   );
 

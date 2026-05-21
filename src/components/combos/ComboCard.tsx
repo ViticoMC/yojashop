@@ -13,7 +13,7 @@ interface ComboCardProps {
 
 export const ComboCard: React.FC<ComboCardProps> = ({ combo }) => {
   const navigate = useNavigate();
-  const addToCart = useAppStore((state) => state.addToCart);
+  const openComboModal = useAppStore((state) => state.openComboModal);
 
   return (
     <div className="group relative bg-white border-4 border-black p-4 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] hover:shadow-[12px_12px_0px_0px_rgba(239,68,68,1)] transition-all duration-300 hover:-translate-y-2 flex flex-col h-full group-hover/container:grayscale group-hover/container:opacity-50 hover:!grayscale-0 hover:!opacity-100">
@@ -63,7 +63,7 @@ export const ComboCard: React.FC<ComboCardProps> = ({ combo }) => {
             variant="black"
             size="sm"
             className="w-full text-xs h-10 group/btn"
-            onClick={() => addToCart(combo, 1, 'combo')}
+            onClick={() => openComboModal(combo)}
           >
             <span className="flex items-center justify-center gap-2">
               {combo.cta}

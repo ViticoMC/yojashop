@@ -13,6 +13,4 @@ export interface UserAdminData extends User {
   last_sign_in_at?: string;
 }
 
-export interface UserProfile extends User {
-  // Add profile specific fields here if needed
-}
+export type UserProfile = User;

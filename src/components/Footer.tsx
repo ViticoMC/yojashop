@@ -78,10 +78,10 @@ export const Footer = () => {
           <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-gray-500">
             © 2026 YOJASHOP - TODOS LOS DERECHOS RESERVADOS. CREADO CON <Zap size={10} className="inline text-primary" /> EN MALDONADO.
           </p>
-          <div className="flex gap-4 grayscale opacity-50">
+          {/* <div className="flex gap-4 grayscale opacity-50">
             <img src="https://upload.wikimedia.org/wikipedia/commons/5/5e/Visa_Inc._logo.svg" alt="Visa" className="h-4" />
             <img src="https://upload.wikimedia.org/wikipedia/commons/2/2a/Mastercard-logo.svg" alt="Mastercard" className="h-6" />
-          </div>
+          </div> */}
         </div>
       </div>
     </footer>

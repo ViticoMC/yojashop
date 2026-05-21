@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/Button';
 import { ConfirmationModal } from '@/components/ui/ConfirmationModal';
 import type { AdminCombo } from '@/types/combo';
 import { PlusCircle, Trash2, LayoutGrid, Pencil, Eye } from 'lucide-react';
+import { optimizeCloudinaryUrl } from '@/lib/cloudinary';
 
 export const AdminCombos = () => {
   const [view, setView] = useState<'list' | 'create' | 'edit'>('list');

@@ -51,4 +51,8 @@ export const useAppStore = create<AppState>((set, get) => ({
   selectedProduct: null,
   openProductModal: (product) => set({ selectedProduct: product, isProductModalOpen: true }),
   closeProductModal: () => set({ isProductModalOpen: false, selectedProduct: null }),
+  isComboModalOpen: false,
+  selectedCombo: null,
+  openComboModal: (combo) => set({ selectedCombo: combo, isComboModalOpen: true }),
+  closeComboModal: () => set({ isComboModalOpen: false, selectedCombo: null }),
 }));

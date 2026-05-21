@@ -14,9 +14,7 @@ export interface Combo {
   products?: Product[]; // Para los detalles del combo
 }
 
-export interface AdminCombo extends Combo {
-  // Add admin specific fields here if needed
-}
+export type AdminCombo = Combo;
 
 export interface Logro {
   id: number;

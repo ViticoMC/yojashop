@@ -24,4 +24,8 @@ export interface AppState {
   selectedProduct: Product | null;
   openProductModal: (product: Product) => void;
   closeProductModal: () => void;
+  isComboModalOpen: boolean;
+  selectedCombo: Combo | null;
+  openComboModal: (combo: Combo) => void;
+  closeComboModal: () => void;
 }

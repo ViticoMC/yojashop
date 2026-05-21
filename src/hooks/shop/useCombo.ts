@@ -34,7 +34,10 @@ export const useCombo = (id: string | undefined) => {
       return {
         ...data,
         products:
-          (data.products as any[])?.map((p) => ({
+          (data.products as {
+            cantidad: number;
+            product: { id: string | number; name: string; img_url: string; category: string; };
+          }[])?.map((p) => ({
             id: p.product.id,
             name: p.product.name,
             img_url: p.product.img_url,

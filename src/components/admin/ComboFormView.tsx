@@ -77,7 +77,11 @@ export const ComboFormView: React.FC<ComboFormViewProps> = ({ onBack, onSuccess,
           .eq('combo_id', editData.id);
 
         if (!error && data) {
-          const relations = data.map((rel: any) => ({
+          const relations = data.map((rel: {
+            product_id: string | number;
+            cantidad: number;
+            producto: { name: string; img_url: string; };
+          }) => ({
             product_id: rel.product_id,
             cantidad: rel.cantidad,
             name: rel.producto.name,
@@ -92,7 +96,7 @@ export const ComboFormView: React.FC<ComboFormViewProps> = ({ onBack, onSuccess,
   }, [editData, reset]);
 
 
-  const handleAddProduct = (product: any) => {
+  const handleAddProduct = (product: { id: string | number; name: string; img_url: string; }) => {
     setSelectedProducts(prev => [
       ...prev,
       {

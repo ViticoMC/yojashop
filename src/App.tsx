@@ -15,23 +15,48 @@ import { AdminGuard } from '@/components/auth/AdminGuard';
 import CartDrawer from '@/components/cart/CartDrawer';
 import { useAppStore } from '@/store/useAppStore';
 import ProductModal from '@/components/ui/Modal/ProductModal';
+import ComboModal from '@/components/ui/Modal/ComboModal';
+import { NotificationModal } from '@/components/ui/NotificationModal';
+import { useNotifications } from '@/hooks/ui/useNotifications';
 
 const GlobalModals = () => {
-  const { isProductModalOpen, closeProductModal, selectedProduct, addToCart } = useAppStore();
+  const { 
+    isProductModalOpen, 
+    closeProductModal, 
+    selectedProduct, 
+    isComboModalOpen,
+    closeComboModal,
+    selectedCombo,
+    addToCart 
+  } = useAppStore();
 
-  const handleConfirmAdd = (quantity: number) => {
+  const handleProductConfirm = (quantity: number) => {
     if (selectedProduct) {
       addToCart(selectedProduct, quantity, 'product');
     }
   };
 
+  const handleComboConfirm = (quantity: number) => {
+    if (selectedCombo) {
+      addToCart(selectedCombo, quantity, 'combo');
+    }
+  };
+
   return (
-    <ProductModal
-      isOpen={isProductModalOpen}
-      onClose={closeProductModal}
-      product={selectedProduct}
-      onConfirm={handleConfirmAdd}
-    />
+    <>
+      <ProductModal
+        isOpen={isProductModalOpen}
+        onClose={closeProductModal}
+        product={selectedProduct}
+        onConfirm={handleProductConfirm}
+      />
+      <ComboModal
+        isOpen={isComboModalOpen}
+        onClose={closeComboModal}
+        combo={selectedCombo}
+        onConfirm={handleComboConfirm}
+      />
+    </>
   );
 };
 
@@ -40,18 +65,24 @@ import { AdminUsers } from '@/components/admin/AdminUsers';
 import { AdminProducts } from '@/components/admin/AdminProducts';
 import { AdminCombos } from '@/components/admin/AdminCombos';
 import { AdminLogros } from '@/components/admin/AdminLogros';
+import { AdminOrders } from '@/components/admin/AdminOrders';
 
 import { About } from '@/pages/About';
 import { Contact } from '@/pages/Contact';
 
 function App() {
   const [isCartOpen, setIsCartOpen] = useState(false);
+  const { activeNotification, closeNotification } = useNotifications();
 
   return (
     <Router>
       <Navbar onCartClick={() => setIsCartOpen(true)} />
       <CartDrawer isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} />
       <GlobalModals />
+      <NotificationModal 
+        notification={activeNotification} 
+        onClose={closeNotification} 
+      />
       <main>
         <Routes>
           <Route path="/" element={<Home />} />
@@ -73,6 +104,7 @@ function App() {
             <Route path="products" element={<AdminProducts />} />
             <Route path="combos" element={<AdminCombos />} />
             <Route path="logros" element={<AdminLogros />} />
+            <Route path="pedidos" element={<AdminOrders />} />
           </Route>
 
           <Route path="/login" element={<LoginPage />} />

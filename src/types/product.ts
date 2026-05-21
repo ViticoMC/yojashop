@@ -2,7 +2,8 @@ export interface Product {
   id: number;
   name: string;
   price: number;
-  img_url: string | null;
+  img_url: string;
+  img_id: string;
   is_active: boolean | null;
   category: number | null;
   discount: number;

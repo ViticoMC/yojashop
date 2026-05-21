@@ -2,17 +2,17 @@ import { useState } from 'react';
 import { useAdminProducts } from '@/hooks/admin/useAdminProducts';
 import { useDeleteProduct } from '@/hooks/admin/useDeleteProduct';
 import { Button } from '@/components/ui/Button';
-import { ProductFormModal } from './ProductFormModal';
+import { ProductFormView } from './ProductFormView';
 import { ProductCard } from '@/components/products/ProductCard';
 import type { Product } from '@/types/product';
 import { ConfirmationModal } from '@/components/ui/ConfirmationModal';
-import { PlusCircle } from 'lucide-react';
+import { PlusCircle, Package } from 'lucide-react';
 
 export const AdminProducts = () => {
+  const [view, setView] = useState<'list' | 'create' | 'edit'>('list');
   const { products, loading, refetch } = useAdminProducts();
   const { deleteProduct, loading: deleting } = useDeleteProduct(refetch);
 
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const [productToEdit, setProductToEdit] = useState<Product | null>(null);
 
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
@@ -20,12 +20,12 @@ export const AdminProducts = () => {
 
   const handleOpenCreate = () => {
     setProductToEdit(null);
-    setIsModalOpen(true);
+    setView('create');
   };
 
   const handleOpenEdit = (product: Product) => {
     setProductToEdit(product);
-    setIsModalOpen(true);
+    setView('edit');
   };
 
   const handleOpenDelete = (id: string | number, imgId?: string) => {
@@ -41,10 +41,30 @@ export const AdminProducts = () => {
     }
   };
 
+  if (view === 'create' || view === 'edit') {
+    return (
+      <ProductFormView
+        onBack={() => {
+          setView('list');
+          setProductToEdit(null);
+        }}
+        onSuccess={() => {
+          setView('list');
+          setProductToEdit(null);
+          refetch();
+        }}
+        productToEdit={productToEdit}
+      />
+    );
+  }
+
   return (
     <div className="space-y-6 animate-in fade-in slide-in-from-right-4 duration-500">
       <div className="flex justify-between items-center bg-black p-4 -rotate-1 shadow-[4px_4px_0px_rgba(239,68,68,1)]">
-        <h2 className="text-2xl font-black text-white uppercase italic tracking-tighter">Inventario de Suministros</h2>
+        <h2 className="text-2xl font-black text-white uppercase italic tracking-tighter flex items-center gap-2">
+          <Package size={24} />
+          Inventario de Suministros
+        </h2>
         <div className="flex gap-4">
           <Button
             variant="primary"
@@ -75,16 +95,6 @@ export const AdminProducts = () => {
           ))
         )}
       </div>
-
-      <ProductFormModal
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-        onSuccess={() => {
-          setIsModalOpen(false);
-          refetch();
-        }}
-        productToEdit={productToEdit}
-      />
 
       <ConfirmationModal
         isOpen={isDeleteModalOpen}
