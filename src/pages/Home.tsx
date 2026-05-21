@@ -1,5 +1,6 @@
 import { Hero } from '@/components/homepage/Hero';
 import { Categories } from '@/components/homepage/Categories';
+import { SuperCombos } from '@/components/homepage/SuperCombos';
 import { DailyOffers } from '@/components/homepage/DailyOffers';
 import { ProductGrid } from '@/components/homepage/ProductGrid';
 import { HowItWorks } from '@/components/homepage/HowItWorks';
@@ -11,6 +12,7 @@ export const Home = () => {
     <>
       <Hero />
       <Categories />
+      <SuperCombos />
       <DailyOffers />
       <ProductGrid />
       <HowItWorks />

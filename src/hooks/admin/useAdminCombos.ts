@@ -1,17 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/lib/supabase';
-
-export interface AdminCombo {
-  id: string | number;
-  nombre: string;
-  cta: string;
-  descriptiom: string;
-  price: number;
-  discount: number;
-  foto_url: string;
-  foto_id?: string;
-  created_at: string;
-}
+import type { AdminCombo } from '@/types/combo';
 
 
 export const useAdminCombos = () => {

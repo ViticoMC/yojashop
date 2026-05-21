@@ -40,6 +40,6 @@ export const useDeleteCombo = (onSuccess?: () => void) => {
   return { 
     deleteCombo, 
     loading: mutation.isPending, 
-    error: mutation.error ? (mutation.error as any).message : null 
+    error: mutation.error instanceof Error ? mutation.error.message : null 
   };
 };

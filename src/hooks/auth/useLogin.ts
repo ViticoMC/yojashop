@@ -30,8 +30,8 @@ export const useLogin = () => {
         options: { redirectTo: window.location.origin },
       });
       if (error) throw error;
-    } catch (error: any) {
-      setServerError(error.message);
+    } catch (error) {
+      if (error instanceof Error) setServerError(error.message);
     }
   };
 
@@ -45,8 +45,8 @@ export const useLogin = () => {
       });
       if (error) throw error;
       navigate("/");
-    } catch (error: any) {
-      setServerError(error.message);
+    } catch (error) {
+      if (error instanceof Error) setServerError(error.message);
     } finally {
       setLoading(false);
     }

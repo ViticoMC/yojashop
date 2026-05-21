@@ -5,17 +5,10 @@ import { HighlightText } from '@/components/ui/HighlightText';
 import { optimizeCloudinaryUrl } from '@/lib/cloudinary';
 import { Eye, ShoppingCart } from 'lucide-react';
 import { useAppStore } from '@/store/useAppStore';
+import type { Combo } from '@/types/combo';
 
 interface ComboCardProps {
-  combo: {
-    id: string | number;
-    nombre: string;
-    descriptiom: string;
-    price: number;
-    discount: number;
-    foto_url: string;
-    cta: string;
-  };
+  combo: Combo;
 }
 
 export const ComboCard: React.FC<ComboCardProps> = ({ combo }) => {

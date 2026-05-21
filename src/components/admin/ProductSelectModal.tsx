@@ -1,14 +1,15 @@
 import React, { useState } from 'react';
 import { useAdminProducts } from '@/hooks/admin/useAdminProducts';
-import { Search, Plus, X, Check } from 'lucide-react';
-import { optimizeCloudinaryUrl } from '@/lib/cloudinary';
+import type { Product } from '@/types/product';
+import { Search, Plus, Check } from 'lucide-react';
 
 interface ProductSelectModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onSelect: (product: any) => void;
+  onSelect: (product: Product) => void;
   selectedIds: (string | number)[];
 }
+
 
 export const ProductSelectModal: React.FC<ProductSelectModalProps> = ({
   isOpen,

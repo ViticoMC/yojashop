@@ -86,14 +86,14 @@ const CartDrawer: React.FC<CartDrawerProps> = ({ isOpen, onClose }) => {
                         <div className="flex items-center gap-3 mt-1">
                           <div className="flex items-center border-2 border-black bg-gray-100">
                             <button 
-                              onClick={() => updateQuantity(item.id, -1)}
+                              onClick={() => updateQuantity(item.id, item.type, -1)}
                               className="p-1 hover:bg-primary transition-colors border-r-2 border-black"
                             >
                               <Minus size={12} strokeWidth={4} />
                             </button>
                             <span className="px-3 font-black text-sm">{item.quantity}</span>
                             <button 
-                              onClick={() => updateQuantity(item.id, 1)}
+                              onClick={() => updateQuantity(item.id, item.type, 1)}
                               className="p-1 hover:bg-primary transition-colors border-l-2 border-black"
                             >
                               <Plus size={12} strokeWidth={4} />
@@ -105,7 +105,7 @@ const CartDrawer: React.FC<CartDrawerProps> = ({ isOpen, onClose }) => {
                         </div>
                       </div>
                       <button
-                        onClick={() => removeFromCart(item.id)}
+                        onClick={() => removeFromCart(item.id, item.type)}
                         className="self-center text-error hover:scale-125 transition-transform p-1"
                       >
                         <Trash2 size={20} strokeWidth={3} />
@@ -131,14 +131,14 @@ const CartDrawer: React.FC<CartDrawerProps> = ({ isOpen, onClose }) => {
                         <div className="flex items-center gap-3 mt-1">
                           <div className="flex items-center border-2 border-black bg-gray-100">
                             <button 
-                              onClick={() => updateQuantity(item.id, -1)}
+                              onClick={() => updateQuantity(item.id, item.type, -1)}
                               className="p-1 hover:bg-secondary transition-colors border-r-2 border-black"
                             >
                               <Minus size={12} strokeWidth={4} />
                             </button>
                             <span className="px-3 font-black text-sm">{item.quantity}</span>
                             <button 
-                              onClick={() => updateQuantity(item.id, 1)}
+                              onClick={() => updateQuantity(item.id, item.type, 1)}
                               className="p-1 hover:bg-secondary transition-colors border-l-2 border-black"
                             >
                               <Plus size={12} strokeWidth={4} />
@@ -150,7 +150,7 @@ const CartDrawer: React.FC<CartDrawerProps> = ({ isOpen, onClose }) => {
                         </div>
                       </div>
                       <button
-                        onClick={() => removeFromCart(item.id)}
+                        onClick={() => removeFromCart(item.id, item.type)}
                         className="self-center text-error hover:scale-125 transition-transform p-1"
                       >
                         <Trash2 size={20} strokeWidth={3} />

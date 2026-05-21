@@ -1,12 +1,13 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { productSchema, type ProductFormData } from "@/schemas/product.schema";
+
+import { supabase } from "@/lib/supabase";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { productSchema, type ProductFormData } from "@/schemas/product.schema";
-import { supabase } from "@/lib/supabase";
 
 export const useCreateProduct = (onSuccess?: () => void) => {
   const queryClient = useQueryClient();
-  
+
   const form = useForm<ProductFormData>({
     resolver: zodResolver(productSchema),
     defaultValues: {
@@ -23,26 +24,24 @@ export const useCreateProduct = (onSuccess?: () => void) => {
 
   const mutation = useMutation({
     mutationFn: async (data: ProductFormData) => {
-      const { error: insertError } = await supabase
-        .from("producto")
-        .insert([
-          {
-            name: data.name,
-            price: data.price,
-            peso: data.peso,
-            img_url: data.img_url,
-            img_id: data.img_id,
-            is_active: data.is_active,
-            discount: data.discount,
-            category: data.category,
-            oferta: data.oferta,
-          },
-        ]);
+      const { error: insertError } = await supabase.from("producto").insert([
+        {
+          name: data.name,
+          price: data.price,
+          peso: data.peso,
+          img_url: data.img_url,
+          img_id: data.img_id,
+          is_active: data.is_active,
+          discount: data.discount,
+          category: data.category,
+          oferta: data.oferta,
+        },
+      ]);
 
       if (insertError) throw insertError;
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['admin-products'] });
+      queryClient.invalidateQueries({ queryKey: ["admin-products"] });
       form.reset();
       if (onSuccess) onSuccess();
     },
@@ -52,6 +51,6 @@ export const useCreateProduct = (onSuccess?: () => void) => {
     form,
     onSubmit: form.handleSubmit((data) => mutation.mutate(data)),
     loading: mutation.isPending,
-    error: mutation.error ? (mutation.error as any).message : null,
+    error: mutation.error instanceof Error ? mutation.error.message : null,
   };
 };

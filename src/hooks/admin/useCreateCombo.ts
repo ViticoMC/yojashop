@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/lib/supabase";
-import { type ComboFormData, type ComboProductRelation } from "@/schemas/combo.schema";
+import type { ComboFormData, ComboProductRelation } from "@/schemas/combo.schema";
 
 export const useCreateCombo = (onSuccess?: () => void) => {
   const queryClient = useQueryClient();
@@ -54,6 +54,6 @@ export const useCreateCombo = (onSuccess?: () => void) => {
   return { 
     createCombo, 
     loading: mutation.isPending, 
-    error: mutation.error ? (mutation.error as any).message : null 
+    error: mutation.error instanceof Error ? mutation.error.message : null 
   };
 };

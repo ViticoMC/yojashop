@@ -1,7 +1,6 @@
 import React from 'react';
 import { useAdminCombos } from '@/hooks/admin/useAdminCombos';
 import { ComboCard } from '@/components/combos/ComboCard';
-import { HighlightText } from '@/components/ui/HighlightText';
 import { Package } from 'lucide-react';
 
 export const Combos: React.FC = () => {

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useAdminUsers } from '@/hooks/admin/useAdminUsers';
 import { Button } from '@/components/ui/Button';
-import { User, ChevronLeft, ChevronRight, MapPin, Shield } from 'lucide-react';
+import { User, ChevronLeft, ChevronRight } from 'lucide-react';
 
 export const AdminUsers = () => {
   const [page, setPage] = useState(1);

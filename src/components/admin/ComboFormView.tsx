@@ -12,10 +12,12 @@ import { Plus, Minus, Trash2, ArrowLeft, Package } from 'lucide-react';
 import { optimizeCloudinaryUrl } from '@/lib/cloudinary';
 import { supabase } from '@/lib/supabase';
 
+import type { AdminCombo } from '@/types/combo';
+
 interface ComboFormViewProps {
   onBack: () => void;
   onSuccess: () => void;
-  editData?: any; // Datos del combo a editar si existe
+  editData?: AdminCombo | null; // Datos del combo a editar si existe
 }
 
 export const ComboFormView: React.FC<ComboFormViewProps> = ({ onBack, onSuccess, editData }) => {

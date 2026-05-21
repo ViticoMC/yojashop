@@ -1,20 +1,13 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { SearchBar } from './SearchBar';
 import { HighlightText } from '@/components/ui/HighlightText';
+import { Button } from '@/components/ui/Button';
 import { useAppStore } from '@/store/useAppStore';
 import { supabase } from '@/lib/supabase';
+import { ShoppingBag } from 'lucide-react';
 
-type Product = {
-  id: number;
-  name: string;
-  price: number;
-  img_url: string | null;
-  is_active: boolean | null;
-  category: number | null;
-  discount: number | null;
-  oferta: string | null;
-  peso: string | null;
-};
+import type { Product } from '@/types/product';
 
 const CATEGORIES = [
   { id: 'all', name: 'Todos' },
@@ -26,6 +19,7 @@ const CATEGORIES = [
 ];
 
 export const ProductGrid = () => {
+  const navigate = useNavigate();
   const [activeCategory, setActiveCategory] = useState<'all' | number>('all');
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
@@ -58,14 +52,22 @@ export const ProductGrid = () => {
 
   const filteredProducts = activeCategory === 'all'
     ? products
-    : products.filter(p => p.category_id === activeCategory);
+    : products.filter(p => p.category === activeCategory);
   
   const searchedProducts = filteredProducts.filter(
     p => p.name.toLowerCase().includes(search.toLowerCase())
   );
 
+  // Limitamos a 8 productos para la home
+  const displayProducts = searchedProducts.slice(0, 8);
+
   if (loading) {
-    return <div className="py-20 text-center font-black">Cargando productos...</div>;
+    return (
+      <div className="py-20 flex flex-col items-center justify-center bg-app-bg">
+        <div className="w-12 h-12 border-4 border-black border-t-primary rounded-full animate-spin mb-4"></div>
+        <div className="font-black uppercase italic tracking-tighter">Cargando productos...</div>
+      </div>
+    );
   }
 
   if (errorMsg) {
@@ -116,8 +118,8 @@ export const ProductGrid = () => {
         </div>
 
         {/* Grid de Productos */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 group/grid">
-          {searchedProducts.map((product) => (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 group/grid mb-16">
+          {displayProducts.map((product) => (
             <div
               key={product.id}
               className="group relative bg-app-card border-4 border-black p-4 flex flex-col transform transition-all duration-300 hover:scale-105 hover:-rotate-1 hover:z-10 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] group-hover/grid:opacity-50 hover:!opacity-100"
@@ -168,6 +170,21 @@ export const ProductGrid = () => {
               </div>
             </div>
           ))}
+        </div>
+
+        {/* Botón Ver Más */}
+        <div className="flex justify-center">
+          <Button 
+            variant="outline" 
+            size="lg" 
+            className="group px-12 h-16 text-xl border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-x-1 hover:translate-y-1 transition-all"
+            onClick={() => navigate('/productos')}
+          >
+            <span className="flex items-center gap-3 font-black">
+              EXPLORAR TODO EL CATÁLOGO
+              <ShoppingBag className="group-hover:rotate-12 transition-transform" size={24} />
+            </span>
+          </Button>
         </div>
 
       </div>

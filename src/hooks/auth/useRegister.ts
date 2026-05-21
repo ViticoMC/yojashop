@@ -2,11 +2,9 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { registerSchema, type RegisterFormData } from "@/schemas/auth.schema";
 import { supabase } from "@/lib/supabase";
-import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 
 export const useRegister = () => {
-  const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [serverError, setServerError] = useState<string | null>(null);
   const [showVerificationModal, setShowVerificationModal] = useState(false);
@@ -35,8 +33,8 @@ export const useRegister = () => {
         options: { redirectTo: window.location.origin },
       });
       if (error) throw error;
-    } catch (error: any) {
-      setServerError(error.message);
+    } catch (error) {
+      if (error instanceof Error) setServerError(error.message);
     }
   };
 
@@ -51,8 +49,6 @@ export const useRegister = () => {
       });
 
       if (authError) throw authError;
-
-      console.log("Auth Data:", authData);
 
       if (authData.user) {
         setRegisteredEmail(data.email);
@@ -78,8 +74,8 @@ export const useRegister = () => {
         
         setShowVerificationModal(true);
       }
-    } catch (error: any) {
-      setServerError(error.message);
+    } catch (error) {
+      if (error instanceof Error) setServerError(error.message);
     } finally {
       setLoading(false);
     }

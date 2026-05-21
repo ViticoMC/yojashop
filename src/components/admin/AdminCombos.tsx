@@ -5,28 +5,28 @@ import { useDeleteCombo } from '@/hooks/admin/useDeleteCombo';
 import { ComboFormView } from './ComboFormView';
 import { Button } from '@/components/ui/Button';
 import { ConfirmationModal } from '@/components/ui/ConfirmationModal';
-import { PlusCircle, Trash2, Tag, LayoutGrid, Pencil, Eye } from 'lucide-react';
-import { optimizeCloudinaryUrl } from '@/lib/cloudinary';
+import type { AdminCombo } from '@/types/combo';
+import { PlusCircle, Trash2, LayoutGrid, Pencil, Eye } from 'lucide-react';
 
 export const AdminCombos = () => {
   const [view, setView] = useState<'list' | 'create' | 'edit'>('list');
-  const [selectedCombo, setSelectedCombo] = useState<any>(null);
+  const [selectedCombo, setSelectedCombo] = useState<AdminCombo | null>(null);
   const navigate = useNavigate();
   const { combos, loading, refetch } = useAdminCombos();
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [comboToDelete, setComboToDelete] = useState<{ id: string | number, fotoId?: string } | null>(null);
+
   const { deleteCombo, loading: deleting } = useDeleteCombo(() => {
     refetch();
     setIsDeleteModalOpen(false);
   });
-
-  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
-  const [comboToDelete, setComboToDelete] = useState<{ id: string | number, fotoId?: string } | null>(null);
 
   const handleOpenDelete = (id: string | number, fotoId?: string) => {
     setComboToDelete({ id, fotoId });
     setIsDeleteModalOpen(true);
   };
 
-  const handleEdit = (combo: any) => {
+  const handleEdit = (combo: AdminCombo) => {
     setSelectedCombo(combo);
     setView('edit');
   };

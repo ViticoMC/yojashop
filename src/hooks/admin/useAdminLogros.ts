@@ -1,28 +1,17 @@
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { supabase } from '@/lib/supabase';
-import { type AchievementDifficulty } from '@/lib/achievement-icons';
-
-export interface Logro {
-  id: number;
-  created_at: string;
-  total_task: number;
-  title: string;
-  description: string;
-  reward: number;
-  dificultad: AchievementDifficulty;
-  icon: string;
-}
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { supabase } from "@/lib/supabase";
+import type { Logro } from "@/types/combo";
 
 export const useAdminLogros = () => {
   const queryClient = useQueryClient();
 
   const query = useQuery({
-    queryKey: ['admin-logros'],
+    queryKey: ["admin-logros"],
     queryFn: async () => {
       const { data, error } = await supabase
-        .from('logro')
-        .select('*')
-        .order('created_at', { ascending: false });
+        .from("logro")
+        .select("*")
+        .order("created_at", { ascending: false });
 
       if (error) throw error;
       return data as Logro[];
@@ -31,9 +20,9 @@ export const useAdminLogros = () => {
   });
 
   const createMutation = useMutation({
-    mutationFn: async (newLogro: Omit<Logro, 'id' | 'created_at'>) => {
+    mutationFn: async (newLogro: Omit<Logro, "id" | "created_at">) => {
       const { data, error } = await supabase
-        .from('logro')
+        .from("logro")
         .insert([newLogro])
         .select()
         .single();
@@ -42,21 +31,18 @@ export const useAdminLogros = () => {
       return data;
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['admin-logros'] });
+      queryClient.invalidateQueries({ queryKey: ["admin-logros"] });
     },
   });
 
   const deleteMutation = useMutation({
     mutationFn: async (id: number) => {
-      const { error } = await supabase
-        .from('logro')
-        .delete()
-        .eq('id', id);
+      const { error } = await supabase.from("logro").delete().eq("id", id);
 
       if (error) throw error;
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['admin-logros'] });
+      queryClient.invalidateQueries({ queryKey: ["admin-logros"] });
     },
   });
 

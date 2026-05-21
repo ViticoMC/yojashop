@@ -1,14 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/lib/supabase';
+import type { UserAdminData } from '@/types/user';
 
-export interface UserAdminData {
-  id: string;
-  name: string;
-  default_direction: string;
-  status: string;
-  role: string;
-  created_at: string;
-}
 
 export const useAdminUsers = (page: number = 1, pageSize: number = 10) => {
   return useQuery({

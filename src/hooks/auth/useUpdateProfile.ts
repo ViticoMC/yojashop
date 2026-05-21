@@ -43,8 +43,8 @@ export const useUpdateProfile = (initialData: { fullName: string; defaultDirecti
       if (updateError) throw updateError;
 
       setSuccess(true);
-    } catch (err: any) {
-      setError(err.message || "Ocurrió un error al actualizar");
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Ocurrió un error al actualizar");
     } finally {
       setLoading(false);
     }

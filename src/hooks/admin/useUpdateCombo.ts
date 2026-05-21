@@ -1,12 +1,23 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/lib/supabase";
-import { type ComboFormData, type ComboProductRelation } from "@/schemas/combo.schema";
+import type {
+  ComboFormData,
+  ComboProductRelation,
+} from "@/schemas/combo.schema";
 
 export const useUpdateCombo = (onSuccess?: () => void) => {
   const queryClient = useQueryClient();
 
   const mutation = useMutation({
-    mutationFn: async ({ comboId, data, products }: { comboId: string | number, data: ComboFormData, products: ComboProductRelation[] }) => {
+    mutationFn: async ({
+      comboId,
+      data,
+      products,
+    }: {
+      comboId: string | number;
+      data: ComboFormData;
+      products: ComboProductRelation[];
+    }) => {
       // 1. Actualizar datos básicos del combo
       const { error: comboError } = await supabase
         .from("combo")
@@ -46,18 +57,22 @@ export const useUpdateCombo = (onSuccess?: () => void) => {
       }
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['admin-combos'] });
+      queryClient.invalidateQueries({ queryKey: ["admin-combos"] });
       if (onSuccess) onSuccess();
     },
   });
 
-  const updateCombo = (comboId: string | number, data: ComboFormData, products: ComboProductRelation[]) => {
+  const updateCombo = (
+    comboId: string | number,
+    data: ComboFormData,
+    products: ComboProductRelation[],
+  ) => {
     mutation.mutate({ comboId, data, products });
   };
 
-  return { 
-    updateCombo, 
-    loading: mutation.isPending, 
-    error: mutation.error ? (mutation.error as any).message : null 
+  return {
+    updateCombo,
+    loading: mutation.isPending,
+    error: mutation.error instanceof Error ? mutation.error.message : null,
   };
 };

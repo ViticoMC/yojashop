@@ -5,7 +5,7 @@ import { Input } from '@/components/ui/Input';
 import { ImageUpload } from '@/components/ui/ImageUpload';
 
 import { useUpdateProduct } from '@/hooks/admin/useUpdateProduct';
-import { type Product } from '@/components/products/ProductCard';
+import type { Product } from '@/types/product';
 
 import { PRODUCT_CATEGORIES } from '@/constants/categories';
 

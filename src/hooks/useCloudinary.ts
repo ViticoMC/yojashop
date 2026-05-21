@@ -38,8 +38,8 @@ export const useCloudinary = () => {
         secure_url: data.secure_url,
         public_id: data.public_id,
       };
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Error desconocido');
       return null;
     } finally {
       setUploading(false);

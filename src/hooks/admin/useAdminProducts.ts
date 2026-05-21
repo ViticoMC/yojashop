@@ -1,19 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/lib/supabase';
+import type { AdminProduct } from '@/types/product';
 
-export interface AdminProduct {
-  id: string | number;
-  name: string;
-  price: number;
-  peso: string;
-  img_url: string;
-  img_id?: string;
-  is_active: boolean;
-  discount: number;
-  category: string;
-  oferta?: string;
-  created_at?: string;
-}
 
 export const useAdminProducts = () => {
   const query = useQuery({

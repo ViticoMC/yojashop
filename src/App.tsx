@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Navbar } from '@/components/Navbar';
+import { Footer } from '@/components/Footer';
 import { Home } from '@/pages/Home';
 import { Productos } from '@/pages/Productos';
 import { LoginPage } from '@/pages/auth/LoginPage';
@@ -40,6 +41,9 @@ import { AdminProducts } from '@/components/admin/AdminProducts';
 import { AdminCombos } from '@/components/admin/AdminCombos';
 import { AdminLogros } from '@/components/admin/AdminLogros';
 
+import { About } from '@/pages/About';
+import { Contact } from '@/pages/Contact';
+
 function App() {
   const [isCartOpen, setIsCartOpen] = useState(false);
 
@@ -74,8 +78,11 @@ function App() {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/perfil" element={<ProfilePage />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/contact" element={<Contact />} />
         </Routes>
       </main>
+      <Footer />
     </Router>
   );
 }

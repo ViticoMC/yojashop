@@ -1,12 +1,16 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { productSchema, type ProductFormData } from "@/schemas/product.schema";
+
+import { supabase } from "@/lib/supabase";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { productSchema, type ProductFormData } from "@/schemas/product.schema";
-import { supabase } from "@/lib/supabase";
 
-export const useUpdateProduct = (productId: string | number, onSuccess?: () => void) => {
+export const useUpdateProduct = (
+  productId: string | number,
+  onSuccess?: () => void,
+) => {
   const queryClient = useQueryClient();
-  
+
   const form = useForm<ProductFormData>({
     resolver: zodResolver(productSchema),
   });
@@ -31,7 +35,7 @@ export const useUpdateProduct = (productId: string | number, onSuccess?: () => v
       if (updateError) throw updateError;
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['admin-products'] });
+      queryClient.invalidateQueries({ queryKey: ["admin-products"] });
       if (onSuccess) onSuccess();
     },
   });
@@ -40,6 +44,6 @@ export const useUpdateProduct = (productId: string | number, onSuccess?: () => v
     form,
     onSubmit: form.handleSubmit((data) => mutation.mutate(data)),
     loading: mutation.isPending,
-    error: mutation.error ? (mutation.error as any).message : null,
+    error: mutation.error instanceof Error ? mutation.error.message : null,
   };
 };

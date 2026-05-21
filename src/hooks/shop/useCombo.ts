@@ -1,46 +1,49 @@
-import { useQuery } from '@tanstack/react-query';
-import { supabase } from '@/lib/supabase';
+import { useQuery } from "@tanstack/react-query";
+import { supabase } from "@/lib/supabase";
+import type { Combo } from "@/types/combo";
 
 export const useCombo = (id: string | undefined) => {
   return useQuery({
-    queryKey: ['combo', id],
+    queryKey: ["combo", id],
     queryFn: async () => {
-      if (!id) throw new Error('Combo ID is required');
+      if (!id) return null;
 
-      // Obtener el combo
-      const { data: combo, error: comboError } = await supabase
-        .from('combo')
-        .select('*')
-        .eq('id', id)
+      const { data, error } = await supabase
+        .from("combo")
+        .select(
+          `
+          *,
+          products:combo_product(
+            id,
+            cantidad,
+            product:producto(
+              id,
+              name,
+              img_url,
+              category
+            )
+          )
+        `,
+        )
+        .eq("id", id)
         .single();
 
-      if (comboError) throw comboError;
+      if (error) throw error;
 
-      // Obtener los productos relacionados
-      const { data: relations, error: relError } = await supabase
-        .from('combo_product')
-        .select(`
-          cantidad,
-          product:producto (
-            id,
-            name,
-            img_url,
-            price,
-            category
-          )
-        `)
-        .eq('combo_id', id);
-
-      if (relError) throw relError;
-
+      // Transformamos la data para que sea más fácil de usar
       return {
-        ...combo,
-        products: relations.map((rel: any) => ({
-          ...rel.product,
-          cantidad: rel.cantidad
-        }))
-      };
+        ...data,
+        products:
+          (data.products as any[])?.map((p) => ({
+            id: p.product.id,
+            name: p.product.name,
+            img_url: p.product.img_url,
+            category: p.product.category,
+            cantidad: p.cantidad,
+          })) || [],
+      } as Combo;
     },
     enabled: !!id,
+    staleTime: 5 * 60 * 1000, // 5 minutos
   });
 };

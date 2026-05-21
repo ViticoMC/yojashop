@@ -3,7 +3,8 @@ import { useAdminProducts } from '@/hooks/admin/useAdminProducts';
 import { useDeleteProduct } from '@/hooks/admin/useDeleteProduct';
 import { Button } from '@/components/ui/Button';
 import { ProductFormModal } from './ProductFormModal';
-import { ProductCard, type Product } from '@/components/products/ProductCard';
+import { ProductCard } from '@/components/products/ProductCard';
+import type { Product } from '@/types/product';
 import { ConfirmationModal } from '@/components/ui/ConfirmationModal';
 import { PlusCircle } from 'lucide-react';
 

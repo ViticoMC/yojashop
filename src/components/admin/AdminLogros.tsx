@@ -1,15 +1,15 @@
 import React, { useState } from 'react';
-import { useAdminLogros, type Logro } from '@/hooks/admin/useAdminLogros';
+import { useAdminLogros } from '@/hooks/admin/useAdminLogros';
 import { ACHIEVEMENT_ICONS, DIFFICULTY_COLORS, getAchievementIcon, type AchievementDifficulty } from '@/lib/achievement-icons';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
-import { Trophy, PlusCircle, Trash2, Star, Coins, Target } from 'lucide-react';
+import { Trophy, PlusCircle, Trash2, Coins, Target } from 'lucide-react';
 import { ConfirmationModal } from '@/components/ui/ConfirmationModal';
 
 export const AdminLogros = () => {
   const [showForm, setShowForm] = useState(false);
   const { logros, loading, createLogro, isCreating, deleteLogro } = useAdminLogros();
-  
+
   const [formData, setFormData] = useState({
     title: '',
     description: '',
@@ -70,16 +70,16 @@ export const AdminLogros = () => {
       {showForm && (
         <form onSubmit={handleSubmit} className="bg-white border-4 border-black p-6 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] space-y-6">
           <h3 className="text-xl font-black uppercase italic border-b-4 border-black pb-2 mb-4">Configurar Nuevo Desafío</h3>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <Input
               label="Título del Logro"
               placeholder="Ej: Maestro de la Fruta"
               value={formData.title}
-              onChange={(e) => setFormData({...formData, title: e.target.value})}
+              onChange={(e) => setFormData({ ...formData, title: e.target.value })}
               required
             />
-            
+
             <div className="space-y-2">
               <label className="text-xs font-black uppercase tracking-widest text-black">Icono Representativo</label>
               <div className="grid grid-cols-5 sm:grid-cols-10 gap-2 bg-gray-50 p-3 border-4 border-black max-h-40 overflow-y-auto custom-scrollbar">
@@ -87,12 +87,11 @@ export const AdminLogros = () => {
                   <button
                     key={iconName}
                     type="button"
-                    onClick={() => setFormData({...formData, icon: iconName})}
-                    className={`p-2 border-2 flex items-center justify-center transition-all ${
-                      formData.icon === iconName 
-                      ? 'bg-primary border-black scale-110 shadow-[2px_2px_0px_black]' 
-                      : 'bg-white border-gray-200 hover:border-black'
-                    }`}
+                    onClick={() => setFormData({ ...formData, icon: iconName })}
+                    className={`p-2 border-2 flex items-center justify-center transition-all ${formData.icon === iconName
+                        ? 'bg-primary border-black scale-110 shadow-[2px_2px_0px_black]'
+                        : 'bg-white border-gray-200 hover:border-black'
+                      }`}
                     title={iconName}
                   >
                     {getAchievementIcon(iconName, 20)}
@@ -108,7 +107,7 @@ export const AdminLogros = () => {
               className="w-full bg-white border-4 border-black p-4 font-bold uppercase italic outline-none resize-none h-24"
               placeholder="¿Qué debe hacer el usuario para ganar esto?"
               value={formData.description}
-              onChange={(e) => setFormData({...formData, description: e.target.value})}
+              onChange={(e) => setFormData({ ...formData, description: e.target.value })}
               required
             />
           </div>
@@ -118,14 +117,14 @@ export const AdminLogros = () => {
               label="Objetivo (Cantidad)"
               type="number"
               value={formData.total_task}
-              onChange={(e) => setFormData({...formData, total_task: parseInt(e.target.value)})}
+              onChange={(e) => setFormData({ ...formData, total_task: parseInt(e.target.value) })}
               required
             />
             <Input
               label="Recompensa (Puntos/Monedas)"
               type="number"
               value={formData.reward}
-              onChange={(e) => setFormData({...formData, reward: parseInt(e.target.value)})}
+              onChange={(e) => setFormData({ ...formData, reward: parseInt(e.target.value) })}
               required
             />
             <div className="space-y-2">
@@ -135,12 +134,11 @@ export const AdminLogros = () => {
                   <button
                     key={diff}
                     type="button"
-                    onClick={() => setFormData({...formData, dificultad: diff})}
-                    className={`flex-1 py-2 font-black uppercase italic text-xs border-4 border-black transition-all ${
-                      formData.dificultad === diff 
-                      ? `${DIFFICULTY_COLORS[diff].bg} shadow-[2px_2px_0px_black]` 
-                      : 'bg-white hover:bg-gray-50'
-                    }`}
+                    onClick={() => setFormData({ ...formData, dificultad: diff })}
+                    className={`flex-1 py-2 font-black uppercase italic text-xs border-4 border-black transition-all ${formData.dificultad === diff
+                        ? `${DIFFICULTY_COLORS[diff].bg} shadow-[2px_2px_0px_black]`
+                        : 'bg-white hover:bg-gray-50'
+                      }`}
                   >
                     {diff}
                   </button>
@@ -156,7 +154,7 @@ export const AdminLogros = () => {
               Previsualización en Perfil
             </h4>
             <div className="flex justify-center">
-              <div 
+              <div
                 className={`relative bg-white border-4 border-black p-6 w-full max-w-sm ${DIFFICULTY_COLORS[formData.dificultad].shadow}`}
               >
                 <div className={`absolute -top-4 -left-4 p-3 border-4 border-black ${DIFFICULTY_COLORS[formData.dificultad].bg} rotate-3`}>
@@ -207,15 +205,15 @@ export const AdminLogros = () => {
           logros.map((logro) => {
             const colors = DIFFICULTY_COLORS[logro.dificultad];
             return (
-              <div 
-                key={logro.id} 
+              <div
+                key={logro.id}
                 className={`relative bg-white border-4 border-black p-6 ${colors.shadow} hover:-translate-y-1 transition-all group`}
               >
                 <div className={`absolute -top-4 -left-4 p-3 border-4 border-black ${colors.bg} rotate-3 group-hover:rotate-0 transition-transform`}>
                   {getAchievementIcon(logro.icon, 28, "text-black")}
                 </div>
 
-                <button 
+                <button
                   onClick={() => {
                     setLogroToDelete(logro.id);
                     setIsDeleteModalOpen(true);
@@ -231,7 +229,7 @@ export const AdminLogros = () => {
                       {logro.title}
                     </h3>
                   </div>
-                  
+
                   <p className="text-[10px] font-bold text-gray-500 uppercase leading-tight line-clamp-2 italic">
                     {logro.description}
                   </p>

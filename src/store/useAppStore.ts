@@ -1,46 +1,5 @@
 import { create } from 'zustand';
-
-interface Product {
-  id: number | string;
-  name: string;
-  price: number;
-  oldPrice?: number;
-  image: string;
-  description: string;
-}
-
-interface Combo {
-  id: number | string;
-  nombre: string;
-  price: number;
-  foto_url: string;
-  descriptiom: string;
-}
-
-interface CartItem {
-  id: number | string;
-  name: string;
-  price: number;
-  image: string;
-  quantity: number;
-  type: 'product' | 'combo';
-}
-
-interface AppState {
-  // Cart State
-  cart: CartItem[];
-  addToCart: (item: Product | Combo, quantity: number, type: 'product' | 'combo') => void;
-  removeFromCart: (itemId: number | string) => void;
-  updateQuantity: (itemId: number | string, delta: number) => void;
-  clearCart: () => void;
-  getCartTotal: () => number;
-
-  // Product Modal State
-  isProductModalOpen: boolean;
-  selectedProduct: Product | null;
-  openProductModal: (product: Product) => void;
-  closeProductModal: () => void;
-}
+import type { AppState, CartItem } from '@/types/store';
 
 export const useAppStore = create<AppState>((set, get) => ({
   // Cart Logic
@@ -62,21 +21,21 @@ export const useAppStore = create<AppState>((set, get) => ({
         id: item.id,
         name: 'name' in item ? item.name : item.nombre,
         price: item.price,
-        image: 'image' in item ? item.image : item.foto_url,
+        image: 'img_url' in item ? (item.img_url || "") : item.foto_url,
         quantity,
         type
       };
       set({ cart: [...currentCart, newItem] });
     }
   },
-  removeFromCart: (itemId) => {
-    set({ cart: get().cart.filter((item) => item.id !== itemId) });
+  removeFromCart: (itemId, type) => {
+    set({ cart: get().cart.filter((item) => !(item.id === itemId && item.type === type)) });
   },
-  updateQuantity: (itemId: number | string, delta: number) => {
+  updateQuantity: (itemId, type, delta) => {
     const currentCart = get().cart;
     set({
       cart: currentCart.map((item) =>
-        item.id === itemId
+        item.id === itemId && item.type === type
           ? { ...item, quantity: Math.max(1, item.quantity + delta) }
           : item
       ),
