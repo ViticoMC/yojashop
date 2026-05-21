@@ -27,7 +27,7 @@ interface AppState {
   openProductModal: (product: Product) => void;
   closeProductModal: () => void;
 
-  // ✅ Category filter state
+ 
   selectedCategory: 'all' | string;
   setSelectedCategory: (cat: 'all' | string) => void;
 }
