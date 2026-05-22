@@ -1,17 +1,10 @@
 
 import { LayoutDashboard, Users, ShoppingBag, ShieldCheck, Box, Trophy, Package } from 'lucide-react';
-import { useState } from 'react';
-import { AdminStats } from '@/components/admin/AdminStats';
-import { AdminUsers } from '@/components/admin/AdminUsers';
-import { AdminProducts } from '@/components/admin/AdminProducts';
-
-type AdminTab = 'stats' | 'users' | 'products' | 'combos' | 'pedidos' | 'logros';
+import { NavLink, Outlet } from 'react-router-dom';
 
 export const Administracion = () => {
-    const [activeTab, setActiveTab] = useState<AdminTab>('stats');
-
     const tabs = [
-        { id: 'stats', label: 'Dashboard', icon: <LayoutDashboard size={18} />, path: '/administracion' },
+        { id: 'stats', label: 'Dashboard', icon: <LayoutDashboard size={18} />, path: '/administracion', end: true },
         { id: 'users', label: 'Clientes', icon: <Users size={18} />, path: '/administracion/users' },
         { id: 'products', label: 'Productos', icon: <Package size={18} />, path: '/administracion/products' },
         { id: 'combos', label: 'Combos', icon: <Box size={18} />, path: '/administracion/combos' },
@@ -40,28 +33,27 @@ export const Administracion = () => {
                 {/* Tabs de Navegación */}
                 <div className="flex flex-wrap gap-4 border-b-4 border-black pb-4">
                     {tabs.map((tab) => (
-                        <button
+                        <NavLink
                             key={tab.id}
-                            onClick={() => setActiveTab(tab.id as AdminTab)}
-                            className={`
-                px-6 py-3 font-black uppercase italic text-sm tracking-tighter transition-all flex items-center gap-2 border-4 border-black
-                ${activeTab === tab.id
+                            to={tab.path}
+                            end={tab.end}
+                            className={({ isActive }) => `
+                                px-6 py-3 font-black uppercase italic text-sm tracking-tighter transition-all flex items-center gap-2 border-4 border-black
+                                ${isActive
                                     ? 'bg-primary shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] -translate-y-1'
                                     : 'bg-white hover:bg-gray-100 hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]'
                                 }
-              `}
+                            `}
                         >
                             <span>{tab.icon}</span>
                             {tab.label}
-                        </button>
+                        </NavLink>
                     ))}
                 </div>
 
-                {/* Contenido Dinámico */}
+                {/* Contenido Dinámico mediante Outlet */}
                 <div className="py-6">
-                    {activeTab === 'stats' && <AdminStats />}
-                    {activeTab === 'users' && <AdminUsers />}
-                    {activeTab === 'products' && <AdminProducts />}
+                    <Outlet />
                 </div>
             </div>
         </div>
