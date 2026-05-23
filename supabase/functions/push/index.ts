@@ -59,7 +59,7 @@ interface WebhookPayload {
   schema: 'public'
 }
 
-const SUPABASE_SECRET_KEYS = JSON.parse(Deno.env.get('VITE_SUPABASE_SECRET_KEY')!)
+const SUPABASE_SECRET_KEYS = JSON.parse(Deno.env.get('SUPABASE_SECRET_KEY')!)
 
 // If you want to use a different api key, change 'default' to your preferred key name
 const supabase = createClient(

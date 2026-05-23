@@ -117,7 +117,7 @@ export const ProductGrid = () => {
           {displayProducts.map((product) => (
             <div
               key={product.id}
-              className="group relative bg-app-card border-4 border-black p-3 sm:p-4 flex flex-col transform transition-all duration-300 hover:scale-105 hover:-rotate-1 hover:z-10 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] group-hover/grid:opacity-50 hover:opacity-100!"
+              className="group relative bg-app-card border-4 border-black p-3 sm:p-4 flex flex-col h-full transform transition-all duration-300 hover:scale-105 hover:-rotate-1 hover:z-10 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] group-hover/grid:opacity-50 hover:opacity-100!"
             >
               <div className="overflow-hidden bg-white border-2 border-black mb-3 sm:mb-4 aspect-4/3">
                 <img

@@ -35,7 +35,7 @@ const STEPS = [
 export const HowItWorks = () => {
   return (
     <section className="py-24 bg-app-card border-y-8 border-black relative overflow-hidden">
-      <div className="max-w-[1200px] mx-auto px-4 relative z-10">
+      <div className="max-w-300 mx-auto px-4 relative z-10">
         <div className="text-center mb-20">
           <h2 className="text-5xl md:text-6xl font-black uppercase tracking-tighter text-app-text mb-6 italic drop-shadow-[4px_4px_0px_rgba(0,0,0,0.1)]">
             ¿Cómo <HighlightText variant="primary">Funciona</HighlightText>?
@@ -79,7 +79,7 @@ export const HowItWorks = () => {
 
         {/* Banner Informativo Inferior */}
         <div className="mt-20 bg-secondary border-4 border-black p-6 transform -rotate-1 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] text-center">
-            <p className="text-2xl font-black uppercase tracking-tighter text-black">
+          <p className="text-2xl font-black uppercase tracking-tighter text-black">
             <Rocket size={28} className="inline mr-2 -mt-1 text-primary" />  PAGO <span className="underline decoration-4">100%</span> AL MOMENTO DE RECIBIR <Rocket size={28} className="inline ml-2 -mt-1 text-primary" />
           </p>
         </div>

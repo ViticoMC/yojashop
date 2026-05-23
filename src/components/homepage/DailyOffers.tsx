@@ -74,7 +74,7 @@ export const DailyOffers = () => {
 
             return (
               <SwiperSlide key={product.id} className="py-4 sm:py-8">
-                <div className="group relative bg-app-card border-4 border-black p-3 sm:p-4 rounded-none transform-gpu transition-[transform,opacity,box-shadow] duration-300 hover:scale-110 hover:-rotate-2 hover:z-20 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] group-hover/container:opacity-50 hover:opacity-100!">
+                <div className="group relative bg-app-card border-4 border-black p-3 sm:p-4 rounded-none flex flex-col h-full transform-gpu transition-[transform,opacity,box-shadow] duration-300 hover:scale-110 hover:-rotate-2 hover:z-20 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] group-hover/container:opacity-50 hover:opacity-100!">
                   {/* Etiqueta de oferta/descuento caricaturesca */}
                   {product.oferta ? (
                     <div className="absolute -top-4 -right-4 bg-primary text-white font-black p-2 border-2 border-black rotate-12 z-10 text-[10px] shadow-md uppercase">
@@ -94,11 +94,11 @@ export const DailyOffers = () => {
                     />
                   </div>
 
-                  <div className="space-y-1.5">
+                  <div className="flex flex-col flex-1 gap-1.5">
                     <h3 className="text-sm sm:text-base lg:text-xl font-black uppercase tracking-tighter text-app-text leading-tight line-clamp-2">{product.name}</h3>
                     <p className="text-[10px] sm:text-xs text-gray-600 dark:text-gray-400 font-medium line-clamp-1">{product.peso || ''}</p>
 
-                    <div className="flex items-center gap-2 pt-1">
+                    <div className="flex items-center gap-2 pt-1 mt-auto">
                       <HighlightText variant="success" className="text-base sm:text-lg lg:text-2xl font-black italic leading-none">
                         ${product.price.toFixed(2)}
                       </HighlightText>
@@ -113,7 +113,7 @@ export const DailyOffers = () => {
                       onClick={() => openProductModal({
                         ...product,
                       })}
-                      className="w-full mt-2 sm:mt-3 bg-primary text-white font-black py-1.5 sm:py-2 border-2 border-black uppercase tracking-widest text-[10px] sm:text-xs hover:bg-secondary hover:text-black transition-colors shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] active:translate-x-1 active:translate-y-1 active:shadow-none"
+                      className="w-full bg-primary text-white font-black py-1.5 sm:py-2 border-2 border-black uppercase tracking-widest text-[10px] sm:text-xs hover:bg-secondary hover:text-black transition-colors shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] active:translate-x-1 active:translate-y-1 active:shadow-none"
                     >
                       ¡Lo quiero!
                     </button>
