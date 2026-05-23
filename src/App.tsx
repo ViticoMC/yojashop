@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Navbar } from '@/components/Navbar';
 import { Footer } from '@/components/Footer';
@@ -16,6 +16,7 @@ import { useAppStore } from '@/store/useAppStore';
 import ProductModal from '@/components/ui/Modal/ProductModal';
 import ComboModal from '@/components/ui/Modal/ComboModal';
 import { Toaster } from 'sonner';
+import { listenForMessages } from '@/lib/push';
 import { AdminStats } from '@/components/admin/AdminStats';
 import { AdminUsers } from '@/components/admin/AdminUsers';
 import { AdminProducts } from '@/components/admin/AdminProducts';
@@ -72,6 +73,10 @@ const GlobalModals = () => {
 
 function App() {
   const [isCartOpen, setIsCartOpen] = useState(false);
+
+  useEffect(() => {
+    listenForMessages();
+  }, []);
 
   return (
     <Router>

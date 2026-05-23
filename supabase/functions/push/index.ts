@@ -1,116 +1,94 @@
-// Follow this setup guide to integrate the Deno language server with your editor:
-// https://deno.land/manual/getting_started/setup_your_environment
-// This enables autocomplete, go to definition, etc.
-
-// Setup type definitions for built-in Supabase Runtime APIs
-import "@supabase/functions-js/edge-runtime.d.ts";
-import { withSupabase } from "@supabase/server";
-
-console.log("Hello from Functions!");
-
-// This endpoint uses 'publishable' | 'secret' access, apiKey is required.
-// Use publishable for Client-facing, key-validated endpoints
-// Use secret for Server-to-server, internal calls
-export default {
-  fetch: withSupabase({ auth: ["publishable", "secret"] }, async (req, ctx) => {
-    // Called by another service with a secret key
-    // ctx.supabaseAdmin bypasses RLS — use for privileged operations
-    /*
-    if (ctx.authMode === "secret") {
-      const { user_id } = await req.json();
-      const { data } = await ctx.supabaseAdmin.auth.admin.getUserById(user_id);
-
-      return Response.json({
-        email: data?.user?.email,
-      });
-    }
-    */
-
-    const { name } = await req.json();
-
-    return Response.json({
-      message: `Hello ${name}!`,
-    });
-  }),
-};
-
-/* To invoke locally:
-
-  1. Run `supabase start` (see: https://supabase.com/docs/reference/cli/supabase-start)
-  2. Make an HTTP request:
-
-  curl -i --location --request POST 'http://127.0.0.1:54321/functions/v1/push' \
-    --header 'apiKey: sb_publishable_ACJWlzQHlZjBrEguHvfOxg_3BJgxAaH' \
-    --data '{"name":"Functions"}'
-
-*/
-
 import { createClient } from 'npm:@supabase/supabase-js@2'
 import { JWT } from 'npm:google-auth-library@9'
 import serviceAccount from '../service-account.json' with { type: 'json' }
-import type { Notification } from '@/types/notification';
 
-
+interface NotificationRecord {
+  id: string
+  user_id: string
+  title: string
+  message: string
+  type: string
+  read: boolean
+  created_at: string
+}
 
 interface WebhookPayload {
   type: 'INSERT'
   table: string
-  record: Notification
+  record: NotificationRecord
   schema: 'public'
 }
 
-const SUPABASE_SECRET_KEYS = JSON.parse(Deno.env.get('SUPABASE_SECRET_KEY')!)
-
-// If you want to use a different api key, change 'default' to your preferred key name
 const supabase = createClient(
   Deno.env.get('VITE_SUPABASE_URL')!,
-  SUPABASE_SECRET_KEYS['default']
+  Deno.env.get('SUPABASE_SECRET_KEY')!,
 )
 
 Deno.serve(async (req) => {
-  const payload: WebhookPayload = await req.json()
+  try {
+    const payload: WebhookPayload = await req.json()
+    const { user_id, title, message } = payload.record
 
-  const { data } = await supabase
-    .from('usuarios')
-    .select('fcm_token')
-    .eq('id', payload.record.user_id)
-    .single()
-
-  const fcmToken = data!.fcm_token as string
-
-  const accessToken = await getAccessToken({
-    clientEmail: serviceAccount.client_email,
-    privateKey: serviceAccount.private_key,
-  })
-
-  const res = await fetch(
-    `https://fcm.googleapis.com/v1/projects/${serviceAccount.project_id}/messages:send`,
-    {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${accessToken}`,
-      },
-      body: JSON.stringify({
-        message: {
-          token: fcmToken,
-          notification: {
-            title: `Notification from Supabase`,
-            body: payload.record.body,
-          },
-        },
-      }),
+    if (!user_id || !title) {
+      return new Response('Missing user_id or title', { status: 200 })
     }
-  )
 
-  const resData = await res.json()
-  if (res.status < 200 || 299 < res.status) {
-    throw resData
+    const { data, error } = await supabase
+      .from('usuario')
+      .select('fcm_token')
+      .eq('id', user_id)
+      .single()
+
+    if (error || !data?.fcm_token) {
+      console.error('Error fetching user or no FCM token:', error?.message ?? 'No token')
+      return new Response('User not found or no FCM token', { status: 200 })
+    }
+
+    const accessToken = await getAccessToken({
+      clientEmail: serviceAccount.client_email,
+      privateKey: serviceAccount.private_key,
+    })
+
+    const res = await fetch(
+      `https://fcm.googleapis.com/v1/projects/${serviceAccount.project_id}/messages:send`,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${accessToken}`,
+        },
+        body: JSON.stringify({
+          message: {
+            token: data.fcm_token,
+            notification: {
+              title,
+              body: message,
+            },
+          },
+        }),
+      },
+    )
+
+    const resData = await res.json()
+
+    if (!res.ok) {
+      console.error('FCM send error:', resData)
+      return new Response(JSON.stringify(resData), {
+        status: res.status,
+        headers: { 'Content-Type': 'application/json' },
+      })
+    }
+
+    return new Response(JSON.stringify(resData), {
+      headers: { 'Content-Type': 'application/json' },
+    })
+  } catch (err) {
+    console.error('Push function error:', err)
+    return new Response(JSON.stringify({ error: String(err) }), {
+      status: 500,
+      headers: { 'Content-Type': 'application/json' },
+    })
   }
-
-  return new Response(JSON.stringify(resData), {
-    headers: { 'Content-Type': 'application/json' },
-  })
 })
 
 const getAccessToken = ({

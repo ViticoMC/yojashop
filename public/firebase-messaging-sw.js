@@ -19,7 +19,16 @@ firebase.initializeApp({
 const messaging = firebase.messaging();
 
 messaging.onBackgroundMessage((payload) => {
-  self.registration.showNotification(payload.notification.title, {
-    body: payload.notification.body,
+  const notificationTitle = payload.notification?.title || "Nueva notificación";
+  const notificationBody = payload.notification?.body || "";
+
+  self.registration.showNotification(notificationTitle, {
+    body: notificationBody,
+    icon: "/favicon.ico",
   });
+});
+
+self.addEventListener("notificationclick", (event) => {
+  event.notification.close();
+  event.waitUntil(clients.openWindow("/"));
 });

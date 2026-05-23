@@ -30,25 +30,18 @@ export const useCheckout = () => {
 
       if (pedidoError) throw pedidoError;
 
-      // 2. Obtener info del usuario para la notificación
-      const { data: profile } = await supabase
-        .from("usuario")
-        .select("name")
-        .eq("id", user.id)
-        .single();
-
-      // 3. Crear notificación para el admin
+      // 2. Crear notificación para el admin (trigger de push notification)
       await supabase.from("notifications").insert([
         {
-          user_id: user.id, // Guardamos quién hizo el pedido
-          title: "¡NUEVO PEDIDO RECIBIDO! 💥",
-          message: `EL USUARIO ${profile?.name || 'DESCONOCIDO'} HA REALIZADO UN PEDIDO.`,
+          user_id: user.id,
+          title: "¡NUEVO PEDIDO RECIBIDO!",
+          message: `Se ha recibido un nuevo pedido #${pedidoData.id}.`,
           type: "pedido",
           read: false,
         },
       ]);
 
-      // 4. Crear los elementos del pedido
+      // 3. Crear los elementos del pedido
       const elements = cart.map((item) => ({
         pedido_id: pedidoData.id,
         product_id: item.type === "product" ? item.id : null,
@@ -62,7 +55,7 @@ export const useCheckout = () => {
 
       if (elementsError) throw elementsError;
 
-      // 5. Guardar FCM token para notificaciones
+      // 4. Guardar FCM token para notificaciones push
       try {
         const fcmToken = await getFcmToken();
         if (fcmToken) {
@@ -75,7 +68,7 @@ export const useCheckout = () => {
         // No crítico — el pedido ya se creó
       }
 
-      // 6. Limpiar carrito
+      // 5. Limpiar carrito
       clearCart();
       return { success: true, pedidoId: pedidoData.id };
     } catch (err: unknown) {
