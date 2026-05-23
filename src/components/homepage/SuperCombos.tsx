@@ -22,7 +22,7 @@ export const SuperCombos = () => {
       <div className="absolute top-0 right-0 w-64 h-64 bg-secondary/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
       <div className="absolute bottom-0 left-0 w-96 h-96 bg-primary/10 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2"></div>
 
-      <div className="max-w-[1200px] mx-auto px-4 relative z-10">
+      <div className="max-w-300 mx-auto px-4 relative z-10">
         <div className="flex flex-col md:flex-row justify-between items-end gap-8 mb-12">
           <div className="flex-1">
             <div className="flex items-center gap-2 mb-2">
@@ -40,7 +40,7 @@ export const SuperCombos = () => {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-16 group/container">
+        <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8 mb-16 group/container">
           {displayCombos.map((combo) => (
             <ComboCard key={combo.id} combo={combo} />
           ))}
@@ -53,7 +53,7 @@ export const SuperCombos = () => {
             className="group relative overflow-hidden px-12 h-16 text-xl shadow-[8px_8px_0px_0px_rgba(239,68,68,1)] hover:shadow-none hover:translate-x-1 hover:translate-y-1 transition-all"
             onClick={() => navigate('/combos')}
           >
-            <span className="relative z-10 flex items-center gap-3">
+            <span className="relative z-10 flex items-center gap-3 md:text-xl text-sm">
               VER TODOS LOS COMBOS
               <Zap className="group-hover:animate-bounce" size={20} />
             </span>

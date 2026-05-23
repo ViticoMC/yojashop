@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { supabase } from "@/lib/supabase";
+import { getFcmToken } from "@/lib/push";
 import { useAppStore } from "@/store/useAppStore";
 
 export const useCheckout = () => {
@@ -61,7 +62,20 @@ export const useCheckout = () => {
 
       if (elementsError) throw elementsError;
 
-      // 3. Limpiar carrito
+      // 5. Guardar FCM token para notificaciones
+      try {
+        const fcmToken = await getFcmToken();
+        if (fcmToken) {
+          await supabase
+            .from("usuario")
+            .update({ fcm_token: fcmToken })
+            .eq("id", user.id);
+        }
+      } catch {
+        // No crítico — el pedido ya se creó
+      }
+
+      // 6. Limpiar carrito
       clearCart();
       return { success: true, pedidoId: pedidoData.id };
     } catch (err: unknown) {

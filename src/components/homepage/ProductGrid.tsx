@@ -97,12 +97,12 @@ export const ProductGrid = () => {
         </div>
 
         {/* Filtros de Categorías */}
-        <div className="flex flex-wrap gap-4 mb-12">
+        <div className="grid grid-cols-2 sm:flex sm:flex-wrap gap-2 sm:gap-4 mb-12">
           {PRODUCT_CATEGORIES.map((cat) => (
             <button
               key={cat.id}
               onClick={() => setActiveCategory(cat.id as "all" | number)}
-              className={`px-6 py-2 font-black uppercase tracking-widest text-sm border-4 border-black transition-all transform hover:-translate-y-1 active:translate-y-0 ${activeCategory === cat.id
+              className={`px-2.5 py-1.5 sm:px-6 sm:py-2 font-black uppercase tracking-widest text-[10px] sm:text-xs lg:text-sm border-4 border-black transition-all transform hover:-translate-y-1 active:translate-y-0 text-center leading-tight ${activeCategory === cat.id
                 ? "bg-primary text-white shadow-none translate-y-1"
                 : "bg-app-card text-app-text shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)]"
                 }`}
@@ -113,13 +113,13 @@ export const ProductGrid = () => {
         </div>
 
         {/* Grid de Productos */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 group/grid mb-16">
+        <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6 lg:gap-8 group/grid mb-16">
           {displayProducts.map((product) => (
             <div
               key={product.id}
-              className="group relative bg-app-card border-4 border-black p-4 flex flex-col transform transition-all duration-300 hover:scale-105 hover:-rotate-1 hover:z-10 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] group-hover/grid:opacity-50 hover:opacity-100!"
+              className="group relative bg-app-card border-4 border-black p-3 sm:p-4 flex flex-col transform transition-all duration-300 hover:scale-105 hover:-rotate-1 hover:z-10 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] group-hover/grid:opacity-50 hover:opacity-100!"
             >
-              <div className="overflow-hidden bg-white border-2 border-black mb-4 h-48">
+              <div className="overflow-hidden bg-white border-2 border-black mb-3 sm:mb-4 aspect-4/3">
                 <img
                   src={product.img_url ?? '/assets/images/placeholder.png'}
                   alt={product.name}
@@ -128,7 +128,7 @@ export const ProductGrid = () => {
               </div>
 
               <div className="flex-1 flex flex-col">
-                <h3 className="text-xl font-black uppercase tracking-tighter text-app-text mb-1 truncate">
+                <h3 className="text-sm sm:text-base lg:text-xl font-black uppercase tracking-tighter text-app-text mb-1 leading-tight line-clamp-2">
                   {product.name}
                 </h3>
 
@@ -139,15 +139,15 @@ export const ProductGrid = () => {
                 )}
 
                 <div className="mt-auto flex items-center justify-between gap-2">
-                  <HighlightText variant="success" className="text-2xl font-black italic">
+                  <HighlightText variant="success" className="text-lg sm:text-xl lg:text-2xl font-black italic">
                     ${product.price.toFixed(2)}
                   </HighlightText>
 
                   <button
                     onClick={() => openProductModal(product)}
-                    className="bg-primary text-white font-black p-2 border-2 border-black hover:bg-secondary hover:text-black transition-colors shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] active:translate-x-1 active:translate-y-1 active:shadow-none"
+                    className="bg-primary text-white font-black p-1 border-2 border-black hover:bg-secondary hover:text-black transition-colors shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] active:translate-x-1 active:translate-y-1 active:shadow-none"
                   >
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M12 4v16m8-8H4" />
                     </svg>
                   </button>
@@ -171,7 +171,7 @@ export const ProductGrid = () => {
             className="group px-12 h-16 text-xl border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-x-1 hover:translate-y-1 transition-all"
             onClick={() => navigate('/productos')}
           >
-            <span className="flex items-center gap-3 font-black">
+            <span className="flex items-center gap-3 font-black md:text-xl text-sm">
               EXPLORAR TODO EL CATÁLOGO
               <ShoppingBag className="group-hover:rotate-12 transition-transform" size={24} />
             </span>

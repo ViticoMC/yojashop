@@ -1,5 +1,5 @@
 import { Hero } from '@/components/homepage/Hero';
-import { Categories } from '@/components/homepage/Categories';
+// import { Categories } from '@/components/homepage/Categories';
 import { SuperCombos } from '@/components/homepage/SuperCombos';
 import { DailyOffers } from '@/components/homepage/DailyOffers';
 import { ProductGrid } from '@/components/homepage/ProductGrid';
@@ -11,7 +11,7 @@ export const Home = () => {
   return (
     <>
       <Hero />
-      <Categories />
+      {/* <Categories /> */}
       <SuperCombos />
       <DailyOffers />
       <ProductGrid />

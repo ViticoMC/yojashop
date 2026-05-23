@@ -1,4 +1,5 @@
 
+import { Briefcase, ShoppingBag, Moon } from 'lucide-react';
 import { HighlightText } from '@/components/ui/HighlightText';
 
 const SCHEDULE_DATA = [
@@ -6,21 +7,21 @@ const SCHEDULE_DATA = [
     days: "Lunes a Viernes",
     hours: "18:00 - 22:00",
     note: "¡Justo después de tu jornada!",
-    icon: "💼",
+    icon: <Briefcase size={28} />,
     accent: "bg-primary"
   },
   {
     days: "Sábados",
     hours: "10:00 - 20:00",
     note: "Horario extendido",
-    icon: "🛍️",
+    icon: <ShoppingBag size={28} />,
     accent: "bg-secondary"
   },
   {
     days: "Domingos",
     hours: "Cerrado",
     note: "Recargando energías",
-    icon: "😴",
+    icon: <Moon size={28} />,
     accent: "bg-gray-400"
   }
 ];
@@ -31,7 +32,7 @@ export const ScheduleSection = () => {
       {/* Elementos decorativos de fondo (Ben-Day dots extra) */}
       <div className="absolute top-0 left-0 w-full h-20 bg-black -skew-y-2 origin-left z-0" />
 
-      <div className="max-w-[1200px] mx-auto px-4 relative z-10">
+      <div className="max-w-300 mx-auto px-4 relative z-10">
         <div className="text-center mb-16">
           <h2 className="text-5xl md:text-7xl font-black uppercase tracking-tighter text-app-text mb-4 italic">
             <span className="relative inline-block">

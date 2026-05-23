@@ -33,7 +33,7 @@ export const Combos: React.FC = () => {
             <p className="font-black uppercase italic tracking-tighter">Buscando Combos...</p>
           </div>
         ) : combos.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 group/container">
+          <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6 lg:gap-8 group/container">
             {combos.map((combo) => (
               <ComboCard key={combo.id} combo={combo} />
             ))}

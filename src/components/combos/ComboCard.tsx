@@ -36,7 +36,7 @@ export const ComboCard: React.FC<ComboCardProps> = ({ combo }) => {
 
       {/* Content */}
       <div className="flex-1 flex flex-col">
-        <h3 className="text-xl font-black uppercase italic tracking-tighter leading-none mb-2 line-clamp-1">
+        <h3 className="text-sm sm:text-base lg:text-xl font-black uppercase italic tracking-tighter leading-tight mb-2 line-clamp-2">
           {combo.nombre}
         </h3>
         <p className="text-xs font-bold text-gray-600 uppercase italic line-clamp-2 mb-4 flex-1">

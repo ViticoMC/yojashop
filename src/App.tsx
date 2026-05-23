@@ -15,8 +15,6 @@ import { AdminGuard } from '@/components/auth/AdminGuard';
 import { useAppStore } from '@/store/useAppStore';
 import ProductModal from '@/components/ui/Modal/ProductModal';
 import ComboModal from '@/components/ui/Modal/ComboModal';
-import { NotificationModal } from '@/components/ui/NotificationModal';
-import { useNotifications } from '@/hooks/ui/useNotifications';
 import { Toaster } from 'sonner';
 import { AdminStats } from '@/components/admin/AdminStats';
 import { AdminUsers } from '@/components/admin/AdminUsers';
@@ -74,7 +72,6 @@ const GlobalModals = () => {
 
 function App() {
   const [isCartOpen, setIsCartOpen] = useState(false);
-  const { activeNotification, closeNotification } = useNotifications();
 
   return (
     <Router>
@@ -82,10 +79,6 @@ function App() {
       <Navbar onCartClick={() => setIsCartOpen(true)} />
       <CartDrawer isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} />
       <GlobalModals />
-      <NotificationModal
-        notification={activeNotification}
-        onClose={closeNotification}
-      />
       <main>
         <Routes>
           <Route path="/" element={<Home />} />

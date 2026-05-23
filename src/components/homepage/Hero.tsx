@@ -4,7 +4,6 @@ import { HighlightText } from '@/components/ui/HighlightText';
 import 'swiper/css';
 import 'swiper/css/effect-fade';
 import 'swiper/css/pagination';
-import { SearchBar } from './SearchBar';
 
 interface PlusTipsProps {
   text: string;
@@ -56,7 +55,7 @@ export const Hero = () => {
           Compra tus productos frescos en línea sin salir de casa para preparar comida deliciosa con los mejores ingredientes.
         </p>
 
-        <SearchBar value="" onChange={() => {}} />
+        {/* <SearchBar value="" onChange={() => {}} /> */}
 
         <div className="grid grid-cols-2 gap-4">
           {

@@ -1,3 +1,4 @@
+import { ShoppingCart, Smartphone, CheckCircle2, Home, Rocket, ArrowRight } from 'lucide-react';
 import { HighlightText } from '@/components/ui/HighlightText';
 
 const STEPS = [
@@ -5,28 +6,28 @@ const STEPS = [
     id: 1,
     title: "¡Elige tus Favoritos!",
     description: "Navega por nuestra tienda y agrega todos los productos que desees a tu carrito.",
-    icon: "🛒",
+    icon: <ShoppingCart size={48} className="text-primary" />,
     color: "primary"
   },
   {
     id: 2,
     title: "Manda tu Pedido",
     description: "Revisa tu carrito y envíanos tu pedido con un solo click. ¡Es súper fácil!",
-    icon: "📱",
+    icon: <Smartphone size={48} className="text-secondary" />,
     color: "secondary"
   },
   {
     id: 3,
     title: "Confirmamos Todo",
     description: "Nuestro equipo te contactará para confirmar los detalles de la entrega.",
-    icon: "✅",
+    icon: <CheckCircle2 size={48} className="text-success" />,
     color: "success"
   },
   {
     id: 4,
     title: "¡Recibe y Paga!",
     description: "Recibe tus productos frescos en la puerta de tu casa y paga en efectivo al recibir.",
-    icon: "🏠",
+    icon: <Home size={48} className="text-sale" />,
     color: "sale"
   }
 ];
@@ -49,8 +50,8 @@ export const HowItWorks = () => {
             <div key={step.id} className="relative group">
               {/* Conector visual entre pasos (solo desktop) */}
               {index < STEPS.length - 1 && (
-                <div className="hidden lg:block absolute top-1/4 -right-10 z-0 text-4xl text-black opacity-20 animate-pulse">
-                  ➜
+                <div className="hidden lg:block absolute top-1/4 -right-10 z-0 opacity-20 animate-pulse">
+                  <ArrowRight size={32} className="text-black/20" />
                 </div>
               )}
 
@@ -78,8 +79,8 @@ export const HowItWorks = () => {
 
         {/* Banner Informativo Inferior */}
         <div className="mt-20 bg-secondary border-4 border-black p-6 transform -rotate-1 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] text-center">
-          <p className="text-2xl font-black uppercase tracking-tighter text-black">
-            🚀 ¡SIN TARJETAS! PAGO <span className="underline decoration-4">100% EN EFECTIVO</span> AL MOMENTO DE RECIBIR 🚀
+            <p className="text-2xl font-black uppercase tracking-tighter text-black">
+            <Rocket size={28} className="inline mr-2 -mt-1 text-primary" />  PAGO <span className="underline decoration-4">100%</span> AL MOMENTO DE RECIBIR <Rocket size={28} className="inline ml-2 -mt-1 text-primary" />
           </p>
         </div>
       </div>
