@@ -4,7 +4,7 @@ import serviceAccount from '../service-account.json' with { type: 'json' }
 
 interface NotificationRecord {
   id: string
-  user_id: string
+  user_id: string | null
   title: string
   message: string
   type: string
@@ -20,8 +20,8 @@ interface WebhookPayload {
 }
 
 const supabase = createClient(
-  Deno.env.get('VITE_SUPABASE_URL')!,
-  Deno.env.get('SUPABASE_SECRET_KEY')!,
+  Deno.env.get('SUPABASE_URL')!,
+  Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!,
 )
 
 Deno.serve(async (req) => {
@@ -29,19 +29,45 @@ Deno.serve(async (req) => {
     const payload: WebhookPayload = await req.json()
     const { user_id, title, message } = payload.record
 
-    if (!user_id || !title) {
-      return new Response('Missing user_id or title', { status: 200 })
+    if (!title) {
+      return new Response('Missing title', { status: 200 })
     }
 
-    const { data, error } = await supabase
-      .from('usuario')
-      .select('fcm_token')
-      .eq('id', user_id)
-      .single()
+    let tokens: string[] = []
 
-    if (error || !data?.fcm_token) {
-      console.error('Error fetching user or no FCM token:', error?.message ?? 'No token')
-      return new Response('User not found or no FCM token', { status: 200 })
+    if (payload.record.type === 'pedido') {
+      const { data, error } = await supabase
+        .from('usuario')
+        .select('fcm_token')
+        .eq('role', 'admin')
+        .not('fcm_token', 'is', null)
+
+      if (error) {
+        console.error('Error fetching admins:', error.message)
+        return new Response('Error fetching admins', { status: 200 })
+      }
+
+      if (!data || data.length === 0) {
+        console.warn('No admins with FCM tokens found')
+        return new Response('No admins with FCM tokens', { status: 200 })
+      }
+
+      tokens = data.map(u => u.fcm_token!)
+    } else if (user_id) {
+      const { data, error } = await supabase
+        .from('usuario')
+        .select('fcm_token')
+        .eq('id', user_id)
+        .single()
+
+      if (error || !data?.fcm_token) {
+        console.error('Error fetching user or no FCM token:', error?.message ?? 'No token')
+        return new Response('User not found or no FCM token', { status: 200 })
+      }
+
+      tokens = [data.fcm_token]
+    } else {
+      return new Response('No recipient determined', { status: 200 })
     }
 
     const accessToken = await getAccessToken({
@@ -49,37 +75,35 @@ Deno.serve(async (req) => {
       privateKey: serviceAccount.private_key,
     })
 
-    const res = await fetch(
-      `https://fcm.googleapis.com/v1/projects/${serviceAccount.project_id}/messages:send`,
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${accessToken}`,
-        },
-        body: JSON.stringify({
-          message: {
-            token: data.fcm_token,
-            notification: {
-              title,
-              body: message,
+    const results = await Promise.allSettled(
+      tokens.map(token =>
+        fetch(
+          `https://fcm.googleapis.com/v1/projects/${serviceAccount.project_id}/messages:send`,
+          {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${accessToken}`,
             },
+            body: JSON.stringify({
+              message: {
+                token,
+                notification: { title, body: message },
+              },
+            }),
           },
-        }),
-      },
+        ),
+      ),
     )
 
-    const resData = await res.json()
+    const successes = results.filter(r => r.status === 'fulfilled' && r.value.ok).length
+    const failures = results.filter(r => r.status === 'rejected' || (r.status === 'fulfilled' && !r.value.ok)).length
 
-    if (!res.ok) {
-      console.error('FCM send error:', resData)
-      return new Response(JSON.stringify(resData), {
-        status: res.status,
-        headers: { 'Content-Type': 'application/json' },
-      })
+    if (failures > 0) {
+      console.error(`FCM send: ${successes} ok, ${failures} failed`)
     }
 
-    return new Response(JSON.stringify(resData), {
+    return new Response(JSON.stringify({ successes, failures }), {
       headers: { 'Content-Type': 'application/json' },
     })
   } catch (err) {

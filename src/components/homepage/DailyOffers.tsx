@@ -73,8 +73,8 @@ export const DailyOffers = () => {
             const oldPrice = hasDiscount ? product.price / (1 - product.discount / 100) : null;
 
             return (
-              <SwiperSlide key={product.id} className="py-4 sm:py-8">
-                <div className="group relative bg-app-card border-4 border-black p-3 sm:p-4 rounded-none flex flex-col h-full transform-gpu transition-[transform,opacity,box-shadow] duration-300 hover:scale-110 hover:-rotate-2 hover:z-20 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] group-hover/container:opacity-50 hover:opacity-100!">
+              <SwiperSlide key={product.id} className="py-4 sm:py-8 ">
+                <div className="group relative bg-app-card border-4 min-h-90 max-h-90 border-black p-3 sm:p-4 rounded-none flex flex-col h-full transform-gpu transition-[transform,opacity,box-shadow] duration-300 hover:scale-110 hover:-rotate-2 hover:z-20 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] group-hover/container:opacity-50 hover:opacity-100!">
                   {/* Etiqueta de oferta/descuento caricaturesca */}
                   {product.oferta ? (
                     <div className="absolute -top-4 -right-4 bg-primary text-white font-black p-2 border-2 border-black rotate-12 z-10 text-[10px] shadow-md uppercase">
@@ -86,7 +86,7 @@ export const DailyOffers = () => {
                     </div>
                   ) : null}
 
-                  <div className="overflow-hidden bg-white border-2 border-black mb-3 aspect-[4/3]">
+                  <div className="overflow-hidden bg-white border-2 border-black mb-3 aspect-4/3">
                     <img
                       src={product.img_url || '/assets/images/placeholder.png'}
                       alt={product.name}
